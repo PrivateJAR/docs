@@ -1,0 +1,9 @@
+site_name: perms.io
+site_url: https://docs.perms.io/
+theme:
+  name: material
+  palette:
+    scheme: slate
+    color: custom
+extra_css:
+  - stylesheets/extra.css
