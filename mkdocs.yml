@@ -1,7 +1,9 @@
-site_name: perms.io
+site_name: Documentation
 site_url: https://docs.perms.io/
 theme:
   name: material
+  logo: assets/transparentLogo.png
+  favicon: assets/favicon.png
   palette:
     scheme: slate
     color: custom
