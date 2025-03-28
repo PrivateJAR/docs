@@ -1,3 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;700&display=swap');
+
+.archivo-text {
+    font-family: 'Archivo', sans-serif;
+}
+
+.md-ellipsis {
+    font-family: 'Archivo', sans-serif;
+    font-weight: normal;
+}
+
 :root  > * {
     --md-primary-bg-color: white;
     --md-primary-fg-color: rgb(36, 42, 59);
