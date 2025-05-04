@@ -7,8 +7,26 @@ theme:
   palette:
     scheme: slate
     color: custom
-  nav:
-    Getting Started: getting-started.md
-    IAM Basics: getting-started.md
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - IAM Basics: iam-basics.md
+  - How It Works: how-it-works.md
+  - API Reference:
+    - Overview: api-reference/overview.md
+    - Permissions Service: api-reference/permissions-service.md
+    - Organisation Service: api-reference/organisation-service.md
+  - Client SDKs:
+    - Go Client: client-sdks/go.md
+    - REST API: client-sdks/rest.md
+  - Guides:
+    - Role-Based Access Control: guides/rbac.md
+    - Resource Inheritance: guides/resource-inheritance.md
+    - Principal Management: guides/principal-management.md
+    - API Keys: guides/api-keys.md
+  - Advanced Topics:
+    - Performance Optimization: advanced/performance.md
+    - Security Best Practices: advanced/security.md
 extra_css:
   - stylesheets/extra.css
+
