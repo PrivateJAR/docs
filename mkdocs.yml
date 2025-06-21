@@ -10,9 +10,18 @@ theme:
   nav:
     Getting Started: getting-started.md
     IAM Basics: getting-started.md
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - content.code.highlight: false
 extra_css:
   - stylesheets/extra.css
 markdown_extensions:
+  - pymdownx.highlight:
+      pygments_style: lightbulb
+      use_pygments: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
