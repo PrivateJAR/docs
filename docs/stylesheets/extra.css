@@ -11,6 +11,6 @@
 
 :root  > * {
     --md-primary-bg-color: white;
-    --md-primary-fg-color: rgb(36, 42, 59);
-    --md-default-bg-color: #1a1f2b;
+    --md-primary-fg-color: #101828;
+    --md-default-bg-color: #101828;
 }
