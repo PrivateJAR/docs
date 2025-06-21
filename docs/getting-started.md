@@ -22,7 +22,7 @@ When an organisation is created it will also create a default *project*, but you
 
     func main() {
         apiKeyTokenSource := authentication.NewAPIKeyTokenSource(<YOUR_API_KEY>)
-        grpcConn, err := grpc.NewClient('api.perms.io',
+        grpcConn, err := grpc.NewClient("api.perms.io",
             grpc.WithTransportCredentials(credentials.NewTLS(nil)),
             grpc.WithPerRPCCredentials(apiKeyTokenSource),
         )
