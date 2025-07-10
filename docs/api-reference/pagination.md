@@ -96,6 +96,52 @@ message PaginationResponse {
     }
     ```
 
+=== "Rust"
+    ```rust
+    use permio_proto::permissions::v1::{
+        permissions_service_client::PermissionsServiceClient,
+        ListPermissionsRequest,
+    };
+    use permio_proto::pagination::PaginationRequest;
+    use tonic::transport::Channel;
+
+    async fn list_all_permissions(client: &mut PermissionsServiceClient<Channel>, project_name: &str) -> Result<Vec<Permission>, Box<dyn std::error::Error>> {
+        let mut all_permissions = Vec::new();
+        let mut cursor: Option<String> = None;
+        
+        loop {
+            let mut pagination = PaginationRequest {
+                limit: Some(50),
+                cursor: cursor.clone(),
+            };
+            
+            let request = tonic::Request::new(ListPermissionsRequest {
+                project_name: project_name.to_string(),
+                pagination: Some(pagination),
+                search: None,
+            });
+            
+            let response = client.list_permissions(request).await?;
+            let list_response = response.get_ref();
+            
+            all_permissions.extend(list_response.permissions.clone());
+            
+            // Check if there are more pages
+            if let Some(pagination_response) = &list_response.pagination {
+                if pagination_response.next_cursor.is_empty() {
+                    break;
+                }
+                cursor = Some(pagination_response.next_cursor.clone());
+            } else {
+                break;
+            }
+        }
+        
+        println!("Retrieved {} total permissions", all_permissions.len());
+        Ok(all_permissions)
+    }
+    ```
+
 === "Python"
     ```python
     def list_all_permissions(client, project_name: str):
@@ -123,24 +169,81 @@ message PaginationResponse {
         return all_permissions
     ```
 
-=== "Node.js"
-    ```javascript
-    async function listAllPermissions(client, projectName) {
-        const allPermissions = [];
-        let cursor = null;
+=== "Java"
+    ```java
+    import java.util.ArrayList;
+    import java.util.List;
+    import permio.permissions.v1.PermissionsServiceGrpc;
+    import permio.permissions.v1.Permissions.ListPermissionsRequest;
+    import permio.permissions.v1.Permissions.ListPermissionsResponse;
+    import permio.permissions.v1.Permissions.Permission;
+    import permio.pagination.PaginationOuterClass.PaginationRequest;
+
+    public List<Permission> listAllPermissions(PermissionsServiceGrpc.PermissionsServiceBlockingStub client, String projectName) {
+        List<Permission> allPermissions = new ArrayList<>();
+        String cursor = null;
         
         while (true) {
-            const request = {
+            PaginationRequest.Builder paginationBuilder = PaginationRequest.newBuilder()
+                    .setLimit(50);
+            
+            if (cursor != null) {
+                paginationBuilder.setCursor(cursor);
+            }
+            
+            ListPermissionsRequest request = ListPermissionsRequest.newBuilder()
+                    .setProjectName(projectName)
+                    .setPagination(paginationBuilder.build())
+                    .build();
+            
+            ListPermissionsResponse response = client.listPermissions(request);
+            allPermissions.addAll(response.getPermissionsList());
+            
+            // Check if there are more pages
+            if (response.getPagination().getNextCursor().isEmpty()) {
+                break;
+            }
+            cursor = response.getPagination().getNextCursor();
+        }
+        
+        System.out.println("Retrieved " + allPermissions.size() + " total permissions");
+        return allPermissions;
+    }
+    ```
+
+=== "TypeScript"
+    ```typescript
+    interface ListPermissionsRequest {
+        project_name: string;
+        pagination?: {
+            limit?: number;
+            cursor?: string;
+        };
+        search?: string;
+    }
+
+    interface Permission {
+        id: string;
+        name: string;
+        description: string;
+    }
+
+    async function listAllPermissions(client: any, projectName: string): Promise<Permission[]> {
+        const allPermissions: Permission[] = [];
+        let cursor: string | null = null;
+        
+        while (true) {
+            const request: ListPermissionsRequest = {
                 project_name: projectName,
                 pagination: { limit: 50 }
             };
             
             if (cursor) {
-                request.pagination.cursor = cursor;
+                request.pagination!.cursor = cursor;
             }
             
-            const response = await new Promise((resolve, reject) => {
-                client.ListPermissions(request, (error, response) => {
+            const response = await new Promise<any>((resolve, reject) => {
+                client.ListPermissions(request, (error: Error | null, response: any) => {
                     if (error) reject(error);
                     else resolve(response);
                 });
@@ -198,6 +301,99 @@ When using search parameters, pagination works the same way:
         if resp.Pagination.NextCursor != "" {
             log.Printf("Next page available with cursor: %s", resp.Pagination.NextCursor)
         }
+    }
+    ```
+
+=== "Rust"
+    ```rust
+    async fn search_permissions(client: &mut PermissionsServiceClient<Channel>, project_name: &str, search_term: &str) -> Result<(), Box<dyn std::error::Error>> {
+        let request = tonic::Request::new(ListPermissionsRequest {
+            project_name: project_name.to_string(),
+            search: Some(search_term.to_string()),
+            pagination: Some(PaginationRequest {
+                limit: Some(20),
+                cursor: None,
+            }),
+        });
+        
+        let response = client.list_permissions(request).await?;
+        let list_response = response.get_ref();
+        
+        println!("Found {} permissions matching '{}'", list_response.permissions.len(), search_term);
+        
+        // Process next page if available
+        if let Some(pagination) = &list_response.pagination {
+            if !pagination.next_cursor.is_empty() {
+                println!("Next page available with cursor: {}", pagination.next_cursor);
+            }
+        }
+        
+        Ok(())
+    }
+    ```
+
+=== "Python"
+    ```python
+    def search_permissions(client, project_name: str, search_term: str):
+        request = permissions_service_pb2.ListPermissionsRequest(
+            project_name=project_name,
+            search=search_term,
+            pagination=pagination_pb2.PaginationRequest(limit=20)
+        )
+        
+        response = client.ListPermissions(request)
+        
+        print(f"Found {len(response.permissions)} permissions matching '{search_term}'")
+        
+        # Process next page if available
+        if response.pagination.next_cursor:
+            print(f"Next page available with cursor: {response.pagination.next_cursor}")
+    ```
+
+=== "Java"
+    ```java
+    public void searchPermissions(PermissionsServiceGrpc.PermissionsServiceBlockingStub client, String projectName, String searchTerm) {
+        ListPermissionsRequest request = ListPermissionsRequest.newBuilder()
+                .setProjectName(projectName)
+                .setSearch(searchTerm)
+                .setPagination(PaginationRequest.newBuilder().setLimit(20).build())
+                .build();
+        
+        ListPermissionsResponse response = client.listPermissions(request);
+        
+        System.out.println("Found " + response.getPermissionsCount() + " permissions matching '" + searchTerm + "'");
+        
+        // Process next page if available
+        if (!response.getPagination().getNextCursor().isEmpty()) {
+            System.out.println("Next page available with cursor: " + response.getPagination().getNextCursor());
+        }
+    }
+    ```
+
+=== "TypeScript"
+    ```typescript
+    function searchPermissions(client: any, projectName: string, searchTerm: string): void {
+        const request: ListPermissionsRequest = {
+            project_name: projectName,
+            search: searchTerm,
+            pagination: {
+                limit: 20
+            }
+        };
+        
+        client.ListPermissions(request, (error: Error | null, response: any) => {
+            if (error) {
+                console.error('Error:', error);
+                return;
+            }
+            
+            console.log(`Found ${response.permissions.length} permissions matching '${searchTerm}'`);
+            
+            // Process next page if available
+            if (response.pagination.next_cursor) {
+                console.log(`Next page available with cursor: ${response.pagination.next_cursor}`);
+            }
+        });
     }
     ```
 
