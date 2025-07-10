@@ -7,13 +7,21 @@ theme:
   palette:
     scheme: slate
     color: custom
-  nav:
-    Getting Started: getting-started.md
-    IAM Basics: getting-started.md
   features:
     - content.code.copy
     - content.code.annotate
     - content.code.highlight: false
+nav:
+  - Home: index.md
+  - Quick Start: quickstart.md
+  - Getting Started: getting-started.md
+  - IAM Basics: iam-basics.md
+  - How It Works: how-it-works.md
+  - API Reference:
+    - Organizations & Projects: api-reference/organizations.md
+    - Permissions & Roles: api-reference/permissions.md
+    - Pagination: api-reference/pagination.md
+
 extra_css:
   - stylesheets/extra.css
 markdown_extensions:
