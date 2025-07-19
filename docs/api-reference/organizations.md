@@ -31,15 +31,15 @@ https://api.perms.io/organisation-service/v1
 
 Creates a new organization with the specified user as the initial admin.
 
-=== "HTTP"
-    ```http
-    POST /organisation
-    Content-Type: application/json
-
-    {
-      "name": "My Company",
-      "user_id": "usr_123"
-    }
+=== "cURL"
+    ```bash
+    curl -X POST "https://api.perms.io/organisation-service/v1/organisation" \
+      -H "Authorization: Bearer YOUR_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "name": "My Company",
+        "user_id": "usr_123"
+      }'
     ```
 
 === "Go"
@@ -173,9 +173,10 @@ Creates a new organization with the specified user as the initial admin.
 
 Retrieves details of a specific organisation.
 
-=== "HTTP"
-    ```http
-    GET /organisation/{id}
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/organisation-service/v1/organisation/{id}" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 === "Go"
@@ -268,14 +269,14 @@ Retrieves details of a specific organisation.
 
 Updates an organisation's details. Requires `organisation.update` permission.
 
-=== "HTTP"
-    ```http
-    PUT /organisation/{id}
-    Content-Type: application/json
-
-    {
-      "name": "Updated Company Name"
-    }
+=== "cURL"
+    ```bash
+    curl -X PUT "https://api.perms.io/organisation-service/v1/organisation/{id}" \
+      -H "Authorization: Bearer YOUR_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "name": "Updated Company Name"
+      }'
     ```
 
 === "Go"
@@ -376,15 +377,15 @@ Updates an organisation's details. Requires `organisation.update` permission.
 
 Creates a new project within an organisation. Requires `project.create` permission.
 
-=== "HTTP"
-    ```http
-    POST /organisation/{organisation_id}/project
-    Content-Type: application/json
-
-    {
-      "name": "production",
-      "organisation_id": "org_123"
-    }
+=== "cURL"
+    ```bash
+    curl -X POST "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/project" \
+      -H "Authorization: Bearer YOUR_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "name": "production",
+        "organisation_id": "org_123"
+      }'
     ```
 
 === "Go"
@@ -483,18 +484,20 @@ Creates a new project within an organisation. Requires `project.create` permissi
 
 Retrieves details of a specific project. Requires `project.get` permission.
 
-=== "HTTP"
-    ```http
-    GET /organisation/{organisation_id}/project?project_name={project_name}
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/project?project_name={project_name}" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 ### List Projects
 
 Lists all projects within an organisation. Requires `project.get` permission.
 
-=== "HTTP"
-    ```http
-    GET /organisation/{organisation_id}/projects?limit=10&cursor=abc123
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/projects?limit=10&cursor=abc123" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 === "Go"
@@ -620,9 +623,10 @@ Lists all projects within an organisation. Requires `project.get` permission.
 
 Deletes a project from an organisation. Requires `project.delete` permission.
 
-=== "HTTP"
-    ```http
-    DELETE /organisation/{organisation_id}/project?project_name={project_name}
+=== "cURL"
+    ```bash
+    curl -X DELETE "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/project?project_name={project_name}" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 ## API Key Management
@@ -631,15 +635,15 @@ Deletes a project from an organisation. Requires `project.delete` permission.
 
 Creates a new API key for programmatic access to a specific project.
 
-=== "HTTP"
-    ```http
-    POST /organisation/{organisation_id}/api-key
-    Content-Type: application/json
-
-    {
-      "project_name": "production",
-      "name": "CI/CD Pipeline Key"
-    }
+=== "cURL"
+    ```bash
+    curl -X POST "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/api-key" \
+      -H "Authorization: Bearer YOUR_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "project_name": "production",
+        "name": "CI/CD Pipeline Key"
+      }'
     ```
 
 === "Go"
@@ -749,18 +753,20 @@ Creates a new API key for programmatic access to a specific project.
 
 Lists all API keys for a project. Requires `apiKeys.list` permission.
 
-=== "HTTP"
-    ```http
-    GET /organisation/{organisation_id}/api-key?project_name={project_name}
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/api-key?project_name={project_name}" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 ### Invalidate API Key
 
 Invalidates an API key, making it unusable for future requests.
 
-=== "HTTP"
-    ```http
-    DELETE /organisation/{organisation_id}/api-key/{id}?project_name={project_name}
+=== "cURL"
+    ```bash
+    curl -X DELETE "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/api-key/{id}?project_name={project_name}" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 ## User Management
@@ -769,14 +775,14 @@ Invalidates an API key, making it unusable for future requests.
 
 Invites a user to join an organisation via email.
 
-=== "HTTP"
-    ```http
-    POST /organisation/{organisation_id}/invite
-    Content-Type: application/json
-
-    {
-      "email": "user@example.com"
-    }
+=== "cURL"
+    ```bash
+    curl -X POST "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/invite" \
+      -H "Authorization: Bearer YOUR_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "email": "user@example.com"
+      }'
     ```
 
 === "Go"
@@ -875,21 +881,22 @@ Invites a user to join an organisation via email.
 
 Removes a user from an organisation. Requires `organisation.user.remove` permission.
 
-=== "HTTP"
-    ```http
-    POST /organisation/{organisation_id}/user/{user_id}
-    Content-Type: application/json
-
-    {}
+=== "cURL"
+    ```bash
+    curl -X POST "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/user/{user_id}" \
+      -H "Authorization: Bearer YOUR_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{}'
     ```
 
 ### Get User's Organisation
 
 Retrieves the organisation associated with a user. Requires `user.organisation.get` permission.
 
-=== "HTTP"
-    ```http
-    GET /organisation/user
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/organisation-service/v1/organisation/user" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 ## Dashboard & Analytics
@@ -898,9 +905,10 @@ Retrieves the organisation associated with a user. Requires `user.organisation.g
 
 Retrieves dashboard statistics for an organisation. Requires `organisation.dashboard.view` permission.
 
-=== "HTTP"
-    ```http
-    GET /organisation/{organisation_id}/dashboard
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/dashboard" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 === "Go"
@@ -1001,18 +1009,20 @@ Retrieves dashboard statistics for an organisation. Requires `organisation.dashb
 
 Retrieves usage statistics for billing purposes. Requires `billing.view` permission.
 
-=== "HTTP"
-    ```http
-    GET /organisation/{organisation_id}/principal-usage
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/principal-usage" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 ### Get Usage History
 
 Retrieves historical usage data for charting. Requires `billing.view` permission.
 
-=== "HTTP"
-    ```http
-    GET /organisation/{organisation_id}/usage-history?days=30
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/usage-history?days=30" \
+      -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
 ## Error Handling

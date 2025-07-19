@@ -16,16 +16,64 @@ Permio enables access control at the *individual object level*. You can define a
 ### 🏗️ Hierarchical Inheritance
 Define roles and permissions at higher levels (e.g., /user) and let them *automatically propagate* to nested resources (e.g., /user/1234, /user/1234/documents/5678).
 
-## Commands
+### ⚡ High Performance
+- **Sub-millisecond latency** for permission checks
+- **Thousands of checks per second** with intelligent caching
+- **Global edge deployment** for worldwide performance
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+### 🔌 API-First Design
+- **REST API** for web applications
+- **gRPC API** for high-performance backend services
+- **Authentication-agnostic** - works with any auth provider
+- **Language SDKs** for Go, Rust, Python, Java, TypeScript
 
-## Project layout
+### 🎯 Easy Integration
+- **Express.js, Django, Go** middleware examples
+- **API Gateway** integration patterns
+- **Multi-tenant** application support
+- **Microservices** architecture ready
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+---
+
+## 🚀 Quick Start
+
+Ready to get started? Follow our comprehensive guide:
+
+**[📖 Quick Start Guide →](./quickstart.md)**
+
+Learn the fundamentals of access control:
+
+**[🔐 IAM Basics →](./iam-basics.md)**
+
+Understand how Permio works:
+
+**[⚙️ How It Works →](./how-it-works.md)**
+
+---
+
+## 📚 Documentation
+
+### Core Concepts
+- **[How It Works](./how-it-works.md)** - Understanding resource-specific RBAC
+- **[IAM Basics](./iam-basics.md)** - Identity and access management fundamentals
+
+### API Reference
+- **[Organizations & Projects](./api-reference/organizations.md)** - Manage your organization structure
+- **[Permissions](./api-reference/permissions.md)** - Create and manage permissions
+- **[Pagination](./api-reference/pagination.md)** - Handle large result sets efficiently
+
+### Integration Examples
+- **Multi-tenant Applications** - Isolate tenant data securely
+- **Document Management Systems** - File-level access control
+- **Project-based Access** - Team and environment permissions
+
+---
+
+## 💬 Support
+
+Need help getting started or have questions?
+
+- **📧 Email**: [support@perms.io](mailto:support@perms.io)
+- **💬 Discord**: [Join our community](https://discord.gg/permio)
+- **📖 Documentation**: Browse these docs for detailed guides
+- **🐛 Issues**: [Report bugs or request features](https://github.com/permio/permio/issues)

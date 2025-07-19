@@ -46,9 +46,10 @@ message PaginationResponse {
 
 ### Basic Pagination
 
-=== "HTTP"
-    ```http
-    GET /permissions-service/v1/permissions?project_name=production&limit=10
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/permissions?project_name=production&limit=10" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
     ```json
@@ -265,18 +266,20 @@ message PaginationResponse {
 
 ### Next Page Request
 
-=== "HTTP"
-    ```http
-    GET /permissions-service/v1/permissions?project_name=production&limit=10&cursor=eyJpZCI6IjEyMyIsInRzIjoiMjAyNC0wMS0xNVQxMDowMDowMFoifQ==
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/permissions?project_name=production&limit=10&cursor=eyJpZCI6IjEyMyIsInRzIjoiMjAyNC0wMS0xNVQxMDowMDowMFoifQ==" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 ### Handling Search with Pagination
 
 When using search parameters, pagination works the same way:
 
-=== "HTTP"
-    ```http
-    GET /permissions-service/v1/permissions?project_name=production&search=document&limit=10
+=== "cURL"
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/permissions?project_name=production&search=document&limit=10" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"

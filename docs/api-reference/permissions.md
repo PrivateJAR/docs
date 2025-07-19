@@ -32,16 +32,16 @@ Creates a new permission within a project. Permissions are idempotent - creating
 
 **Required Permission**: `permission.create` on `/organisation/{organisation_id}`
 
-=== "HTTP"
-    ```http
-    POST /permissions
-    Content-Type: application/json
-
-    {
-      "project_name": "production",
-      "name": "document.read",
-      "description": "Allows reading documents"
-    }
+=== "cURL"
+    ```bash
+    curl -X POST "https://api.perms.io/permissions-service/v1/permissions" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "project_name": "production",
+        "name": "document.read",
+        "description": "Allows reading documents"
+      }'
     ```
 
 === "Go"
@@ -183,8 +183,9 @@ Retrieves details of a specific permission.
 **Required Permission**: `permission.get` on `/organisation/{organisation_id}/permission/{id}`
 
 === "HTTP"
-    ```http
-    GET /permissions/{id}?project_name=production
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/permissions/{id}?project_name=production" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
@@ -287,15 +288,15 @@ Updates an existing permission.
 **Required Permission**: `permission.update` on `/organisation/{organisation_id}/permission/{id}`
 
 === "HTTP"
-    ```http
-    PUT /permissions/{id}
-    Content-Type: application/json
-
-    {
-      "project_name": "production",
-      "name": "document.read",
-      "description": "Updated description for reading documents"
-    }
+    ```bash
+    curl -X PUT "https://api.perms.io/permissions-service/v1/permissions/{id}" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "project_name": "production",
+        "name": "document.read",
+        "description": "Updated description for reading documents"
+      }'
     ```
 
 === "Go"
@@ -409,8 +410,9 @@ Deletes a permission. This operation is idempotent.
 **Required Permission**: `permission.delete` on `/organisation/{organisation_id}/permission/{id}`
 
 === "HTTP"
-    ```http
-    DELETE /permissions/{id}?project_name=production
+    ```bash
+    curl -X DELETE "https://api.perms.io/permissions-service/v1/permissions/{id}?project_name=production" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
@@ -512,8 +514,9 @@ Lists all permissions within a project with optional search and pagination.
 **Required Permission**: `permission.list` on `/organisation/{organisation_id}`
 
 === "HTTP"
-    ```http
-    GET /permissions?project_name=production&limit=10&cursor=abc123&search=document
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/permissions?project_name=production&limit=10&cursor=abc123&search=document" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
@@ -648,16 +651,16 @@ Creates a new role with a collection of permissions.
 - `permission.get` on `/organisation/{organisation_id}/permission/{permission_id}` for each permission
 
 === "HTTP"
-    ```http
-    POST /roles
-    Content-Type: application/json
-
-    {
-      "project_name": "production",
-      "name": "document_editor",
-      "description": "Can read and write documents",
-      "permissions": ["perm_123", "perm_456"]
-    }
+    ```bash
+    curl -X POST "https://api.perms.io/permissions-service/v1/roles" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "project_name": "production",
+        "name": "document_editor",
+        "description": "Can read and write documents",
+        "permissions": ["perm_123", "perm_456"]
+      }'
     ```
 
 === "Go"
@@ -771,8 +774,9 @@ Retrieves details of a specific role, including all associated permissions.
 **Required Permission**: `role.get` on `/organisation/{organisation_id}/role/{id}`
 
 === "HTTP"
-    ```http
-    GET /roles/{id}?project_name=production
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/roles/{id}?project_name=production" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
@@ -876,16 +880,16 @@ Updates an existing role's permissions and metadata.
 **Required Permission**: `role.update` on `/organisation/{organisation_id}/role/{id}`
 
 === "HTTP"
-    ```http
-    PUT /roles/{id}
-    Content-Type: application/json
-
-    {
-      "project_name": "production",
-      "name": "document_editor",
-      "description": "Updated description",
-      "permissions": ["perm_123", "perm_456", "perm_789"]
-    }
+    ```bash
+    curl -X PUT "https://api.perms.io/permissions-service/v1/roles/{id}" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "project_name": "production",
+        "name": "document_editor",
+        "description": "Updated description",
+        "permissions": ["perm_123", "perm_456", "perm_789"]
+      }'
     ```
 
 === "Go"
@@ -1005,8 +1009,9 @@ Deletes a role. This operation is idempotent.
 **Required Permission**: `role.delete` on `/organisation/{organisation_id}/role/{id}`
 
 === "HTTP"
-    ```http
-    DELETE /roles/{id}?project_name=production
+    ```bash
+    curl -X DELETE "https://api.perms.io/permissions-service/v1/roles/{id}?project_name=production" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
@@ -1108,8 +1113,9 @@ Lists all roles within a project with optional search and pagination.
 **Required Permission**: `role.list` on `/organisation/{organisation_id}`
 
 === "HTTP"
-    ```http
-    GET /roles?project_name=production&limit=10&search=editor
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/roles?project_name=production&limit=10&search=editor" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
@@ -1246,17 +1252,17 @@ Grants permissions and roles to a principal on a specific resource. This operati
 - `principal.assignment.create` on `/organisation/{organisation_id}/principal/{user_id}`
 
 === "HTTP"
-    ```http
-    POST /permissions/assign
-    Content-Type: application/json
-
-    {
-      "project_name": "production",
-      "user_id": "usr_123",
-      "resource_uri": "/project/456/documents/789",
-      "permissions": ["perm_123"],
-      "roles": ["role_456"]
-    }
+    ```bash
+    curl -X POST "https://api.perms.io/permissions-service/v1/permissions/assign" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "project_name": "production",
+        "user_id": "usr_123",
+        "resource_uri": "/project/456/documents/789",
+        "permissions": ["perm_123"],
+        "roles": ["role_456"]
+      }'
     ```
 
 === "Go"
@@ -1377,17 +1383,17 @@ Revokes specific permissions and roles from a principal on a resource.
 **Required Permission**: `principal.assignment.delete` on the resource URI
 
 === "HTTP"
-    ```http
-    POST /permissions/revoke
-    Content-Type: application/json
-
-    {
-      "project_name": "production",
-      "user_id": "usr_123",
-      "resource_uri": "/project/456/documents/789",
-      "permissions": ["perm_123"],
-      "roles": ["role_456"]
-    }
+    ```bash
+    curl -X POST "https://api.perms.io/permissions-service/v1/permissions/revoke" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "project_name": "production",
+        "user_id": "usr_123",
+        "resource_uri": "/project/456/documents/789",
+        "permissions": ["perm_123"],
+        "roles": ["role_456"]
+      }'
     ```
 
 === "Go"
@@ -1508,8 +1514,9 @@ Retrieves all permissions and roles assigned to a principal on a specific resour
 **Required Permission**: `principal.assignment.get` on the resource URI
 
 === "HTTP"
-    ```http
-    GET /permissions/user/{user_id}/resource/{resource_uri}?project_name=production
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/permissions/user/{user_id}/resource/{resource_uri}?project_name=production" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
@@ -1626,8 +1633,9 @@ Lists all users within a project.
 **Required Permission**: `principal.list` on `/organisation/{organisation_id}`
 
 === "HTTP"
-    ```http
-    GET /permissions/principals?project_name=production&limit=10&search=user
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/permissions/principals?project_name=production&limit=10&search=user" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
@@ -1752,8 +1760,9 @@ Retrieves all permission assignments for a specific user within an organization.
 **Required Permission**: `principal.assignment.list` on `/organisation/{organisation_id}/principal/{principal_id}`
 
 === "HTTP"
-    ```http
-    GET /permissions/assignments/principal/{principal_id}?project_name=production
+    ```bash
+    curl -X GET "https://api.perms.io/permissions-service/v1/permissions/assignments/principal/{principal_id}?project_name=production" \
+      -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
@@ -1874,16 +1883,16 @@ Retrieves all permission assignments for a specific user within an organization.
 The core permission checking endpoint that determines if a principal has specific permissions on resources.
 
 === "HTTP"
-    ```http
-    POST /permissions/check
-    Content-Type: application/json
-
-    {
-      "project_name": "production",
-      "principal_id": "usr_123",
-      "resource_uris": ["/project/456/documents/789", "/project/456/documents/101"],
-      "permissions": ["read", "write"]
-    }
+    ```bash
+    curl -X POST "https://api.perms.io/permissions-service/v1/permissions/check" \
+      -H "Authorization: Bearer YOUR_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "project_name": "production",
+        "principal_id": "usr_123",
+        "resource_uris": ["/project/456/documents/789", "/project/456/documents/101"],
+        "permissions": ["read", "write"]
+      }'
     ```
 
 === "Go"
