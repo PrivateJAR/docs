@@ -1,0 +1,1371 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.perms.io/quickstart/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../iam-basics/">
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Quick Start - perms.io docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#quick-start-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="perms.io docs" class="md-header__button md-logo" aria-label="perms.io docs" data-md-component="logo">
+      
+  <img src="../assets/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            perms.io docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Quick Start
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="perms.io docs" class="md-nav__button md-logo" aria-label="perms.io docs" data-md-component="logo">
+      
+  <img src="../assets/favicon.png" alt="logo">
+
+    </a>
+    perms.io docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-setup-via-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Setup via Dashboard
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-create-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Create Permissions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Create Roles
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-grant-permissions-to-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Grant Permissions to Users
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-check-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Check Permissions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-tenant-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-tenant Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchical-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchical Permissions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iam-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IAM Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how-it-works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How It Works
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/organizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Organizations & Projects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Permissions & Roles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/pagination/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pagination
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      Prerequisites
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1-setup-via-dashboard" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1: Setup via Dashboard
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2-create-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2: Create Permissions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3-create-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3: Create Roles
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-4-grant-permissions-to-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4: Grant Permissions to Users
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-5-check-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 5: Check Permissions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#complete-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Complete Example
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Next Steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-tenant-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      Multi-tenant Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hierarchical-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchical Permissions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      Troubleshooting
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Issues
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getting-help" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Help
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="quick-start-guide">Quick Start Guide</h1>
+<p>Get up and running with perms.io's Resource-Specific RBAC system in minutes. This guide will walk you through setting up permissions and performing access checks.</p>
+<h2 id="overview">Overview</h2>
+<p>perms.io provides a complete RBAC system with:
+- <strong>Organisations</strong> - Top-level containers for your resources
+- <strong>Projects</strong> - Logical groupings within organisations 
+- <strong>Permissions</strong> - Individual actions (read, write, delete)
+- <strong>Roles</strong> - Collections of permissions
+- <strong>Principals</strong> - Users or entities that can be granted access</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<ul>
+<li>Account at <a href="https://app.perms.io">app.perms.io</a></li>
+<li>Organization, project, and API key created via the dashboard</li>
+<li>Basic understanding of REST APIs or gRPC</li>
+</ul>
+<h2 id="step-1-setup-via-dashboard">Step 1: Setup via Dashboard</h2>
+<p>Before using the API, complete the initial setup through the web dashboard:</p>
+<ol>
+<li><strong>Create Your Organisation</strong>: Go to <a href="https://app.perms.io">app.perms.io</a> and create your organization</li>
+<li><strong>Create a Project</strong>: Create a project within your organization (e.g., "production")</li>
+<li><strong>Generate API Key</strong>: Create an API key for your project to use in the examples below</li>
+</ol>
+<h2 id="step-2-create-permissions">Step 2: Create Permissions</h2>
+<p>Define the actions that can be performed in your application.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">cURL</label><label for="__tabbed_1_2">Go</label><label for="__tabbed_1_3">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Create read permission</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;project_name&quot;: &quot;production&quot;,</span>
+<span class="s1">    &quot;name&quot;: &quot;document.read&quot;,</span>
+<span class="s1">    &quot;description&quot;: &quot;Allows reading documents&quot;</span>
+<span class="s1">  }&#39;</span>
+
+<span class="c1"># Create write permission</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;project_name&quot;: &quot;production&quot;,</span>
+<span class="s1">    &quot;name&quot;: &quot;document.write&quot;,</span>
+<span class="s1">    &quot;description&quot;: &quot;Allows writing documents&quot;</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">createPermissions</span><span class="p">(</span><span class="nx">client</span><span class="w"> </span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">PermissionsServiceClient</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">permissions</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">name</span><span class="w">        </span><span class="kt">string</span>
+<span class="w">        </span><span class="nx">description</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">    </span><span class="p">}{</span>
+<span class="w">        </span><span class="p">{</span><span class="s">&quot;document.read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Allows reading documents&quot;</span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span><span class="s">&quot;document.write&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Allows writing documents&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">permissionIds</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">perm</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">permissions</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">req</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">CreatePermissionRequest</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;production&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">Name</span><span class="p">:</span><span class="w">        </span><span class="nx">perm</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="nx">perm</span><span class="p">.</span><span class="nx">description</span><span class="p">,</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nx">resp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">CreatePermission</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;failed to create permission %s: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">perm</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nx">permissionIds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">permissionIds</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Id</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Created permission: %s (ID: %s)\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Id</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">permissionIds</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_permissions</span><span class="p">():</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">secure_channel</span><span class="p">(</span><span class="s1">&#39;api.perms.io:443&#39;</span><span class="p">,</span> <span class="n">ssl_channel_credentials</span><span class="p">())</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">permissions_service_pb2_grpc</span><span class="o">.</span><span class="n">PermissionsServiceStub</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;authorization&#39;</span><span class="p">,</span> <span class="s1">&#39;Bearer YOUR_API_KEY&#39;</span><span class="p">)]</span>
+
+    <span class="n">permissions</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;document.read&quot;</span><span class="p">,</span> <span class="s2">&quot;Allows reading documents&quot;</span><span class="p">),</span>
+        <span class="p">(</span><span class="s2">&quot;document.write&quot;</span><span class="p">,</span> <span class="s2">&quot;Allows writing documents&quot;</span><span class="p">)</span>
+    <span class="p">]</span>
+
+    <span class="n">permission_ids</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span> <span class="ow">in</span> <span class="n">permissions</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">permissions_service_pb2</span><span class="o">.</span><span class="n">CreatePermissionRequest</span><span class="p">(</span>
+            <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;production&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">description</span>
+        <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">CreatePermission</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="n">permission_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created permission: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (ID: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">permission_ids</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="step-3-create-roles">Step 3: Create Roles</h2>
+<p>Group permissions into roles for easier management.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">cURL</label><label for="__tabbed_2_2">Go</label><label for="__tabbed_2_3">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Create editor role</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/roles&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;project_name&quot;: &quot;production&quot;,</span>
+<span class="s1">    &quot;name&quot;: &quot;document_editor&quot;,</span>
+<span class="s1">    &quot;description&quot;: &quot;Can read and write documents&quot;,</span>
+<span class="s1">    &quot;permissions&quot;: [&quot;PERMISSION_ID_1&quot;, &quot;PERMISSION_ID_2&quot;]</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">createRoles</span><span class="p">(</span><span class="nx">client</span><span class="w"> </span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">PermissionsServiceClient</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">permissionIds</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">roles</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">name</span><span class="w">        </span><span class="kt">string</span>
+<span class="w">        </span><span class="nx">description</span><span class="w"> </span><span class="kt">string</span>
+<span class="w">        </span><span class="nx">permissions</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+<span class="w">    </span><span class="p">}{</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">name</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;document_viewer&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Can read documents&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">permissions</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">permissionIds</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span><span class="w"> </span><span class="c1">// read only</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">name</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;document_editor&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Can read and write documents&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">permissions</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">permissionIds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="nx">permissionIds</span><span class="p">[</span><span class="mi">1</span><span class="p">]},</span><span class="w"> </span><span class="c1">// read + write</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">roleIds</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">role</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">roles</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">req</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">CreateRoleRequest</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;production&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">Name</span><span class="p">:</span><span class="w">        </span><span class="nx">role</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="nx">role</span><span class="p">.</span><span class="nx">description</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">Permissions</span><span class="p">:</span><span class="w"> </span><span class="nx">role</span><span class="p">.</span><span class="nx">permissions</span><span class="p">,</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nx">resp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">CreateRole</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;failed to create role %s: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">role</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+
+<span class="w">        </span><span class="nx">roleIds</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">roleIds</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Id</span><span class="p">)</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Created role: %s (ID: %s)\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Id</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">roleIds</span><span class="p">,</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">create_roles</span><span class="p">(</span><span class="n">permission_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">secure_channel</span><span class="p">(</span><span class="s1">&#39;api.perms.io:443&#39;</span><span class="p">,</span> <span class="n">ssl_channel_credentials</span><span class="p">())</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">permissions_service_pb2_grpc</span><span class="o">.</span><span class="n">PermissionsServiceStub</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;authorization&#39;</span><span class="p">,</span> <span class="s1">&#39;Bearer YOUR_API_KEY&#39;</span><span class="p">)]</span>
+
+    <span class="n">roles</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">(</span><span class="s2">&quot;document_viewer&quot;</span><span class="p">,</span> <span class="s2">&quot;Can read documents&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">permission_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span>
+        <span class="p">(</span><span class="s2">&quot;document_editor&quot;</span><span class="p">,</span> <span class="s2">&quot;Can read and write documents&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">permission_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">permission_ids</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span>
+    <span class="p">]</span>
+
+    <span class="n">role_ids</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">permissions</span> <span class="ow">in</span> <span class="n">roles</span><span class="p">:</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="n">permissions_service_pb2</span><span class="o">.</span><span class="n">CreateRoleRequest</span><span class="p">(</span>
+            <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;production&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+            <span class="n">permissions</span><span class="o">=</span><span class="n">permissions</span>
+        <span class="p">)</span>
+
+        <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">CreateRole</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="n">role_ids</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">response</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Created role: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> (ID: </span><span class="si">{</span><span class="n">response</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">role_ids</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="step-4-grant-permissions-to-users">Step 4: Grant Permissions to Users</h2>
+<p>Assign permissions and roles to users on specific resources.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">cURL</label><label for="__tabbed_3_2">Go</label><label for="__tabbed_3_3">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Grant editor role to user on specific document</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions/assign&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;project_name&quot;: &quot;production&quot;,</span>
+<span class="s1">    &quot;user_id&quot;: &quot;user_123&quot;,</span>
+<span class="s1">    &quot;resource_uri&quot;: &quot;/documents/doc_456&quot;,</span>
+<span class="s1">    &quot;permissions&quot;: [],</span>
+<span class="s1">    &quot;roles&quot;: [&quot;ROLE_ID&quot;]</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">grantPermissions</span><span class="p">(</span><span class="nx">client</span><span class="w"> </span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">PermissionsServiceClient</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">roleIds</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">req</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">GrantUserPermissionsAndRolesOnResourceRequest</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;production&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">UserId</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;user_123&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">ResourceUri</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/documents&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">Permissions</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{},</span>
+<span class="w">        </span><span class="nx">Roles</span><span class="p">:</span><span class="w">       </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">roleIds</span><span class="p">[</span><span class="mi">0</span><span class="p">]},</span><span class="w"> </span><span class="c1">// viewer role</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">GrantUserPermissionsAndRolesOnResource</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;failed to grant permissions: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Granted permissions to user_123 on /documents\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">grant_permissions</span><span class="p">(</span><span class="n">role_ids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">secure_channel</span><span class="p">(</span><span class="s1">&#39;api.perms.io:443&#39;</span><span class="p">,</span> <span class="n">ssl_channel_credentials</span><span class="p">())</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">permissions_service_pb2_grpc</span><span class="o">.</span><span class="n">PermissionsServiceStub</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;authorization&#39;</span><span class="p">,</span> <span class="s1">&#39;Bearer YOUR_API_KEY&#39;</span><span class="p">)]</span>
+
+    <span class="n">request</span> <span class="o">=</span> <span class="n">permissions_service_pb2</span><span class="o">.</span><span class="n">GrantUserPermissionsAndRolesOnResourceRequest</span><span class="p">(</span>
+        <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;production&quot;</span><span class="p">,</span>
+        <span class="n">user_id</span><span class="o">=</span><span class="s2">&quot;user_123&quot;</span><span class="p">,</span>
+        <span class="n">resource_uri</span><span class="o">=</span><span class="s2">&quot;/documents&quot;</span><span class="p">,</span>
+        <span class="n">permissions</span><span class="o">=</span><span class="p">[],</span>
+        <span class="n">roles</span><span class="o">=</span><span class="p">[</span><span class="n">role_ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>  <span class="c1"># viewer role</span>
+    <span class="p">)</span>
+
+    <span class="n">client</span><span class="o">.</span><span class="n">GrantUserPermissionsAndRolesOnResource</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Granted permissions to user_123 on /documents&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="step-5-check-permissions">Step 5: Check Permissions</h2>
+<p>Verify that users have the required permissions for specific actions.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:3"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">cURL</label><label for="__tabbed_4_2">Go</label><label for="__tabbed_4_3">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Check if user can read document</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions/check&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;project_name&quot;: &quot;production&quot;,</span>
+<span class="s1">    &quot;principal_id&quot;: &quot;user_123&quot;,</span>
+<span class="s1">    &quot;resource_uris&quot;: [&quot;/documents/doc_456&quot;],</span>
+<span class="s1">    &quot;permissions&quot;: [&quot;document.read&quot;]</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">checkPermissions</span><span class="p">(</span><span class="nx">client</span><span class="w"> </span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">PermissionsServiceClient</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">req</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">CheckPermissionRequest</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;production&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">PrincipalId</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;user_123&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">ResourceUris</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;/documents/doc_456&quot;</span><span class="p">},</span>
+<span class="w">        </span><span class="nx">Permissions</span><span class="p">:</span><span class="w">  </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;document.read&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">resp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;failed to check permissions: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">Passed</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;✅ User user_123 has required permissions\n&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;❌ User user_123 missing permissions:\n&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">missing</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">resp</span><span class="p">.</span><span class="nx">MissingPermissions</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;  Resource: %s, Missing: %v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">missing</span><span class="p">.</span><span class="nx">ResourceUri</span><span class="p">,</span><span class="w"> </span><span class="nx">missing</span><span class="p">.</span><span class="nx">MissingPermissions</span><span class="p">)</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">check_permissions</span><span class="p">():</span>
+    <span class="n">channel</span> <span class="o">=</span> <span class="n">grpc</span><span class="o">.</span><span class="n">secure_channel</span><span class="p">(</span><span class="s1">&#39;api.perms.io:443&#39;</span><span class="p">,</span> <span class="n">ssl_channel_credentials</span><span class="p">())</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">permissions_service_pb2_grpc</span><span class="o">.</span><span class="n">PermissionsServiceStub</span><span class="p">(</span><span class="n">channel</span><span class="p">)</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;authorization&#39;</span><span class="p">,</span> <span class="s1">&#39;Bearer YOUR_API_KEY&#39;</span><span class="p">)]</span>
+
+    <span class="n">request</span> <span class="o">=</span> <span class="n">permissions_service_pb2</span><span class="o">.</span><span class="n">CheckPermissionRequest</span><span class="p">(</span>
+        <span class="n">project_name</span><span class="o">=</span><span class="s2">&quot;production&quot;</span><span class="p">,</span>
+        <span class="n">principal_id</span><span class="o">=</span><span class="s2">&quot;user_123&quot;</span><span class="p">,</span>
+        <span class="n">resource_uris</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;/documents/doc_456&quot;</span><span class="p">],</span>
+        <span class="n">permissions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;document.read&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">passed</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;✅ User user_123 has required permissions&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;❌ User user_123 missing permissions:&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">missing</span> <span class="ow">in</span> <span class="n">response</span><span class="o">.</span><span class="n">missing_permissions</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Resource: </span><span class="si">{</span><span class="n">missing</span><span class="o">.</span><span class="n">resource_uri</span><span class="si">}</span><span class="s2">, Missing: </span><span class="si">{</span><span class="n">missing</span><span class="o">.</span><span class="n">missing_permissions</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="complete-example">Complete Example</h2>
+<p>Here's a complete example that sets up a basic document management system:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:3"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">cURL</label><label for="__tabbed_5_2">Go</label><label for="__tabbed_5_3">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># 1. Create permissions</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;project_name&quot;: &quot;production&quot;, &quot;name&quot;: &quot;document.read&quot;, &quot;description&quot;: &quot;Read documents&quot;}&#39;</span>
+
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;project_name&quot;: &quot;production&quot;, &quot;name&quot;: &quot;document.write&quot;, &quot;description&quot;: &quot;Write documents&quot;}&#39;</span>
+
+<span class="c1"># 2. Create role</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/roles&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;project_name&quot;: &quot;production&quot;, &quot;name&quot;: &quot;document_editor&quot;, &quot;description&quot;: &quot;Can read and write&quot;, &quot;permissions&quot;: [&quot;PERM_ID_1&quot;, &quot;PERM_ID_2&quot;]}&#39;</span>
+
+<span class="c1"># 3. Grant permissions</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions/assign&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;project_name&quot;: &quot;production&quot;, &quot;user_id&quot;: &quot;user_123&quot;, &quot;resource_uri&quot;: &quot;/documents&quot;, &quot;roles&quot;: [&quot;ROLE_ID&quot;]}&#39;</span>
+
+<span class="c1"># 4. Check permissions</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions/check&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;project_name&quot;: &quot;production&quot;, &quot;principal_id&quot;: &quot;user_123&quot;, &quot;resource_uris&quot;: [&quot;/documents/doc_456&quot;], &quot;permissions&quot;: [&quot;document.read&quot;]}&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<span class="w">    </span><span class="s">&quot;log&quot;</span>
+
+<span class="w">    </span><span class="s">&quot;google.golang.org/grpc&quot;</span>
+<span class="w">    </span><span class="s">&quot;google.golang.org/grpc/credentials&quot;</span>
+<span class="w">    </span><span class="s">&quot;google.golang.org/grpc/metadata&quot;</span>
+
+<span class="w">    </span><span class="nx">permissionsv1</span><span class="w"> </span><span class="s">&quot;github.com/PrivateJAR/permio-go/proto/permissions/v1&quot;</span>
+<span class="p">)</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// Connect to the API</span>
+<span class="w">    </span><span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">&quot;api.perms.io:443&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">WithTransportCredentials</span><span class="p">(</span><span class="nx">credentials</span><span class="p">.</span><span class="nx">NewTLS</span><span class="p">(</span><span class="kc">nil</span><span class="p">)))</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;Failed to connect: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">conn</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+
+<span class="w">    </span><span class="nx">client</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">NewPermissionsServiceClient</span><span class="p">(</span><span class="nx">conn</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// Setup authentication context</span>
+<span class="w">    </span><span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">metadata</span><span class="p">.</span><span class="nx">AppendToOutgoingContext</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;authorization&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Bearer YOUR_API_KEY&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// 1. Create permissions</span>
+<span class="w">    </span><span class="nx">permissionIds</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">createPermissions</span><span class="p">(</span><span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;Failed to create permissions: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 2. Create roles</span>
+<span class="w">    </span><span class="nx">roleIds</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">createRoles</span><span class="p">(</span><span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">permissionIds</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;Failed to create roles: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 3. Grant permissions</span>
+<span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">grantPermissions</span><span class="p">(</span><span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">roleIds</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;Failed to grant permissions: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 4. Check permissions</span>
+<span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">checkPermissions</span><span class="p">(</span><span class="nx">client</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatalf</span><span class="p">(</span><span class="s">&quot;Failed to check permissions: %v&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;Setup complete! Your RBAC system is ready to use.\n&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">grpc</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">grpc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ssl_channel_credentials</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">proto.permissions.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">permissions_service_pb2</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">proto.permissions.v1</span><span class="w"> </span><span class="kn">import</span> <span class="n">permissions_service_pb2_grpc</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># 1. Create permissions</span>
+    <span class="n">permission_ids</span> <span class="o">=</span> <span class="n">create_permissions</span><span class="p">()</span>
+
+    <span class="c1"># 2. Create roles</span>
+    <span class="n">role_ids</span> <span class="o">=</span> <span class="n">create_roles</span><span class="p">(</span><span class="n">permission_ids</span><span class="p">)</span>
+
+    <span class="c1"># 3. Grant permissions</span>
+    <span class="n">grant_permissions</span><span class="p">(</span><span class="n">role_ids</span><span class="p">)</span>
+
+    <span class="c1"># 4. Check permissions</span>
+    <span class="n">check_permissions</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Setup complete! Your RBAC system is ready to use.&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="next-steps">Next Steps</h2>
+<p>Now that you have a working RBAC system, you can:</p>
+<ol>
+<li><strong>Integrate with your application</strong> - Add permission checks to your application endpoints</li>
+<li><strong>Create more complex hierarchies</strong> - Use nested resource URIs for fine-grained control</li>
+<li><strong>Add more users</strong> - Invite team members to your organisation via the dashboard</li>
+<li><strong>Monitor usage</strong> - Check the dashboard for usage statistics</li>
+<li><strong>Implement caching</strong> - Cache permission results for better performance</li>
+</ol>
+<h2 id="common-patterns">Common Patterns</h2>
+<h3 id="multi-tenant-applications">Multi-tenant Applications</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">cURL</label><label for="__tabbed_6_2">Go</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Tenant-specific resources</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions/check&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;project_name&quot;: &quot;production&quot;,</span>
+<span class="s1">    &quot;principal_id&quot;: &quot;user_123&quot;,</span>
+<span class="s1">    &quot;resource_uris&quot;: [&quot;/tenant/456/projects/789&quot;],</span>
+<span class="s1">    &quot;permissions&quot;: [&quot;project.read&quot;]</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1">// Tenant-specific resources</span>
+<span class="nx">resourceUri</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;/tenant/%s/projects/%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">tenantId</span><span class="p">,</span><span class="w"> </span><span class="nx">projectId</span><span class="p">)</span>
+
+<span class="c1">// Check tenant access</span>
+<span class="nx">checkResp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">permClient</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">CheckPermissionRequest</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;production&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">PrincipalId</span><span class="p">:</span><span class="w">  </span><span class="nx">userId</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">ResourceUris</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">resourceUri</span><span class="p">},</span>
+<span class="w">    </span><span class="nx">Permissions</span><span class="p">:</span><span class="w">  </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;project.read&quot;</span><span class="p">},</span>
+<span class="p">})</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="hierarchical-permissions">Hierarchical Permissions</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">cURL</label><label for="__tabbed_7_2">Go</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># Grant permissions at different levels</span>
+<span class="c1"># Organisation level</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions/assign&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;project_name&quot;: &quot;production&quot;, &quot;user_id&quot;: &quot;user_123&quot;, &quot;resource_uri&quot;: &quot;/organisation/123&quot;, &quot;permissions&quot;: [&quot;org.admin&quot;]}&#39;</span>
+
+<span class="c1"># Project level</span>
+curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions/assign&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Content-Type: application/json&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;project_name&quot;: &quot;production&quot;, &quot;user_id&quot;: &quot;user_123&quot;, &quot;resource_uri&quot;: &quot;/organisation/123/project/456&quot;, &quot;permissions&quot;: [&quot;project.manage&quot;]}&#39;</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1">// Grant permissions at different levels</span>
+<span class="c1">// Organisation level</span>
+<span class="nx">grantPermissions</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/organisation/123&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;org.admin&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{})</span>
+
+<span class="c1">// Project level</span>
+<span class="nx">grantPermissions</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/organisation/123/project/456&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;project.manage&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{})</span>
+
+<span class="c1">// Resource level</span>
+<span class="nx">grantPermissions</span><span class="p">(</span><span class="nx">userId</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/organisation/123/project/456/document/789&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;document.edit&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{})</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<h3 id="common-issues">Common Issues</h3>
+<ol>
+<li><strong>Permission Denied</strong>: Check that you have the required permissions for the operation</li>
+<li><strong>Resource Not Found</strong>: Verify the resource URIs are correct</li>
+<li><strong>Authentication Failed</strong>: Ensure your API key is valid</li>
+<li><strong>Rate Limiting</strong>: Implement exponential backoff for API calls</li>
+</ol>
+<h3 id="getting-help">Getting Help</h3>
+<ul>
+<li>Check the <a href="../api-reference/organizations/">API Reference</a> for detailed endpoint documentation</li>
+<li>Visit <a href="https://app.perms.io">app.perms.io</a> for the web dashboard</li>
+<li>Review the <a href="../iam-basics/">IAM Fundamentals</a> guide for RBAC concepts</li>
+</ul>
+<p>You're now ready to implement fine-grained access control in your applications with perms.io!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", {"content.code.highlight": false}], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

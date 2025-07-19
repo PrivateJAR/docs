@@ -1,0 +1,1796 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.perms.io/how-it-works/">
+      
+      
+        <link rel="prev" href="../iam-basics/">
+      
+      
+        <link rel="next" href="../api-reference/organizations/">
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>How It Works - perms.io docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#how-it-works" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="perms.io docs" class="md-header__button md-logo" aria-label="perms.io docs" data-md-component="logo">
+      
+  <img src="../assets/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            perms.io docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              How It Works
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="perms.io docs" class="md-nav__button md-logo" aria-label="perms.io docs" data-md-component="logo">
+      
+  <img src="../assets/favicon.png" alt="logo">
+
+    </a>
+    perms.io docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../iam-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IAM Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    How It Works
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    How It Works
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-resources-and-resource-uris" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Resources and Resource URIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Resources and Resource URIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uri-structure-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      URI Structure Best Practices
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-principals" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Principals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Permissions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#permission-naming-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Naming Convention
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Roles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hierarchical-permission-inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchical Permission Inheritance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hierarchical Permission Inheritance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-inheritance-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Inheritance Works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritance-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inheritance Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-organization-wide-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Organization-wide Access
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-project-specific-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Project-specific Access
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-document-specific-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 3: Document-specific Access
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-resolution-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Resolution Process
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-vs-authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication vs Authorization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication vs Authorization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication-external" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication (External)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authorization-permio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authorization (Permio)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Flow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-first-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      API-First Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API-First Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST API
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grpc-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      gRPC API
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dashboard UI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-and-scalability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance and Scalability
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance and Scalability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-batch-permission-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Batch Permission Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-use-specific-resource-uris" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Use Specific Resource URIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-design-efficient-hierarchies" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Design Efficient Hierarchies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-implementation-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Implementation Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Implementation Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-multi-tenant-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Multi-tenant Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-document-management-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Document Management System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-project-based-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Project-based Access Control
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Considerations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principle-of-least-privilege" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principle of Least Privilege
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-uri-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource URI Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-boundary-enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Boundary Enforcement
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#expressjs-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Express.js Middleware
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django-decorator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django Decorator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#go-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Go Service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Started
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/organizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Organizations & Projects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Permissions & Roles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/pagination/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pagination
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#core-concepts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core Concepts
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Concepts">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-resources-and-resource-uris" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Resources and Resource URIs
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Resources and Resource URIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#uri-structure-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      URI Structure Best Practices
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-principals" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Principals
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Permissions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#permission-naming-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Naming Convention
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Roles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#hierarchical-permission-inheritance" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchical Permission Inheritance
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Hierarchical Permission Inheritance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-inheritance-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      How Inheritance Works
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritance-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Inheritance Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-organization-wide-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 1: Organization-wide Access
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-project-specific-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 2: Project-specific Access
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-document-specific-access" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example 3: Document-specific Access
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-resolution-process" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Resolution Process
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#authentication-vs-authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication vs Authorization
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Authentication vs Authorization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication-external" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication (External)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authorization-permio" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authorization (Permio)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#integration-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Flow
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-first-architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      API-First Architecture
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="API-First Architecture">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rest-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      REST API
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grpc-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      gRPC API
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dashboard-ui" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dashboard UI
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-and-scalability" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance and Scalability
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance and Scalability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performance-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Performance Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-batch-permission-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Batch Permission Checks
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-use-specific-resource-uris" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Use Specific Resource URIs
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-design-efficient-hierarchies" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Design Efficient Hierarchies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#common-implementation-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      Common Implementation Patterns
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common Implementation Patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-multi-tenant-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Multi-tenant Applications
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-document-management-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Document Management System
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-project-based-access-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Project-based Access Control
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#security-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Security Considerations
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Security Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#principle-of-least-privilege" class="md-nav__link">
+    <span class="md-ellipsis">
+      Principle of Least Privilege
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-uri-validation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource URI Validation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission-boundary-enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Boundary Enforcement
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      Integration Examples
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#expressjs-middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      Express.js Middleware
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#django-decorator" class="md-nav__link">
+    <span class="md-ellipsis">
+      Django Decorator
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#go-service" class="md-nav__link">
+    <span class="md-ellipsis">
+      Go Service
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting Started
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="how-it-works">How It Works</h1>
+<p>Permio implements <strong>Resource-Specific Role-Based Access Control (RBAC)</strong>, a modern approach to access management that provides fine-grained control over who can access what resources in your application.</p>
+<h2 id="core-concepts">Core Concepts</h2>
+<h3 id="1-resources-and-resource-uris">1. Resources and Resource URIs</h3>
+<p><strong>Resources</strong> are the core building blocks of Permio's permission system. A resource represents any object, entity, or endpoint in your application that you want to protect.</p>
+<p>Resources are identified by <strong>Resource URIs</strong> - hierarchical path strings that uniquely identify each resource:</p>
+<div class="highlight"><pre><span></span><code>/organisation/123
+/organisation/123/project/456
+/organisation/123/project/456/document/789
+/user/1234
+/user/1234/profile
+/tenant/abc/workspace/def/file/ghi
+</code></pre></div>
+<h4 id="uri-structure-best-practices">URI Structure Best Practices</h4>
+<ul>
+<li><strong>Start with a slash</strong>: All URIs begin with <code>/</code></li>
+<li><strong>Use logical hierarchy</strong>: Organize resources in a tree-like structure</li>
+<li><strong>Include identifiers</strong>: Use specific IDs to identify individual resources</li>
+<li><strong>Keep it readable</strong>: Use descriptive names that reflect your application structure</li>
+</ul>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Good Examples</label><label for="__tabbed_1_2">Avoid</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>/project/456/documents/789
+/user/1234/settings/notifications
+/tenant/abc/billing/invoices/invoice-2024-001
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>project-456-document-789
+/users/1234-settings-notifications
+/random/deep/nesting/without/purpose
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="2-principals">2. Principals</h3>
+<p><strong>Principals</strong> are entities that can be granted permissions. In most cases, these are users, but they can also represent:</p>
+<ul>
+<li><strong>Users</strong>: Individual people with accounts</li>
+<li><strong>Service accounts</strong>: Applications or automated systems</li>
+<li><strong>API keys</strong>: Programmatic access tokens</li>
+<li><strong>External systems</strong>: Third-party integrations</li>
+</ul>
+<p>Principals are identified by unique strings (usually user IDs or API key identifiers).</p>
+<h3 id="3-permissions">3. Permissions</h3>
+<p><strong>Permissions</strong> define specific actions that can be performed. They represent the atomic level of access control:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;document.read&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allows reading documents&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="permission-naming-convention">Permission Naming Convention</h4>
+<p>Use dot notation for hierarchical permission names:</p>
+<ul>
+<li><code>document.read</code> - Read documents</li>
+<li><code>document.write</code> - Create/update documents  </li>
+<li><code>document.delete</code> - Delete documents</li>
+<li><code>user.profile.update</code> - Update user profiles</li>
+<li><code>billing.invoice.create</code> - Create billing invoices</li>
+</ul>
+<h3 id="4-roles">4. Roles</h3>
+<p><strong>Roles</strong> are collections of permissions that can be assigned as a group. They simplify permission management by grouping related permissions together:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;document_editor&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Can read and write documents&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;document.read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;document.write&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Common role patterns:
+- <strong>Viewer roles</strong>: Read-only access (<code>*.read</code> permissions)
+- <strong>Editor roles</strong>: Read and write access
+- <strong>Admin roles</strong>: Full access including delete permissions
+- <strong>Custom roles</strong>: Specific combinations for your use case</p>
+<h2 id="hierarchical-permission-inheritance">Hierarchical Permission Inheritance</h2>
+<p>One of Permio's most powerful features is <strong>hierarchical inheritance</strong>. Permissions granted on parent resources automatically apply to all child resources.</p>
+<h3 id="how-inheritance-works">How Inheritance Works</h3>
+<div class="highlight"><pre><span></span><code>/organization/123
+├── /organization/123/project/456
+│   ├── /organization/123/project/456/document/789
+│   └── /organization/123/project/456/document/101
+└── /organization/123/project/789
+    └── /organization/123/project/789/document/456
+</code></pre></div>
+<p>If a user has <code>document.read</code> permission on <code>/organization/123</code>, they automatically have read access to:
+- All projects in the organization
+- All documents in those projects
+- Any future resources created under this organization</p>
+<h3 id="inheritance-examples">Inheritance Examples</h3>
+<h4 id="example-1-organization-wide-access">Example 1: Organization-wide Access</h4>
+<p><div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin-user-123&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resource_uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/organization/abc&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;organization.admin&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<strong>Result</strong>: Admin can manage the entire organization and all its contents.</p>
+<h4 id="example-2-project-specific-access">Example 2: Project-specific Access</h4>
+<p><div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project-manager-456&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resource_uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/organization/abc/project/web-app&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;project.manage&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<strong>Result</strong>: Manager can handle all aspects of the web-app project, but not other projects.</p>
+<h4 id="example-3-document-specific-access">Example 3: Document-specific Access</h4>
+<p><div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;editor-789&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resource_uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/organization/abc/project/web-app/document/readme&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;document.edit&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<strong>Result</strong>: Editor can only modify this specific document.</p>
+<h3 id="permission-resolution-process">Permission Resolution Process</h3>
+<p>When checking permissions, Permio follows this resolution process:</p>
+<ol>
+<li><strong>Direct Match</strong>: Check for permissions directly assigned to the specific resource</li>
+<li><strong>Parent Traversal</strong>: Walk up the URI hierarchy checking each parent level</li>
+<li><strong>Role Expansion</strong>: Expand roles into their constituent permissions</li>
+<li><strong>Inheritance Application</strong>: Apply inherited permissions from parent resources</li>
+<li><strong>Final Decision</strong>: Grant access if any permission grants are found</li>
+</ol>
+<h2 id="authentication-vs-authorization">Authentication vs Authorization</h2>
+<p>Permio focuses purely on <strong>authorization</strong> (what can you do?) and is completely <strong>authentication-agnostic</strong> (who are you?).</p>
+<h3 id="authentication-external">Authentication (External)</h3>
+<ul>
+<li><strong>Identity verification</strong>: Login, passwords, MFA</li>
+<li><strong>Token issuance</strong>: JWTs, session cookies, API keys</li>
+<li><strong>Identity providers</strong>: Auth0, Firebase Auth, custom systems</li>
+</ul>
+<h3 id="authorization-permio">Authorization (Permio)</h3>
+<ul>
+<li><strong>Permission checking</strong>: Can user X perform action Y on resource Z?</li>
+<li><strong>Access control</strong>: Role and permission management</li>
+<li><strong>Policy enforcement</strong>: Hierarchical permission inheritance</li>
+</ul>
+<h3 id="integration-flow">Integration Flow</h3>
+<div class="highlight"><pre><span></span><code>1. Client ──────────→ App: Request with token
+2. App ─────────────→ AuthProvider: Validate token  
+3. AuthProvider ────→ App: User identity
+4. App ─────────────→ Permio: Check permissions
+5. Permio ──────────→ App: Permission result
+6. App ─────────────→ Client: Allow/block response
+</code></pre></div>
+<ol>
+<li><strong>Client</strong> sends request with authentication token</li>
+<li><strong>Your application</strong> validates the token with your auth provider</li>
+<li><strong>Auth provider</strong> confirms identity and returns user info</li>
+<li><strong>Your application</strong> calls Permio to check permissions</li>
+<li><strong>Permio</strong> returns permission check result</li>
+<li><strong>Your application</strong> allows or denies the request</li>
+</ol>
+<h2 id="api-first-architecture">API-First Architecture</h2>
+<p>Permio is built with an <strong>API-first</strong> philosophy, offering multiple access methods:</p>
+<h3 id="rest-api">REST API</h3>
+<p>Standard HTTP endpoints for web applications:
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">&quot;https://api.perms.io/permissions-service/v1/permissions/check&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">&quot;Authorization: Bearer YOUR_API_KEY&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">&#39;{&quot;principal_id&quot;: &quot;user_123&quot;, &quot;resource_uris&quot;: [&quot;/documents/doc_456&quot;], &quot;permissions&quot;: [&quot;document.read&quot;]}&#39;</span>
+</code></pre></div></p>
+<h3 id="grpc-api">gRPC API</h3>
+<p>High-performance binary protocol for backend services:
+<div class="highlight"><pre><span></span><code><span class="nx">resp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">CheckPermissionRequest</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">PrincipalId</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;user_123&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">ResourceUris</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;/documents/doc_456&quot;</span><span class="p">},</span>
+<span class="w">    </span><span class="nx">Permissions</span><span class="p">:</span><span class="w">  </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">&quot;document.read&quot;</span><span class="p">},</span>
+<span class="p">})</span>
+</code></pre></div></p>
+<h3 id="dashboard-ui">Dashboard UI</h3>
+<p>Web interface for visual management:
+- Create and manage permissions and roles
+- View permission assignments
+- Monitor usage and analytics
+- Manage organizations and projects</p>
+<h2 id="performance-and-scalability">Performance and Scalability</h2>
+<h3 id="performance-best-practices">Performance Best Practices</h3>
+<h4 id="1-batch-permission-checks">1. Batch Permission Checks</h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;principal_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_123&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resource_uris&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;/doc/1&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/doc/2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;/doc/3&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;write&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="2-use-specific-resource-uris">2. Use Specific Resource URIs</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Good: Specific resource</span>
+/project/456/document/789
+
+<span class="c1"># Avoid: Overly broad checks</span>
+/project/456/*
+</code></pre></div>
+<h4 id="3-design-efficient-hierarchies">3. Design Efficient Hierarchies</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Good: Logical hierarchy</span>
+/tenant/abc/workspace/def/project/ghi
+
+<span class="c1"># Avoid: Flat structure requiring many checks</span>
+/resource-tenant-abc-workspace-def-project-ghi
+</code></pre></div>
+<h2 id="common-implementation-patterns">Common Implementation Patterns</h2>
+<h3 id="1-multi-tenant-applications">1. Multi-tenant Applications</h3>
+<p>Isolate tenants using hierarchical resource URIs:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Tenant A resources</span>
+/tenant/company-a/projects/web-app
+/tenant/company-a/users/user-123
+
+<span class="c1"># Tenant B resources  </span>
+/tenant/company-b/projects/mobile-app
+/tenant/company-b/users/user-456
+</code></pre></div>
+<p>Grant access at the tenant level:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin@company-a.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resource_uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/tenant/company-a&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;tenant_admin&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="2-document-management-system">2. Document Management System</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Workspace hierarchy</span>
+/workspace/engineering/folders/backend
+/workspace/engineering/folders/backend/documents/api-spec.md
+/workspace/marketing/folders/campaigns
+/workspace/marketing/folders/campaigns/documents/q4-plan.pdf
+</code></pre></div>
+<p>Role assignments:
+<div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;john@company.com&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resource_uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/workspace/engineering&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;workspace_admin&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jane@company.com&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">&quot;resource_uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/workspace/engineering/folders/backend&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;folder_editor&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div></p>
+<h3 id="3-project-based-access-control">3. Project-based Access Control</h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># Project structure</span>
+/organization/acme/project/web-app
+/organization/acme/project/web-app/environments/production
+/organization/acme/project/web-app/environments/staging
+/organization/acme/project/mobile-app
+</code></pre></div>
+<p>Team permissions:
+<div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;dev-team&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resource_uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/organization/acme/project/web-app/environments/staging&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;deploy&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;debug&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;monitor&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ops-team&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resource_uri&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/organization/acme/project/web-app/environments/production&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;deploy&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;monitor&quot;</span><span class="p">]</span><span class="w"> </span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div></p>
+<h2 id="security-considerations">Security Considerations</h2>
+<h3 id="principle-of-least-privilege">Principle of Least Privilege</h3>
+<ul>
+<li>Grant minimal permissions required for each role</li>
+<li>Regularly audit and review permission assignments</li>
+<li>Use time-limited permissions where appropriate</li>
+<li>Implement permission approval workflows for sensitive resources</li>
+</ul>
+<h3 id="resource-uri-validation">Resource URI Validation</h3>
+<p>Always validate resource URIs in your application:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">validateResourceURI</span><span class="p">(</span><span class="nx">uri</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">strings</span><span class="p">.</span><span class="nx">HasPrefix</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;/&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;resource URI must start with /&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Contains</span><span class="p">(</span><span class="nx">uri</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;..&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;resource URI cannot contain path traversal&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Add more validation as needed</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="permission-boundary-enforcement">Permission Boundary Enforcement</h3>
+<p>Implement checks at multiple levels:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// 1. Application level - before business logic</span>
+<span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">hasPermission</span><span class="p">(</span><span class="nx">userID</span><span class="p">,</span><span class="w"> </span><span class="nx">resourceURI</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;document.read&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nx">errors</span><span class="p">.</span><span class="nx">New</span><span class="p">(</span><span class="s">&quot;access denied&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="c1">// 2. API gateway level - before reaching your service</span>
+<span class="c1">// 3. Database level - row-level security policies</span>
+</code></pre></div>
+<h2 id="integration-examples">Integration Examples</h2>
+<h3 id="expressjs-middleware">Express.js Middleware</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">function</span><span class="w"> </span><span class="nx">requirePermission</span><span class="p">(</span><span class="nx">resource</span><span class="p">,</span><span class="w"> </span><span class="nx">permission</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">next</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">userId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">hasAccess</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">check</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">principal_id</span><span class="o">:</span><span class="w"> </span><span class="nx">userId</span><span class="p">,</span>
+<span class="w">      </span><span class="nx">resource_uris</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">resource</span><span class="p">],</span>
+<span class="w">      </span><span class="nx">permissions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">permission</span><span class="p">]</span>
+<span class="w">    </span><span class="p">});</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">hasAccess</span><span class="p">.</span><span class="nx">passed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">next</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mf">403</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;Access denied&#39;</span><span class="w"> </span><span class="p">});</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;/documents/:id&#39;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="nx">requirePermission</span><span class="p">(</span><span class="s1">&#39;/documents/&#39;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;document.read&#39;</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">getDocument</span>
+<span class="p">);</span>
+</code></pre></div>
+<h3 id="django-decorator">Django Decorator</h3>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">require_permission</span><span class="p">(</span><span class="n">resource_template</span><span class="p">,</span> <span class="n">permission</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">view_func</span><span class="p">):</span>
+        <span class="k">def</span><span class="w"> </span><span class="nf">wrapper</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">user_id</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">resource_uri</span> <span class="o">=</span> <span class="n">resource_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="n">result</span> <span class="o">=</span> <span class="n">permio_client</span><span class="o">.</span><span class="n">check</span><span class="p">(</span>
+                <span class="n">principal_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
+                <span class="n">resource_uris</span><span class="o">=</span><span class="p">[</span><span class="n">resource_uri</span><span class="p">],</span>
+                <span class="n">permissions</span><span class="o">=</span><span class="p">[</span><span class="n">permission</span><span class="p">]</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="o">.</span><span class="n">passed</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">HttpResponseForbidden</span><span class="p">(</span><span class="s2">&quot;Access denied&quot;</span><span class="p">)</span>
+
+            <span class="k">return</span> <span class="n">view_func</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+
+<span class="c1"># Usage</span>
+<span class="nd">@require_permission</span><span class="p">(</span><span class="s1">&#39;/documents/</span><span class="si">{document_id}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;document.read&#39;</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_document</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">document_id</span><span class="p">):</span>
+    <span class="c1"># View logic here</span>
+    <span class="k">pass</span>
+</code></pre></div>
+<h3 id="go-service">Go Service</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">type</span><span class="w"> </span><span class="nx">PermissionChecker</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">client</span><span class="w"> </span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">PermissionsServiceClient</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">p</span><span class="w"> </span><span class="o">*</span><span class="nx">PermissionChecker</span><span class="p">)</span><span class="w"> </span><span class="nx">CheckAccess</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">userID</span><span class="p">,</span><span class="w"> </span><span class="nx">resourceURI</span><span class="p">,</span><span class="w"> </span><span class="nx">permission</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">error</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">resp</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">client</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">CheckPermissionRequest</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">PrincipalId</span><span class="p">:</span><span class="w">  </span><span class="nx">userID</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">ResourceUris</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">resourceURI</span><span class="p">},</span>
+<span class="w">        </span><span class="nx">Permissions</span><span class="p">:</span><span class="w">  </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="nx">permission</span><span class="p">},</span>
+<span class="w">    </span><span class="p">})</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;permission check failed: %w&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">!</span><span class="nx">resp</span><span class="p">.</span><span class="nx">Passed</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Errorf</span><span class="p">(</span><span class="s">&quot;access denied to %s on %s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">permission</span><span class="p">,</span><span class="w"> </span><span class="nx">resourceURI</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+<span class="p">}</span>
+
+<span class="c1">// Usage in handlers</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">h</span><span class="w"> </span><span class="o">*</span><span class="nx">DocumentHandler</span><span class="p">)</span><span class="w"> </span><span class="nx">GetDocument</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">ResponseWriter</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">*</span><span class="nx">http</span><span class="p">.</span><span class="nx">Request</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">userID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">getUserFromContext</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">Context</span><span class="p">())</span>
+<span class="w">    </span><span class="nx">documentID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">mux</span><span class="p">.</span><span class="nx">Vars</span><span class="p">(</span><span class="nx">r</span><span class="p">)[</span><span class="s">&quot;id&quot;</span><span class="p">]</span>
+<span class="w">    </span><span class="nx">resourceURI</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;/documents/%s&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">documentID</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">h</span><span class="p">.</span><span class="nx">permChecker</span><span class="p">.</span><span class="nx">CheckAccess</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">Context</span><span class="p">(),</span><span class="w"> </span><span class="nx">userID</span><span class="p">,</span><span class="w"> </span><span class="nx">resourceURI</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;document.read&quot;</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">http</span><span class="p">.</span><span class="nx">Error</span><span class="p">(</span><span class="nx">w</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Access denied&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">http</span><span class="p">.</span><span class="nx">StatusForbidden</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Proceed with document retrieval</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="getting-started">Getting Started</h2>
+<ol>
+<li><strong>Create Account</strong>: Sign up at <a href="https://app.perms.io">app.perms.io</a></li>
+<li><strong>Setup Organization</strong>: Create your organization and first project</li>
+<li><strong>Generate API Key</strong>: Create an API key for your application</li>
+<li><strong>Define Permissions</strong>: Create permissions that match your application's actions</li>
+<li><strong>Create Roles</strong>: Group permissions into meaningful roles</li>
+<li><strong>Assign Permissions</strong>: Grant roles and permissions to users on resources</li>
+<li><strong>Integrate</strong>: Add permission checks to your application</li>
+<li><strong>Test</strong>: Verify that access control works as expected</li>
+</ol>
+<p>Ready to implement fine-grained access control? Check out our <a href="../quickstart/">Quick Start Guide</a> to get up and running in minutes!</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", {"content.code.highlight": false}], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>

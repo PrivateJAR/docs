@@ -1,0 +1,5778 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.perms.io/api-reference/docs/">
+      
+      
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>Protocol Documentation - perms.io docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#protocol-documentation" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="perms.io docs" class="md-header__button md-logo" aria-label="perms.io docs" data-md-component="logo">
+      
+  <img src="../../assets/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            perms.io docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Protocol Documentation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="perms.io docs" class="md-nav__button md-logo" aria-label="perms.io docs" data-md-component="logo">
+      
+  <img src="../../assets/favicon.png" alt="logo">
+
+    </a>
+    perms.io docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iam-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    IAM Fundamentals
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-it-works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How It Works
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../organizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Organizations & Projects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Permissions & Roles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pagination/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pagination
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      Table of Contents
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#googleapihttpproto" class="md-nav__link">
+    <span class="md-ellipsis">
+      google/api/http.proto
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="google/api/http.proto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#customhttppattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      CustomHttpPattern
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    <span class="md-ellipsis">
+      Http
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#httprule" class="md-nav__link">
+    <span class="md-ellipsis">
+      HttpRule
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#googleapiannotationsproto" class="md-nav__link">
+    <span class="md-ellipsis">
+      google/api/annotations.proto
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="google/api/annotations.proto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-level-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      File-level Extensions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#validatevalidateproto" class="md-nav__link">
+    <span class="md-ellipsis">
+      validate/validate.proto
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="validate/validate.proto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#anyrules" class="md-nav__link">
+    <span class="md-ellipsis">
+      AnyRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#boolrules" class="md-nav__link">
+    <span class="md-ellipsis">
+      BoolRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bytesrules" class="md-nav__link">
+    <span class="md-ellipsis">
+      BytesRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#doublerules" class="md-nav__link">
+    <span class="md-ellipsis">
+      DoubleRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#durationrules" class="md-nav__link">
+    <span class="md-ellipsis">
+      DurationRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enumrules" class="md-nav__link">
+    <span class="md-ellipsis">
+      EnumRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fieldrules" class="md-nav__link">
+    <span class="md-ellipsis">
+      FieldRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed32rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed32Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fixed64rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixed64Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#floatrules" class="md-nav__link">
+    <span class="md-ellipsis">
+      FloatRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#int32rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Int32Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#int64rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Int64Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maprules" class="md-nav__link">
+    <span class="md-ellipsis">
+      MapRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#messagerules" class="md-nav__link">
+    <span class="md-ellipsis">
+      MessageRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repeatedrules" class="md-nav__link">
+    <span class="md-ellipsis">
+      RepeatedRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sfixed32rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      SFixed32Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sfixed64rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      SFixed64Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sint32rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      SInt32Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sint64rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      SInt64Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stringrules" class="md-nav__link">
+    <span class="md-ellipsis">
+      StringRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timestamprules" class="md-nav__link">
+    <span class="md-ellipsis">
+      TimestampRules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uint32rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      UInt32Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#uint64rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      UInt64Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#knownregex" class="md-nav__link">
+    <span class="md-ellipsis">
+      KnownRegex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-level-extensions_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      File-level Extensions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v1organisation_serviceproto" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1/organisation_service.proto
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1/organisation_service.proto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apikey" class="md-nav__link">
+    <span class="md-ellipsis">
+      APIKey
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#activatebillingsubscriptionrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      ActivateBillingSubscriptionRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addemailtomailinglistrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      AddEmailToMailingListRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#billingcustomer" class="md-nav__link">
+    <span class="md-ellipsis">
+      BillingCustomer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#createapikeyrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateAPIKeyRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#createapikeyresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateAPIKeyResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#createorganisationrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateOrganisationRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#createorganisationresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateOrganisationResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#createprojectrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateProjectRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#createprojectresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateProjectResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleteprojectrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      DeleteProjectRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getcustomeractivesubscriptionrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetCustomerActiveSubscriptionRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getcustomeractivesubscriptionresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetCustomerActiveSubscriptionResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getcustomerbillingsessionrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetCustomerBillingSessionRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getcustomerbillingsessionresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetCustomerBillingSessionResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getcustomerdefaultpaymentmethodandintentrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetCustomerDefaultPaymentMethodAndIntentRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getcustomerdefaultpaymentmethodandintentresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetCustomerDefaultPaymentMethodAndIntentResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getorganisationrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetOrganisationRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getorganisationresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetOrganisationResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getprojectrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetProjectRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getprojectresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetProjectResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getprojectsfororganisationrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetProjectsForOrganisationRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getprojectsfororganisationresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetProjectsForOrganisationResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getusersorganisationrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetUsersOrganisationRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#invalidateapikeyrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      InvalidateAPIKeyRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inviteusertoorganisationrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      InviteUserToOrganisationRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isorganisationpermittedtograntrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      IsOrganisationPermittedToGrantRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#isorganisationpermittedtograntresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      IsOrganisationPermittedToGrantResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listapikeysrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      ListAPIKeysRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listapikeysresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      ListAPIKeysResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organisation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Organisation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#project" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#setusersorganisationrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      SetUsersOrganisationRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updateorganisationrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      UpdateOrganisationRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updateorganisationresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      UpdateOrganisationResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#user" class="md-nav__link">
+    <span class="md-ellipsis">
+      User
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#organisationservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      OrganisationService
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v1permissions_serviceproto" class="md-nav__link">
+    <span class="md-ellipsis">
+      v1/permissions_service.proto
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="v1/permissions_service.proto">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#assignment" class="md-nav__link">
+    <span class="md-ellipsis">
+      Assignment
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpermissionrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      CheckPermissionRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkpermissionresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      CheckPermissionResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#createpermissionrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreatePermissionRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#createrolerequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      CreateRoleRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deletepermissionrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      DeletePermissionRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleterolerequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      DeleteRoleRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getallassignmentsforprincipalrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetAllAssignmentsForPrincipalRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getallassignmentsforprincipalresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetAllAssignmentsForPrincipalResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getpermissionrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetPermissionRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getrolerequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetRoleRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getuserpermissionsandrolesonresourcerequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetUserPermissionsAndRolesOnResourceRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getuserpermissionsandrolesonresourceresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      GetUserPermissionsAndRolesOnResourceResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grantuserpermissionsandrolesonresourcerequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      GrantUserPermissionsAndRolesOnResourceRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritedpermission" class="md-nav__link">
+    <span class="md-ellipsis">
+      InheritedPermission
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritedrole" class="md-nav__link">
+    <span class="md-ellipsis">
+      InheritedRole
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listpermissionsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      ListPermissionsRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listpermissionsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      ListPermissionsResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listprincipalsrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      ListPrincipalsRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listprincipalsresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      ListPrincipalsResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listrolesrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      ListRolesRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listrolesresponse" class="md-nav__link">
+    <span class="md-ellipsis">
+      ListRolesResponse
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#missingpermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      MissingPermissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permission" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#principalcountupdatedevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      PrincipalCountUpdatedEvent
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revokeuserpermissionsandrolesonresourcerequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      RevokeUserPermissionsAndRolesOnResourceRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#role" class="md-nav__link">
+    <span class="md-ellipsis">
+      Role
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatepermissionrequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      UpdatePermissionRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updaterolerequest" class="md-nav__link">
+    <span class="md-ellipsis">
+      UpdateRoleRequest
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permissionsservice" class="md-nav__link">
+    <span class="md-ellipsis">
+      PermissionsService
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#scalar-value-types" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scalar Value Types
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="protocol-documentation">Protocol Documentation</h1>
+<p><a name="top"></a></p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li>
+<p><a href="#google_api_http-proto">google/api/http.proto</a></p>
+<ul>
+<li><a href="#google-api-CustomHttpPattern">CustomHttpPattern</a></li>
+<li><a href="#google-api-Http">Http</a></li>
+<li><a href="#google-api-HttpRule">HttpRule</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#google_api_annotations-proto">google/api/annotations.proto</a></p>
+<ul>
+<li><a href="#google_api_annotations-proto-extensions">File-level Extensions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#validate_validate-proto">validate/validate.proto</a></p>
+<ul>
+<li><a href="#validate-AnyRules">AnyRules</a></li>
+<li><a href="#validate-BoolRules">BoolRules</a></li>
+<li><a href="#validate-BytesRules">BytesRules</a></li>
+<li><a href="#validate-DoubleRules">DoubleRules</a></li>
+<li><a href="#validate-DurationRules">DurationRules</a></li>
+<li><a href="#validate-EnumRules">EnumRules</a></li>
+<li><a href="#validate-FieldRules">FieldRules</a></li>
+<li><a href="#validate-Fixed32Rules">Fixed32Rules</a></li>
+<li><a href="#validate-Fixed64Rules">Fixed64Rules</a></li>
+<li><a href="#validate-FloatRules">FloatRules</a></li>
+<li><a href="#validate-Int32Rules">Int32Rules</a></li>
+<li><a href="#validate-Int64Rules">Int64Rules</a></li>
+<li><a href="#validate-MapRules">MapRules</a></li>
+<li><a href="#validate-MessageRules">MessageRules</a></li>
+<li><a href="#validate-RepeatedRules">RepeatedRules</a></li>
+<li><a href="#validate-SFixed32Rules">SFixed32Rules</a></li>
+<li><a href="#validate-SFixed64Rules">SFixed64Rules</a></li>
+<li><a href="#validate-SInt32Rules">SInt32Rules</a></li>
+<li><a href="#validate-SInt64Rules">SInt64Rules</a></li>
+<li><a href="#validate-StringRules">StringRules</a></li>
+<li><a href="#validate-TimestampRules">TimestampRules</a></li>
+<li><a href="#validate-UInt32Rules">UInt32Rules</a></li>
+<li>
+<p><a href="#validate-UInt64Rules">UInt64Rules</a></p>
+</li>
+<li>
+<p><a href="#validate-KnownRegex">KnownRegex</a></p>
+</li>
+<li>
+<p><a href="#validate_validate-proto-extensions">File-level Extensions</a></p>
+</li>
+<li><a href="#validate_validate-proto-extensions">File-level Extensions</a></li>
+<li><a href="#validate_validate-proto-extensions">File-level Extensions</a></li>
+<li><a href="#validate_validate-proto-extensions">File-level Extensions</a></li>
+</ul>
+</li>
+<li>
+<p><a href="#v1_organisation_service-proto">v1/organisation_service.proto</a></p>
+<ul>
+<li><a href="#organisation_service-v1-APIKey">APIKey</a></li>
+<li><a href="#organisation_service-v1-ActivateBillingSubscriptionRequest">ActivateBillingSubscriptionRequest</a></li>
+<li><a href="#organisation_service-v1-AddEmailToMailingListRequest">AddEmailToMailingListRequest</a></li>
+<li><a href="#organisation_service-v1-BillingCustomer">BillingCustomer</a></li>
+<li><a href="#organisation_service-v1-CreateAPIKeyRequest">CreateAPIKeyRequest</a></li>
+<li><a href="#organisation_service-v1-CreateAPIKeyResponse">CreateAPIKeyResponse</a></li>
+<li><a href="#organisation_service-v1-CreateOrganisationRequest">CreateOrganisationRequest</a></li>
+<li><a href="#organisation_service-v1-CreateOrganisationResponse">CreateOrganisationResponse</a></li>
+<li><a href="#organisation_service-v1-CreateProjectRequest">CreateProjectRequest</a></li>
+<li><a href="#organisation_service-v1-CreateProjectResponse">CreateProjectResponse</a></li>
+<li><a href="#organisation_service-v1-DeleteProjectRequest">DeleteProjectRequest</a></li>
+<li><a href="#organisation_service-v1-GetCustomerActiveSubscriptionRequest">GetCustomerActiveSubscriptionRequest</a></li>
+<li><a href="#organisation_service-v1-GetCustomerActiveSubscriptionResponse">GetCustomerActiveSubscriptionResponse</a></li>
+<li><a href="#organisation_service-v1-GetCustomerBillingSessionRequest">GetCustomerBillingSessionRequest</a></li>
+<li><a href="#organisation_service-v1-GetCustomerBillingSessionResponse">GetCustomerBillingSessionResponse</a></li>
+<li><a href="#organisation_service-v1-GetCustomerDefaultPaymentMethodAndIntentRequest">GetCustomerDefaultPaymentMethodAndIntentRequest</a></li>
+<li><a href="#organisation_service-v1-GetCustomerDefaultPaymentMethodAndIntentResponse">GetCustomerDefaultPaymentMethodAndIntentResponse</a></li>
+<li><a href="#organisation_service-v1-GetOrganisationRequest">GetOrganisationRequest</a></li>
+<li><a href="#organisation_service-v1-GetOrganisationResponse">GetOrganisationResponse</a></li>
+<li><a href="#organisation_service-v1-GetProjectRequest">GetProjectRequest</a></li>
+<li><a href="#organisation_service-v1-GetProjectResponse">GetProjectResponse</a></li>
+<li><a href="#organisation_service-v1-GetProjectsForOrganisationRequest">GetProjectsForOrganisationRequest</a></li>
+<li><a href="#organisation_service-v1-GetProjectsForOrganisationResponse">GetProjectsForOrganisationResponse</a></li>
+<li><a href="#organisation_service-v1-GetUsersOrganisationRequest">GetUsersOrganisationRequest</a></li>
+<li><a href="#organisation_service-v1-InvalidateAPIKeyRequest">InvalidateAPIKeyRequest</a></li>
+<li><a href="#organisation_service-v1-InviteUserToOrganisationRequest">InviteUserToOrganisationRequest</a></li>
+<li><a href="#organisation_service-v1-IsOrganisationPermittedToGrantRequest">IsOrganisationPermittedToGrantRequest</a></li>
+<li><a href="#organisation_service-v1-IsOrganisationPermittedToGrantResponse">IsOrganisationPermittedToGrantResponse</a></li>
+<li><a href="#organisation_service-v1-ListAPIKeysRequest">ListAPIKeysRequest</a></li>
+<li><a href="#organisation_service-v1-ListAPIKeysResponse">ListAPIKeysResponse</a></li>
+<li><a href="#organisation_service-v1-Organisation">Organisation</a></li>
+<li><a href="#organisation_service-v1-Project">Project</a></li>
+<li><a href="#organisation_service-v1-SetUsersOrganisationRequest">SetUsersOrganisationRequest</a></li>
+<li><a href="#organisation_service-v1-UpdateOrganisationRequest">UpdateOrganisationRequest</a></li>
+<li><a href="#organisation_service-v1-UpdateOrganisationResponse">UpdateOrganisationResponse</a></li>
+<li>
+<p><a href="#organisation_service-v1-User">User</a></p>
+</li>
+<li>
+<p><a href="#organisation_service-v1-OrganisationService">OrganisationService</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#v1_permissions_service-proto">v1/permissions_service.proto</a></p>
+<ul>
+<li><a href="#permissions_service-v1-Assignment">Assignment</a></li>
+<li><a href="#permissions_service-v1-CheckPermissionRequest">CheckPermissionRequest</a></li>
+<li><a href="#permissions_service-v1-CheckPermissionResponse">CheckPermissionResponse</a></li>
+<li><a href="#permissions_service-v1-CreatePermissionRequest">CreatePermissionRequest</a></li>
+<li><a href="#permissions_service-v1-CreateRoleRequest">CreateRoleRequest</a></li>
+<li><a href="#permissions_service-v1-DeletePermissionRequest">DeletePermissionRequest</a></li>
+<li><a href="#permissions_service-v1-DeleteRoleRequest">DeleteRoleRequest</a></li>
+<li><a href="#permissions_service-v1-GetAllAssignmentsForPrincipalRequest">GetAllAssignmentsForPrincipalRequest</a></li>
+<li><a href="#permissions_service-v1-GetAllAssignmentsForPrincipalResponse">GetAllAssignmentsForPrincipalResponse</a></li>
+<li><a href="#permissions_service-v1-GetPermissionRequest">GetPermissionRequest</a></li>
+<li><a href="#permissions_service-v1-GetRoleRequest">GetRoleRequest</a></li>
+<li><a href="#permissions_service-v1-GetUserPermissionsAndRolesOnResourceRequest">GetUserPermissionsAndRolesOnResourceRequest</a></li>
+<li><a href="#permissions_service-v1-GetUserPermissionsAndRolesOnResourceResponse">GetUserPermissionsAndRolesOnResourceResponse</a></li>
+<li><a href="#permissions_service-v1-GrantUserPermissionsAndRolesOnResourceRequest">GrantUserPermissionsAndRolesOnResourceRequest</a></li>
+<li><a href="#permissions_service-v1-InheritedPermission">InheritedPermission</a></li>
+<li><a href="#permissions_service-v1-InheritedRole">InheritedRole</a></li>
+<li><a href="#permissions_service-v1-ListPermissionsRequest">ListPermissionsRequest</a></li>
+<li><a href="#permissions_service-v1-ListPermissionsResponse">ListPermissionsResponse</a></li>
+<li><a href="#permissions_service-v1-ListPrincipalsRequest">ListPrincipalsRequest</a></li>
+<li><a href="#permissions_service-v1-ListPrincipalsResponse">ListPrincipalsResponse</a></li>
+<li><a href="#permissions_service-v1-ListRolesRequest">ListRolesRequest</a></li>
+<li><a href="#permissions_service-v1-ListRolesResponse">ListRolesResponse</a></li>
+<li><a href="#permissions_service-v1-MissingPermissions">MissingPermissions</a></li>
+<li><a href="#permissions_service-v1-Permission">Permission</a></li>
+<li><a href="#permissions_service-v1-PrincipalCountUpdatedEvent">PrincipalCountUpdatedEvent</a></li>
+<li><a href="#permissions_service-v1-RevokeUserPermissionsAndRolesOnResourceRequest">RevokeUserPermissionsAndRolesOnResourceRequest</a></li>
+<li><a href="#permissions_service-v1-Role">Role</a></li>
+<li><a href="#permissions_service-v1-UpdatePermissionRequest">UpdatePermissionRequest</a></li>
+<li>
+<p><a href="#permissions_service-v1-UpdateRoleRequest">UpdateRoleRequest</a></p>
+</li>
+<li>
+<p><a href="#permissions_service-v1-PermissionsService">PermissionsService</a></p>
+</li>
+</ul>
+</li>
+<li>
+<p><a href="#scalar-value-types">Scalar Value Types</a></p>
+</li>
+</ul>
+<p><a name="google_api_http-proto"></a></p>
+<p align="right"><a href="#top">Top</a></p>
+
+<h2 id="googleapihttpproto">google/api/http.proto</h2>
+<p><a name="google-api-CustomHttpPattern"></a></p>
+<h3 id="customhttppattern">CustomHttpPattern</h3>
+<p>A custom pattern is used for defining custom HTTP verb.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>kind</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>The name of this custom HTTP verb.</td>
+</tr>
+<tr>
+<td>path</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>The path matched by this custom verb.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="google-api-Http"></a></p>
+<h3 id="http">Http</h3>
+<p>Defines the HTTP configuration for an API service. It contains a list of
+[HttpRule][google.api.HttpRule], each specifying the mapping of an RPC method
+to one or more HTTP REST API methods.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rules</td>
+<td><a href="#google-api-HttpRule">HttpRule</a></td>
+<td>repeated</td>
+<td>A list of HTTP configuration rules that apply to individual API methods.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE:</strong> All service configuration rules follow &#34;last one wins&#34; order. |
+| fully_decode_reserved_expansion | <a href="#bool">bool</a> |  | When set to true, URL path parameters will be fully URI-decoded except in cases of single segment matches in reserved expansion, where &#34;%2F&#34; will be left encoded.</p>
+<p>The default behavior is to not decode RFC 6570 reserved characters in multi segment matches. |</p>
+<p><a name="google-api-HttpRule"></a></p>
+<h3 id="httprule">HttpRule</h3>
+<p>gRPC Transcoding</p>
+<p>gRPC Transcoding is a feature for mapping between a gRPC method and one or
+more HTTP REST endpoints. It allows developers to build a single API service
+that supports both gRPC APIs and REST APIs. Many systems, including <a href="https://github.com/googleapis/googleapis">Google
+APIs</a>,
+<a href="https://cloud.google.com/endpoints">Cloud Endpoints</a>, <a href="https://github.com/grpc-ecosystem/grpc-gateway">gRPC
+Gateway</a>,
+and <a href="https://github.com/envoyproxy/envoy">Envoy</a> proxy support this feature
+and use it for large scale production services.</p>
+<p><code>HttpRule</code> defines the schema of the gRPC/REST mapping. The mapping specifies
+how different portions of the gRPC request message are mapped to the URL
+path, URL query parameters, and HTTP request body. It also controls how the
+gRPC response message is mapped to the HTTP response body. <code>HttpRule</code> is
+typically specified as an <code>google.api.http</code> annotation on the gRPC method.</p>
+<p>Each mapping specifies a URL path template and an HTTP method. The path
+template may refer to one or more fields in the gRPC request message, as long
+as each field is a non-repeated field with a primitive (non-message) type.
+The path template controls how fields of the request message are mapped to
+the URL path.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>service Messaging {
+  rpc GetMessage(GetMessageRequest) returns (Message) {
+    option (google.api.http) = {
+        get: &amp;#34;/v1/{name=messages/*}&amp;#34;
+    };
+  }
+}
+message GetMessageRequest {
+  string name = 1; // Mapped to URL path.
+}
+message Message {
+  string text = 1; // The resource content.
+}
+</code></pre></div>
+<p>This enables an HTTP REST to gRPC mapping as below:</p>
+<ul>
+<li>HTTP: <code>GET /v1/messages/123456</code></li>
+<li>gRPC: <code>GetMessage(name: &amp;#34;messages/123456&amp;#34;)</code></li>
+</ul>
+<p>Any fields in the request message which are not bound by the path template
+automatically become HTTP query parameters if there is no HTTP request body.
+For example:</p>
+<div class="highlight"><pre><span></span><code>service Messaging {
+  rpc GetMessage(GetMessageRequest) returns (Message) {
+    option (google.api.http) = {
+        get:&amp;#34;/v1/messages/{message_id}&amp;#34;
+    };
+  }
+}
+message GetMessageRequest {
+  message SubMessage {
+    string subfield = 1;
+  }
+  string message_id = 1; // Mapped to URL path.
+  int64 revision = 2;    // Mapped to URL query parameter `revision`.
+  SubMessage sub = 3;    // Mapped to URL query parameter `sub.subfield`.
+}
+</code></pre></div>
+<p>This enables a HTTP JSON to RPC mapping as below:</p>
+<ul>
+<li>HTTP: <code>GET /v1/messages/123456?revision=2&amp;amp;sub.subfield=foo</code></li>
+<li>gRPC: <code>GetMessage(message_id: &amp;#34;123456&amp;#34; revision: 2 sub:
+SubMessage(subfield: &amp;#34;foo&amp;#34;))</code></li>
+</ul>
+<p>Note that fields which are mapped to URL query parameters must have a
+primitive type or a repeated primitive type or a non-repeated message type.
+In the case of a repeated type, the parameter can be repeated in the URL
+as <code>...?param=A&amp;amp;param=B</code>. In the case of a message type, each field of the
+message is mapped to a separate parameter, such as
+<code>...?foo.a=A&amp;amp;foo.b=B&amp;amp;foo.c=C</code>.</p>
+<p>For HTTP methods that allow a request body, the <code>body</code> field
+specifies the mapping. Consider a REST update method on the
+message resource collection:</p>
+<div class="highlight"><pre><span></span><code>service Messaging {
+  rpc UpdateMessage(UpdateMessageRequest) returns (Message) {
+    option (google.api.http) = {
+      patch: &amp;#34;/v1/messages/{message_id}&amp;#34;
+      body: &amp;#34;message&amp;#34;
+    };
+  }
+}
+message UpdateMessageRequest {
+  string message_id = 1; // mapped to the URL
+  Message message = 2;   // mapped to the body
+}
+</code></pre></div>
+<p>The following HTTP JSON to RPC mapping is enabled, where the
+representation of the JSON in the request body is determined by
+protos JSON encoding:</p>
+<ul>
+<li>HTTP: <code>PATCH /v1/messages/123456 { &amp;#34;text&amp;#34;: &amp;#34;Hi!&amp;#34; }</code></li>
+<li>gRPC: <code>UpdateMessage(message_id: &amp;#34;123456&amp;#34; message { text: &amp;#34;Hi!&amp;#34; })</code></li>
+</ul>
+<p>The special name <code>*</code> can be used in the body mapping to define that
+every field not bound by the path template should be mapped to the
+request body.  This enables the following alternative definition of
+the update method:</p>
+<div class="highlight"><pre><span></span><code>service Messaging {
+  rpc UpdateMessage(Message) returns (Message) {
+    option (google.api.http) = {
+      patch: &amp;#34;/v1/messages/{message_id}&amp;#34;
+      body: &amp;#34;*&amp;#34;
+    };
+  }
+}
+message Message {
+  string message_id = 1;
+  string text = 2;
+}
+</code></pre></div>
+<p>The following HTTP JSON to RPC mapping is enabled:</p>
+<ul>
+<li>HTTP: <code>PATCH /v1/messages/123456 { &amp;#34;text&amp;#34;: &amp;#34;Hi!&amp;#34; }</code></li>
+<li>gRPC: <code>UpdateMessage(message_id: &amp;#34;123456&amp;#34; text: &amp;#34;Hi!&amp;#34;)</code></li>
+</ul>
+<p>Note that when using <code>*</code> in the body mapping, it is not possible to
+have HTTP parameters, as all fields not bound by the path end in
+the body. This makes this option more rarely used in practice when
+defining REST APIs. The common usage of <code>*</code> is in custom methods
+which don&#39;t use the URL at all for transferring data.</p>
+<p>It is possible to define multiple HTTP methods for one RPC by using
+the <code>additional_bindings</code> option. Example:</p>
+<div class="highlight"><pre><span></span><code>service Messaging {
+  rpc GetMessage(GetMessageRequest) returns (Message) {
+    option (google.api.http) = {
+      get: &amp;#34;/v1/messages/{message_id}&amp;#34;
+      additional_bindings {
+        get: &amp;#34;/v1/users/{user_id}/messages/{message_id}&amp;#34;
+      }
+    };
+  }
+}
+message GetMessageRequest {
+  string message_id = 1;
+  string user_id = 2;
+}
+</code></pre></div>
+<p>This enables the following two alternative HTTP JSON to RPC mappings:</p>
+<ul>
+<li>HTTP: <code>GET /v1/messages/123456</code></li>
+<li>
+<p>gRPC: <code>GetMessage(message_id: &amp;#34;123456&amp;#34;)</code></p>
+</li>
+<li>
+<p>HTTP: <code>GET /v1/users/me/messages/123456</code></p>
+</li>
+<li>gRPC: <code>GetMessage(user_id: &amp;#34;me&amp;#34; message_id: &amp;#34;123456&amp;#34;)</code></li>
+</ul>
+<p>Rules for HTTP mapping</p>
+<ol>
+<li>Leaf request fields (recursive expansion nested messages in the request
+   message) are classified into three categories:</li>
+<li>Fields referred by the path template. They are passed via the URL path.</li>
+<li>Fields referred by the [HttpRule.body][google.api.HttpRule.body]. They
+   are passed via the HTTP
+     request body.</li>
+<li>All other fields are passed via the URL query parameters, and the
+     parameter name is the field path in the request message. A repeated
+     field can be represented as multiple query parameters under the same
+     name.</li>
+<li>If [HttpRule.body][google.api.HttpRule.body] is &#34;*&#34;, there is no URL
+ query parameter, all fields
+    are passed via URL path and HTTP request body.</li>
+<li>If [HttpRule.body][google.api.HttpRule.body] is omitted, there is no HTTP
+ request body, all
+    fields are passed via URL path and URL query parameters.</li>
+</ol>
+<p>Path template syntax</p>
+<div class="highlight"><pre><span></span><code>Template = &amp;#34;/&amp;#34; Segments [ Verb ] ;
+Segments = Segment { &amp;#34;/&amp;#34; Segment } ;
+Segment  = &amp;#34;*&amp;#34; | &amp;#34;**&amp;#34; | LITERAL | Variable ;
+Variable = &amp;#34;{&amp;#34; FieldPath [ &amp;#34;=&amp;#34; Segments ] &amp;#34;}&amp;#34; ;
+FieldPath = IDENT { &amp;#34;.&amp;#34; IDENT } ;
+Verb     = &amp;#34;:&amp;#34; LITERAL ;
+</code></pre></div>
+<p>The syntax <code>*</code> matches a single URL path segment. The syntax <code>**</code> matches
+zero or more URL path segments, which must be the last part of the URL path
+except the <code>Verb</code>.</p>
+<p>The syntax <code>Variable</code> matches part of the URL path as specified by its
+template. A variable template must not contain other variables. If a variable
+matches a single path segment, its template may be omitted, e.g. <code>{var}</code>
+is equivalent to <code>{var=*}</code>.</p>
+<p>The syntax <code>LITERAL</code> matches literal text in the URL path. If the <code>LITERAL</code>
+contains any reserved character, such characters should be percent-encoded
+before the matching.</p>
+<p>If a variable contains exactly one path segment, such as <code>&amp;#34;{var}&amp;#34;</code> or
+<code>&amp;#34;{var=*}&amp;#34;</code>, when such a variable is expanded into a URL path on the client
+side, all characters except <code>[-_.~0-9a-zA-Z]</code> are percent-encoded. The
+server side does the reverse decoding. Such variables show up in the
+<a href="https://developers.google.com/discovery/v1/reference/apis">Discovery
+Document</a> as
+<code>{var}</code>.</p>
+<p>If a variable contains multiple path segments, such as <code>&amp;#34;{var=foo/*}&amp;#34;</code>
+or <code>&amp;#34;{var=**}&amp;#34;</code>, when such a variable is expanded into a URL path on the
+client side, all characters except <code>[-_.~/0-9a-zA-Z]</code> are percent-encoded.
+The server side does the reverse decoding, except &#34;%2F&#34; and &#34;%2f&#34; are left
+unchanged. Such variables show up in the
+<a href="https://developers.google.com/discovery/v1/reference/apis">Discovery
+Document</a> as
+<code>{&amp;#43;var}</code>.</p>
+<p>Using gRPC API Service Configuration</p>
+<p>gRPC API Service Configuration (service config) is a configuration language
+for configuring a gRPC service to become a user-facing product. The
+service config is simply the YAML representation of the <code>google.api.Service</code>
+proto message.</p>
+<p>As an alternative to annotating your proto file, you can configure gRPC
+transcoding in your service config YAML files. You do this by specifying a
+<code>HttpRule</code> that maps the gRPC method to a REST endpoint, achieving the same
+effect as the proto annotation. This can be particularly useful if you
+have a proto that is reused in multiple services. Note that any transcoding
+specified in the service config will override any matching transcoding
+configuration in the proto.</p>
+<p>The following example selects a gRPC method and applies an <code>HttpRule</code> to it:</p>
+<div class="highlight"><pre><span></span><code>http:
+  rules:
+    - selector: example.v1.Messaging.GetMessage
+      get: /v1/messages/{message_id}/{sub.subfield}
+</code></pre></div>
+<p>Special notes</p>
+<p>When gRPC Transcoding is used to map a gRPC to JSON REST endpoints, the
+proto to JSON conversion must follow the <a href="https://developers.google.com/protocol-buffers/docs/proto3#json">proto3
+specification</a>.</p>
+<p>While the single segment variable follows the semantics of
+<a href="https://tools.ietf.org/html/rfc6570">RFC 6570</a> Section 3.2.2 Simple String
+Expansion, the multi segment variable <strong>does not</strong> follow RFC 6570 Section
+3.2.3 Reserved Expansion. The reason is that the Reserved Expansion
+does not expand special characters like <code>?</code> and <code>#</code>, which would lead
+to invalid URLs. As the result, gRPC Transcoding uses a custom encoding
+for multi segment variables.</p>
+<p>The path variables <strong>must not</strong> refer to any repeated or mapped field,
+because client libraries are not capable of handling such variable expansion.</p>
+<p>The path variables <strong>must not</strong> capture the leading &#34;/&#34; character. The reason
+is that the most common use case &#34;{var}&#34; does not capture the leading &#34;/&#34;
+character. For consistency, all path variables must share the same behavior.</p>
+<p>Repeated message fields must not be mapped to URL query parameters, because
+no client library can support such complicated mapping.</p>
+<p>If an API needs to use a JSON array for request or response body, it can map
+the request or response body to a repeated field. However, some gRPC
+Transcoding implementations may not support this feature.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>selector</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Selects a method to which this rule applies.</td>
+</tr>
+</tbody>
+</table>
+<p>Refer to [selector][google.api.DocumentationRule.selector] for syntax details. |
+| get | <a href="#string">string</a> |  | Maps to HTTP GET. Used for listing and getting information about resources. |
+| put | <a href="#string">string</a> |  | Maps to HTTP PUT. Used for replacing a resource. |
+| post | <a href="#string">string</a> |  | Maps to HTTP POST. Used for creating a resource or performing an action. |
+| delete | <a href="#string">string</a> |  | Maps to HTTP DELETE. Used for deleting a resource. |
+| patch | <a href="#string">string</a> |  | Maps to HTTP PATCH. Used for updating a resource. |
+| custom | <a href="#google-api-CustomHttpPattern">CustomHttpPattern</a> |  | The custom pattern is used for specifying an HTTP method that is not included in the <code>pattern</code> field, such as HEAD, or &#34;*&#34; to leave the HTTP method unspecified for this rule. The wild-card rule is useful for services that provide content to Web (HTML) clients. |
+| body | <a href="#string">string</a> |  | The name of the request field whose value is mapped to the HTTP request body, or <code>*</code> for mapping all request fields not captured by the path pattern to the HTTP body, or omitted for not having any HTTP request body.</p>
+<p>NOTE: the referred field must be present at the top-level of the request message type. |
+| response_body | <a href="#string">string</a> |  | Optional. The name of the response field whose value is mapped to the HTTP response body. When omitted, the entire response message will be used as the HTTP response body.</p>
+<p>NOTE: The referred field must be present at the top-level of the response message type. |
+| additional_bindings | <a href="#google-api-HttpRule">HttpRule</a> | repeated | Additional HTTP bindings for the selector. Nested bindings must not contain an <code>additional_bindings</code> field themselves (that is, the nesting may only be one level deep). |</p>
+<p><a name="google_api_annotations-proto"></a></p>
+<p align="right"><a href="#top">Top</a></p>
+
+<h2 id="googleapiannotationsproto">google/api/annotations.proto</h2>
+<p><a name="google_api_annotations-proto-extensions"></a></p>
+<h3 id="file-level-extensions">File-level Extensions</h3>
+<table>
+<thead>
+<tr>
+<th>Extension</th>
+<th>Type</th>
+<th>Base</th>
+<th>Number</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>http</td>
+<td>HttpRule</td>
+<td>.google.protobuf.MethodOptions</td>
+<td>72295728</td>
+<td>See <code>HttpRule</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate_validate-proto"></a></p>
+<p align="right"><a href="#top">Top</a></p>
+
+<h2 id="validatevalidateproto">validate/validate.proto</h2>
+<p><a name="validate-AnyRules"></a></p>
+<h3 id="anyrules">AnyRules</h3>
+<p>AnyRules describe constraints applied exclusively to the
+<code>google.protobuf.Any</code> well-known type</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>required</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Required specifies that this field must be set</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>In specifies that this field&#39;s <code>type_url</code> must be equal to one of the specified values.</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field&#39;s <code>type_url</code> must not be equal to any of the specified values.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-BoolRules"></a></p>
+<h3 id="boolrules">BoolRules</h3>
+<p>BoolRules describes the constraints applied to <code>bool</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-BytesRules"></a></p>
+<h3 id="bytesrules">BytesRules</h3>
+<p>BytesRules describe the constraints applied to <code>bytes</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#bytes">bytes</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>len</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>Len specifies that this field must be the specified number of bytes</td>
+</tr>
+<tr>
+<td>min_len</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MinLen specifies that this field must be the specified number of bytes at a minimum</td>
+</tr>
+<tr>
+<td>max_len</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MaxLen specifies that this field must be the specified number of bytes at a maximum</td>
+</tr>
+<tr>
+<td>pattern</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>Pattern specifies that this field must match against the specified regular expression (RE2 syntax). The included expression should elide any delimiters.</td>
+</tr>
+<tr>
+<td>prefix</td>
+<td><a href="#bytes">bytes</a></td>
+<td>optional</td>
+<td>Prefix specifies that this field must have the specified bytes at the beginning of the string.</td>
+</tr>
+<tr>
+<td>suffix</td>
+<td><a href="#bytes">bytes</a></td>
+<td>optional</td>
+<td>Suffix specifies that this field must have the specified bytes at the end of the string.</td>
+</tr>
+<tr>
+<td>contains</td>
+<td><a href="#bytes">bytes</a></td>
+<td>optional</td>
+<td>Contains specifies that this field must have the specified bytes anywhere in the string.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#bytes">bytes</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#bytes">bytes</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ip</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Ip specifies that the field must be a valid IP (v4 or v6) address in byte format</td>
+</tr>
+<tr>
+<td>ipv4</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Ipv4 specifies that the field must be a valid IPv4 address in byte format</td>
+</tr>
+<tr>
+<td>ipv6</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Ipv6 specifies that the field must be a valid IPv6 address in byte format</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-DoubleRules"></a></p>
+<h3 id="doublerules">DoubleRules</h3>
+<p>DoubleRules describes the constraints applied to <code>double</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#double">double</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#double">double</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#double">double</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#double">double</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#double">double</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#double">double</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#double">double</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-DurationRules"></a></p>
+<h3 id="durationrules">DurationRules</h3>
+<p>DurationRules describe the constraints applied exclusively to the
+<code>google.protobuf.Duration</code> well-known type</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>required</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Required specifies that this field must be set</td>
+</tr>
+<tr>
+<td>const</td>
+<td><a href="#google-protobuf-Duration">google.protobuf.Duration</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#google-protobuf-Duration">google.protobuf.Duration</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#google-protobuf-Duration">google.protobuf.Duration</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#google-protobuf-Duration">google.protobuf.Duration</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#google-protobuf-Duration">google.protobuf.Duration</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than the specified value, inclusive</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#google-protobuf-Duration">google.protobuf.Duration</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#google-protobuf-Duration">google.protobuf.Duration</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-EnumRules"></a></p>
+<h3 id="enumrules">EnumRules</h3>
+<p>EnumRules describe the constraints applied to enum values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#int32">int32</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>defined_only</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>DefinedOnly specifies that this field must be only one of the defined values for this enum, failing on any undefined value.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#int32">int32</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#int32">int32</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-FieldRules"></a></p>
+<h3 id="fieldrules">FieldRules</h3>
+<p>FieldRules encapsulates the rules for each type of field. Depending on the
+field, the correct set should be used to ensure proper validations.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>message</td>
+<td><a href="#validate-MessageRules">MessageRules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>float</td>
+<td><a href="#validate-FloatRules">FloatRules</a></td>
+<td>optional</td>
+<td>Scalar Field Types</td>
+</tr>
+<tr>
+<td>double</td>
+<td><a href="#validate-DoubleRules">DoubleRules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>int32</td>
+<td><a href="#validate-Int32Rules">Int32Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>int64</td>
+<td><a href="#validate-Int64Rules">Int64Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>uint32</td>
+<td><a href="#validate-UInt32Rules">UInt32Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>uint64</td>
+<td><a href="#validate-UInt64Rules">UInt64Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>sint32</td>
+<td><a href="#validate-SInt32Rules">SInt32Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>sint64</td>
+<td><a href="#validate-SInt64Rules">SInt64Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>fixed32</td>
+<td><a href="#validate-Fixed32Rules">Fixed32Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>fixed64</td>
+<td><a href="#validate-Fixed64Rules">Fixed64Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>sfixed32</td>
+<td><a href="#validate-SFixed32Rules">SFixed32Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>sfixed64</td>
+<td><a href="#validate-SFixed64Rules">SFixed64Rules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>bool</td>
+<td><a href="#validate-BoolRules">BoolRules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>string</td>
+<td><a href="#validate-StringRules">StringRules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>bytes</td>
+<td><a href="#validate-BytesRules">BytesRules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>enum</td>
+<td><a href="#validate-EnumRules">EnumRules</a></td>
+<td>optional</td>
+<td>Complex Field Types</td>
+</tr>
+<tr>
+<td>repeated</td>
+<td><a href="#validate-RepeatedRules">RepeatedRules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>map</td>
+<td><a href="#validate-MapRules">MapRules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>any</td>
+<td><a href="#validate-AnyRules">AnyRules</a></td>
+<td>optional</td>
+<td>Well-Known Field Types</td>
+</tr>
+<tr>
+<td>duration</td>
+<td><a href="#validate-DurationRules">DurationRules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td><a href="#validate-TimestampRules">TimestampRules</a></td>
+<td>optional</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-Fixed32Rules"></a></p>
+<h3 id="fixed32rules">Fixed32Rules</h3>
+<p>Fixed32Rules describes the constraints applied to <code>fixed32</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#fixed32">fixed32</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#fixed32">fixed32</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#fixed32">fixed32</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#fixed32">fixed32</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#fixed32">fixed32</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#fixed32">fixed32</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#fixed32">fixed32</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-Fixed64Rules"></a></p>
+<h3 id="fixed64rules">Fixed64Rules</h3>
+<p>Fixed64Rules describes the constraints applied to <code>fixed64</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#fixed64">fixed64</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#fixed64">fixed64</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#fixed64">fixed64</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#fixed64">fixed64</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#fixed64">fixed64</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#fixed64">fixed64</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#fixed64">fixed64</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-FloatRules"></a></p>
+<h3 id="floatrules">FloatRules</h3>
+<p>FloatRules describes the constraints applied to <code>float</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#float">float</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#float">float</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#float">float</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#float">float</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#float">float</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#float">float</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#float">float</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-Int32Rules"></a></p>
+<h3 id="int32rules">Int32Rules</h3>
+<p>Int32Rules describes the constraints applied to <code>int32</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#int32">int32</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#int32">int32</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#int32">int32</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#int32">int32</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#int32">int32</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#int32">int32</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#int32">int32</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-Int64Rules"></a></p>
+<h3 id="int64rules">Int64Rules</h3>
+<p>Int64Rules describes the constraints applied to <code>int64</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#int64">int64</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#int64">int64</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#int64">int64</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#int64">int64</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#int64">int64</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#int64">int64</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#int64">int64</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-MapRules"></a></p>
+<h3 id="maprules">MapRules</h3>
+<p>MapRules describe the constraints applied to <code>map</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>min_pairs</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MinPairs specifies that this field must have the specified number of KVs at a minimum</td>
+</tr>
+<tr>
+<td>max_pairs</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MaxPairs specifies that this field must have the specified number of KVs at a maximum</td>
+</tr>
+<tr>
+<td>no_sparse</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>NoSparse specifies values in this field cannot be unset. This only applies to map&#39;s with message value types.</td>
+</tr>
+<tr>
+<td>keys</td>
+<td><a href="#validate-FieldRules">FieldRules</a></td>
+<td>optional</td>
+<td>Keys specifies the constraints to be applied to each key in the field.</td>
+</tr>
+<tr>
+<td>values</td>
+<td><a href="#validate-FieldRules">FieldRules</a></td>
+<td>optional</td>
+<td>Values specifies the constraints to be applied to the value of each key in the field. Message values will still have their validations evaluated unless skip is specified here.</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-MessageRules"></a></p>
+<h3 id="messagerules">MessageRules</h3>
+<p>MessageRules describe the constraints applied to embedded message values.
+For message-type fields, validation is performed recursively.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>skip</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Skip specifies that the validation rules of this field should not be evaluated</td>
+</tr>
+<tr>
+<td>required</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Required specifies that this field must be set</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-RepeatedRules"></a></p>
+<h3 id="repeatedrules">RepeatedRules</h3>
+<p>RepeatedRules describe the constraints applied to <code>repeated</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>min_items</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MinItems specifies that this field must have the specified number of items at a minimum</td>
+</tr>
+<tr>
+<td>max_items</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MaxItems specifies that this field must have the specified number of items at a maximum</td>
+</tr>
+<tr>
+<td>unique</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Unique specifies that all elements in this field must be unique. This constraint is only applicable to scalar and enum types (messages are not supported).</td>
+</tr>
+<tr>
+<td>items</td>
+<td><a href="#validate-FieldRules">FieldRules</a></td>
+<td>optional</td>
+<td>Items specifies the constraints to be applied to each item in the field. Repeated message fields will still execute validation against each item unless skip is specified here.</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-SFixed32Rules"></a></p>
+<h3 id="sfixed32rules">SFixed32Rules</h3>
+<p>SFixed32Rules describes the constraints applied to <code>sfixed32</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#sfixed32">sfixed32</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#sfixed32">sfixed32</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#sfixed32">sfixed32</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#sfixed32">sfixed32</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#sfixed32">sfixed32</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#sfixed32">sfixed32</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#sfixed32">sfixed32</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-SFixed64Rules"></a></p>
+<h3 id="sfixed64rules">SFixed64Rules</h3>
+<p>SFixed64Rules describes the constraints applied to <code>sfixed64</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#sfixed64">sfixed64</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#sfixed64">sfixed64</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#sfixed64">sfixed64</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#sfixed64">sfixed64</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#sfixed64">sfixed64</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#sfixed64">sfixed64</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#sfixed64">sfixed64</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-SInt32Rules"></a></p>
+<h3 id="sint32rules">SInt32Rules</h3>
+<p>SInt32Rules describes the constraints applied to <code>sint32</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#sint32">sint32</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#sint32">sint32</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#sint32">sint32</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#sint32">sint32</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#sint32">sint32</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#sint32">sint32</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#sint32">sint32</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-SInt64Rules"></a></p>
+<h3 id="sint64rules">SInt64Rules</h3>
+<p>SInt64Rules describes the constraints applied to <code>sint64</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#sint64">sint64</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#sint64">sint64</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#sint64">sint64</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#sint64">sint64</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#sint64">sint64</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#sint64">sint64</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#sint64">sint64</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-StringRules"></a></p>
+<h3 id="stringrules">StringRules</h3>
+<p>StringRules describe the constraints applied to <code>string</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>len</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>Len specifies that this field must be the specified number of characters (Unicode code points). Note that the number of characters may differ from the number of bytes in the string.</td>
+</tr>
+<tr>
+<td>min_len</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MinLen specifies that this field must be the specified number of characters (Unicode code points) at a minimum. Note that the number of characters may differ from the number of bytes in the string.</td>
+</tr>
+<tr>
+<td>max_len</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MaxLen specifies that this field must be the specified number of characters (Unicode code points) at a maximum. Note that the number of characters may differ from the number of bytes in the string.</td>
+</tr>
+<tr>
+<td>len_bytes</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>LenBytes specifies that this field must be the specified number of bytes</td>
+</tr>
+<tr>
+<td>min_bytes</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MinBytes specifies that this field must be the specified number of bytes at a minimum</td>
+</tr>
+<tr>
+<td>max_bytes</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>MaxBytes specifies that this field must be the specified number of bytes at a maximum</td>
+</tr>
+<tr>
+<td>pattern</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>Pattern specifies that this field must match against the specified regular expression (RE2 syntax). The included expression should elide any delimiters.</td>
+</tr>
+<tr>
+<td>prefix</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>Prefix specifies that this field must have the specified substring at the beginning of the string.</td>
+</tr>
+<tr>
+<td>suffix</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>Suffix specifies that this field must have the specified substring at the end of the string.</td>
+</tr>
+<tr>
+<td>contains</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>Contains specifies that this field must have the specified substring anywhere in the string.</td>
+</tr>
+<tr>
+<td>not_contains</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>NotContains specifies that this field cannot have the specified substring anywhere in the string.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>email</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Email specifies that the field must be a valid email address as defined by RFC 5322</td>
+</tr>
+<tr>
+<td>hostname</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Hostname specifies that the field must be a valid hostname as defined by RFC 1034. This constraint does not support internationalized domain names (IDNs).</td>
+</tr>
+<tr>
+<td>ip</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Ip specifies that the field must be a valid IP (v4 or v6) address. Valid IPv6 addresses should not include surrounding square brackets.</td>
+</tr>
+<tr>
+<td>ipv4</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Ipv4 specifies that the field must be a valid IPv4 address.</td>
+</tr>
+<tr>
+<td>ipv6</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Ipv6 specifies that the field must be a valid IPv6 address. Valid IPv6 addresses should not include surrounding square brackets.</td>
+</tr>
+<tr>
+<td>uri</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Uri specifies that the field must be a valid, absolute URI as defined by RFC 3986</td>
+</tr>
+<tr>
+<td>uri_ref</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>UriRef specifies that the field must be a valid URI as defined by RFC 3986 and may be relative or absolute.</td>
+</tr>
+<tr>
+<td>address</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Address specifies that the field must be either a valid hostname as defined by RFC 1034 (which does not support internationalized domain names or IDNs), or it can be a valid IP (v4 or v6).</td>
+</tr>
+<tr>
+<td>uuid</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Uuid specifies that the field must be a valid UUID as defined by RFC 4122</td>
+</tr>
+<tr>
+<td>well_known_regex</td>
+<td><a href="#validate-KnownRegex">KnownRegex</a></td>
+<td>optional</td>
+<td>WellKnownRegex specifies a common well known pattern defined as a regex.</td>
+</tr>
+<tr>
+<td>strict</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>This applies to regexes HTTP_HEADER_NAME and HTTP_HEADER_VALUE to enable strict header validation. By default, this is true, and HTTP header validations are RFC-compliant. Setting to false will enable a looser validations that only disallows \r\n\0 characters, which can be used to bypass header matching rules. Default: true</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-TimestampRules"></a></p>
+<h3 id="timestamprules">TimestampRules</h3>
+<p>TimestampRules describe the constraints applied exclusively to the
+<code>google.protobuf.Timestamp</code> well-known type</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>required</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>Required specifies that this field must be set</td>
+</tr>
+<tr>
+<td>const</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than the specified value, inclusive</td>
+</tr>
+<tr>
+<td>lt_now</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>LtNow specifies that this must be less than the current time. LtNow can only be used with the Within rule.</td>
+</tr>
+<tr>
+<td>gt_now</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>GtNow specifies that this must be greater than the current time. GtNow can only be used with the Within rule.</td>
+</tr>
+<tr>
+<td>within</td>
+<td><a href="#google-protobuf-Duration">google.protobuf.Duration</a></td>
+<td>optional</td>
+<td>Within specifies that this field must be within this duration of the current time. This constraint can be used alone or with the LtNow and GtNow rules.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-UInt32Rules"></a></p>
+<h3 id="uint32rules">UInt32Rules</h3>
+<p>UInt32Rules describes the constraints applied to <code>uint32</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#uint32">uint32</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#uint32">uint32</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#uint32">uint32</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#uint32">uint32</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#uint32">uint32</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#uint32">uint32</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#uint32">uint32</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-UInt64Rules"></a></p>
+<h3 id="uint64rules">UInt64Rules</h3>
+<p>UInt64Rules describes the constraints applied to <code>uint64</code> values</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>const</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>Const specifies that this field must be exactly the specified value</td>
+</tr>
+<tr>
+<td>lt</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>Lt specifies that this field must be less than the specified value, exclusive</td>
+</tr>
+<tr>
+<td>lte</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>Lte specifies that this field must be less than or equal to the specified value, inclusive</td>
+</tr>
+<tr>
+<td>gt</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>Gt specifies that this field must be greater than the specified value, exclusive. If the value of Gt is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>gte</td>
+<td><a href="#uint64">uint64</a></td>
+<td>optional</td>
+<td>Gte specifies that this field must be greater than or equal to the specified value, inclusive. If the value of Gte is larger than a specified Lt or Lte, the range is reversed.</td>
+</tr>
+<tr>
+<td>in</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>In specifies that this field must be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>not_in</td>
+<td><a href="#uint64">uint64</a></td>
+<td>repeated</td>
+<td>NotIn specifies that this field cannot be equal to one of the specified values</td>
+</tr>
+<tr>
+<td>ignore_empty</td>
+<td><a href="#bool">bool</a></td>
+<td>optional</td>
+<td>IgnoreEmpty specifies that the validation rules of this field should be evaluated only if the field is not empty</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate-KnownRegex"></a></p>
+<h3 id="knownregex">KnownRegex</h3>
+<p>WellKnownRegex contain some well-known patterns.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Number</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNKNOWN</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td>HTTP_HEADER_NAME</td>
+<td>1</td>
+<td>HTTP header name as defined by RFC 7230.</td>
+</tr>
+<tr>
+<td>HTTP_HEADER_VALUE</td>
+<td>2</td>
+<td>HTTP header value as defined by RFC 7230.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="validate_validate-proto-extensions"></a></p>
+<h3 id="file-level-extensions_1">File-level Extensions</h3>
+<table>
+<thead>
+<tr>
+<th>Extension</th>
+<th>Type</th>
+<th>Base</th>
+<th>Number</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>rules</td>
+<td>FieldRules</td>
+<td>.google.protobuf.FieldOptions</td>
+<td>1071</td>
+<td>Rules specify the validations to be performed on this field. By default, no validation is performed against a field.</td>
+</tr>
+<tr>
+<td>disabled</td>
+<td>bool</td>
+<td>.google.protobuf.MessageOptions</td>
+<td>1071</td>
+<td>Disabled nullifies any validation rules for this message, including any message fields associated with it that do support validation.</td>
+</tr>
+<tr>
+<td>ignored</td>
+<td>bool</td>
+<td>.google.protobuf.MessageOptions</td>
+<td>1072</td>
+<td>Ignore skips generation of validation methods for this message.</td>
+</tr>
+<tr>
+<td>required</td>
+<td>bool</td>
+<td>.google.protobuf.OneofOptions</td>
+<td>1071</td>
+<td>Required ensures that exactly one the field options in a oneof is set; validation fails if no fields in the oneof are set.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="v1_organisation_service-proto"></a></p>
+<p align="right"><a href="#top">Top</a></p>
+
+<h2 id="v1organisation_serviceproto">v1/organisation_service.proto</h2>
+<p><a name="organisation_service-v1-APIKey"></a></p>
+<h3 id="apikey">APIKey</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>key</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>created_at</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>invalidated</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-ActivateBillingSubscriptionRequest"></a></p>
+<h3 id="activatebillingsubscriptionrequest">ActivateBillingSubscriptionRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>price_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-AddEmailToMailingListRequest"></a></p>
+<h3 id="addemailtomailinglistrequest">AddEmailToMailingListRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>email</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-BillingCustomer"></a></p>
+<h3 id="billingcustomer">BillingCustomer</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>email</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-CreateAPIKeyRequest"></a></p>
+<h3 id="createapikeyrequest">CreateAPIKeyRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the api key should be created in</td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-CreateAPIKeyResponse"></a></p>
+<h3 id="createapikeyresponse">CreateAPIKeyResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_key</td>
+<td><a href="#organisation_service-v1-APIKey">APIKey</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-CreateOrganisationRequest"></a></p>
+<h3 id="createorganisationrequest">CreateOrganisationRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>user_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>user_id is the user that created the organisation and will be added as an admin</td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-CreateOrganisationResponse"></a></p>
+<h3 id="createorganisationresponse">CreateOrganisationResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation</td>
+<td><a href="#organisation_service-v1-Organisation">Organisation</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-CreateProjectRequest"></a></p>
+<h3 id="createprojectrequest">CreateProjectRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>organisation_id is the id of the organisation</td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>name is the name of the new project</td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-CreateProjectResponse"></a></p>
+<h3 id="createprojectresponse">CreateProjectResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project</td>
+<td><a href="#organisation_service-v1-Project">Project</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-DeleteProjectRequest"></a></p>
+<h3 id="deleteprojectrequest">DeleteProjectRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetCustomerActiveSubscriptionRequest"></a></p>
+<h3 id="getcustomeractivesubscriptionrequest">GetCustomerActiveSubscriptionRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetCustomerActiveSubscriptionResponse"></a></p>
+<h3 id="getcustomeractivesubscriptionresponse">GetCustomerActiveSubscriptionResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>active_subscription_id</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>active_subscription_id is the id of the active subscription for the customer. It is optional as the customer may not have an active subscription.</td>
+</tr>
+<tr>
+<td>active_price_id</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>active_price_id is the id of the active price for the customer. It is optional as the customer may not have an active subscription.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetCustomerBillingSessionRequest"></a></p>
+<h3 id="getcustomerbillingsessionrequest">GetCustomerBillingSessionRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetCustomerBillingSessionResponse"></a></p>
+<h3 id="getcustomerbillingsessionresponse">GetCustomerBillingSessionResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>session_secret</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetCustomerDefaultPaymentMethodAndIntentRequest"></a></p>
+<h3 id="getcustomerdefaultpaymentmethodandintentrequest">GetCustomerDefaultPaymentMethodAndIntentRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetCustomerDefaultPaymentMethodAndIntentResponse"></a></p>
+<h3 id="getcustomerdefaultpaymentmethodandintentresponse">GetCustomerDefaultPaymentMethodAndIntentResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>default_payment_method_id</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>default_payment_method_id is the id of the default payment method if it exists</td>
+</tr>
+<tr>
+<td>default_payment_method_intent</td>
+<td><a href="#string">string</a></td>
+<td>optional</td>
+<td>default_payment_method_intent is the id of the payment intent for the default payment method if it exists</td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetOrganisationRequest"></a></p>
+<h3 id="getorganisationrequest">GetOrganisationRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetOrganisationResponse"></a></p>
+<h3 id="getorganisationresponse">GetOrganisationResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation</td>
+<td><a href="#organisation_service-v1-Organisation">Organisation</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetProjectRequest"></a></p>
+<h3 id="getprojectrequest">GetProjectRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetProjectResponse"></a></p>
+<h3 id="getprojectresponse">GetProjectResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project</td>
+<td><a href="#organisation_service-v1-Project">Project</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetProjectsForOrganisationRequest"></a></p>
+<h3 id="getprojectsfororganisationrequest">GetProjectsForOrganisationRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetProjectsForOrganisationResponse"></a></p>
+<h3 id="getprojectsfororganisationresponse">GetProjectsForOrganisationResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>projects</td>
+<td><a href="#organisation_service-v1-Project">Project</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-GetUsersOrganisationRequest"></a></p>
+<h3 id="getusersorganisationrequest">GetUsersOrganisationRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>user_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-InvalidateAPIKeyRequest"></a></p>
+<h3 id="invalidateapikeyrequest">InvalidateAPIKeyRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the api key belongs to</td>
+</tr>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-InviteUserToOrganisationRequest"></a></p>
+<h3 id="inviteusertoorganisationrequest">InviteUserToOrganisationRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>email</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-IsOrganisationPermittedToGrantRequest"></a></p>
+<h3 id="isorganisationpermittedtograntrequest">IsOrganisationPermittedToGrantRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-IsOrganisationPermittedToGrantResponse"></a></p>
+<h3 id="isorganisationpermittedtograntresponse">IsOrganisationPermittedToGrantResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>permitted</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-ListAPIKeysRequest"></a></p>
+<h3 id="listapikeysrequest">ListAPIKeysRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project to list the api keys for</td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-ListAPIKeysResponse"></a></p>
+<h3 id="listapikeysresponse">ListAPIKeysResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>api_keys</td>
+<td><a href="#organisation_service-v1-APIKey">APIKey</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-Organisation"></a></p>
+<h3 id="organisation">Organisation</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>users</td>
+<td><a href="#organisation_service-v1-User">User</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+<tr>
+<td>created_at</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>billing_customer</td>
+<td><a href="#organisation_service-v1-BillingCustomer">BillingCustomer</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-Project"></a></p>
+<h3 id="project">Project</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>created_at</td>
+<td><a href="#google-protobuf-Timestamp">google.protobuf.Timestamp</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-SetUsersOrganisationRequest"></a></p>
+<h3 id="setusersorganisationrequest">SetUsersOrganisationRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>user_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>email</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-UpdateOrganisationRequest"></a></p>
+<h3 id="updateorganisationrequest">UpdateOrganisationRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-UpdateOrganisationResponse"></a></p>
+<h3 id="updateorganisationresponse">UpdateOrganisationResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation</td>
+<td><a href="#organisation_service-v1-Organisation">Organisation</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-User"></a></p>
+<h3 id="user">User</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>email</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="organisation_service-v1-OrganisationService"></a></p>
+<h3 id="organisationservice">OrganisationService</h3>
+<table>
+<thead>
+<tr>
+<th>Method Name</th>
+<th>Request Type</th>
+<th>Response Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CreateOrganisation</td>
+<td><a href="#organisation_service-v1-CreateOrganisationRequest">CreateOrganisationRequest</a></td>
+<td><a href="#organisation_service-v1-CreateOrganisationResponse">CreateOrganisationResponse</a></td>
+<td></td>
+</tr>
+<tr>
+<td>GetOrganisation</td>
+<td><a href="#organisation_service-v1-GetOrganisationRequest">GetOrganisationRequest</a></td>
+<td><a href="#organisation_service-v1-GetOrganisationResponse">GetOrganisationResponse</a></td>
+<td></td>
+</tr>
+<tr>
+<td>UpdateOrganisation</td>
+<td><a href="#organisation_service-v1-UpdateOrganisationRequest">UpdateOrganisationRequest</a></td>
+<td><a href="#organisation_service-v1-UpdateOrganisationResponse">UpdateOrganisationResponse</a></td>
+<td>UpdateOrganisation updates the provided organisation. Required Permissions: - organisation.update on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>SetUsersOrganisation</td>
+<td><a href="#organisation_service-v1-SetUsersOrganisationRequest">SetUsersOrganisationRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td>SetUsersOrganisation sets the provided users organisation. Required Permissions: - user.organisation.set on /user/{user_id}</td>
+</tr>
+<tr>
+<td>InviteUserToOrganisation</td>
+<td><a href="#organisation_service-v1-InviteUserToOrganisationRequest">InviteUserToOrganisationRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td></td>
+</tr>
+<tr>
+<td>GetUsersOrganisation</td>
+<td><a href="#organisation_service-v1-GetUsersOrganisationRequest">GetUsersOrganisationRequest</a></td>
+<td><a href="#organisation_service-v1-GetOrganisationResponse">GetOrganisationResponse</a></td>
+<td>GetUsersOrganisation returns the organisation for the user. Required Permissions: - user.organisation.get on /user/{user_id}</td>
+</tr>
+<tr>
+<td>CreateAPIKey</td>
+<td><a href="#organisation_service-v1-CreateAPIKeyRequest">CreateAPIKeyRequest</a></td>
+<td><a href="#organisation_service-v1-CreateAPIKeyResponse">CreateAPIKeyResponse</a></td>
+<td></td>
+</tr>
+<tr>
+<td>ListAPIKeys</td>
+<td><a href="#organisation_service-v1-ListAPIKeysRequest">ListAPIKeysRequest</a></td>
+<td><a href="#organisation_service-v1-ListAPIKeysResponse">ListAPIKeysResponse</a></td>
+<td>ListAPIKeys returns a list of apiKeys for an organisation. Required Permissions: - apiKeys.list on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>InvalidateAPIKey</td>
+<td><a href="#organisation_service-v1-InvalidateAPIKeyRequest">InvalidateAPIKeyRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td></td>
+</tr>
+<tr>
+<td>CreateProject</td>
+<td><a href="#organisation_service-v1-CreateProjectRequest">CreateProjectRequest</a></td>
+<td><a href="#organisation_service-v1-CreateProjectResponse">CreateProjectResponse</a></td>
+<td>SetUniquePrincipalCountForOrganisation is an internal method to set the unique principal count for an organisation. rpc SetUniquePrincipalCountForOrganisation(permissions_service.v1.PrincipalCountUpdatedEvent) returns (google.protobuf.Empty) { option (google.api.http) = { post: &#34;/organisation-service/v1/organisation/unique-principal-count&#34; body: &#34;*&#34; }; } CreateProject creates a new project for an organisation. Required Permissions: - project.create on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>GetProject</td>
+<td><a href="#organisation_service-v1-GetProjectRequest">GetProjectRequest</a></td>
+<td><a href="#organisation_service-v1-GetProjectResponse">GetProjectResponse</a></td>
+<td>GetProject returns the project given the organisation and project id. Required Permissions: - project.get on /organisation/{organisation_id}/project/{project_name}</td>
+</tr>
+<tr>
+<td>GetProjectsForOrganisation</td>
+<td><a href="#organisation_service-v1-GetProjectsForOrganisationRequest">GetProjectsForOrganisationRequest</a></td>
+<td><a href="#organisation_service-v1-GetProjectsForOrganisationResponse">GetProjectsForOrganisationResponse</a></td>
+<td>GetProjectsForOrganisation returns the project given the organisation and project id. Required Permissions: - project.get on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>DeleteProject</td>
+<td><a href="#organisation_service-v1-DeleteProjectRequest">DeleteProjectRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td>DeleteProject deletes the project for the organisation. Required Permissions: - project.delete on /organisation/{organisation_id}/project/{project_name}</td>
+</tr>
+<tr>
+<td>GetCustomerBillingSession</td>
+<td><a href="#organisation_service-v1-GetCustomerBillingSessionRequest">GetCustomerBillingSessionRequest</a></td>
+<td><a href="#organisation_service-v1-GetCustomerBillingSessionResponse">GetCustomerBillingSessionResponse</a></td>
+<td>GetCustomerBillingSession is an internal method and returns a new billing session for the customer to change plan configurations. Required Permissions: - billing.manage on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>GetCustomerActiveSubscription</td>
+<td><a href="#organisation_service-v1-GetCustomerActiveSubscriptionRequest">GetCustomerActiveSubscriptionRequest</a></td>
+<td><a href="#organisation_service-v1-GetCustomerActiveSubscriptionResponse">GetCustomerActiveSubscriptionResponse</a></td>
+<td>GetCustomerActiveSubscription is an internal method and returns the active subscription for the customer. Required Permissions: - billing.manage on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>GetCustomerDefaultPaymentMethodAndIntent</td>
+<td><a href="#organisation_service-v1-GetCustomerDefaultPaymentMethodAndIntentRequest">GetCustomerDefaultPaymentMethodAndIntentRequest</a></td>
+<td><a href="#organisation_service-v1-GetCustomerDefaultPaymentMethodAndIntentResponse">GetCustomerDefaultPaymentMethodAndIntentResponse</a></td>
+<td>GetCustomerDefaultPaymentMethodAndIntent is an internal method which returns the payment method and intent for the customer. Required Permissions: - billing.manage on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>ActivateBillingSubscription</td>
+<td><a href="#organisation_service-v1-ActivateBillingSubscriptionRequest">ActivateBillingSubscriptionRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td>ActivateBillingSubscription is an internal method to activate a billing subscription for the customer. Required Permissions: - billing.manage on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>IsOrganisationPermittedToGrant</td>
+<td><a href="#organisation_service-v1-IsOrganisationPermittedToGrantRequest">IsOrganisationPermittedToGrantRequest</a></td>
+<td><a href="#organisation_service-v1-IsOrganisationPermittedToGrantResponse">IsOrganisationPermittedToGrantResponse</a></td>
+<td>IsOrganisationPermittedToGrant is an internal method to check if the organisation can grant more principals. Required Permissions: - organisation.grant.check.permitted on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>AddEmailToMailingList</td>
+<td><a href="#organisation_service-v1-AddEmailToMailingListRequest">AddEmailToMailingListRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="v1_permissions_service-proto"></a></p>
+<p align="right"><a href="#top">Top</a></p>
+
+<h2 id="v1permissions_serviceproto">v1/permissions_service.proto</h2>
+<p><a name="permissions_service-v1-Assignment"></a></p>
+<h3 id="assignment">Assignment</h3>
+<p>an Assignment is a set of permissions and roles assigned to a principal on a resource.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>resource_uri</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ResourceURI is the URI of the resource to which the principal is assigned permissions.</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td><a href="#permissions_service-v1-Permission">Permission</a></td>
+<td>repeated</td>
+<td>Permissions is a list of permissions that the principal has.</td>
+</tr>
+<tr>
+<td>roles</td>
+<td><a href="#permissions_service-v1-Role">Role</a></td>
+<td>repeated</td>
+<td>Roles is a list of roles that the principal has.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-CheckPermissionRequest"></a></p>
+<h3 id="checkpermissionrequest">CheckPermissionRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project to check permissions in.</td>
+</tr>
+<tr>
+<td>principal_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>PrincipalID is the unique identifier of the principal.</td>
+</tr>
+<tr>
+<td>resource_uris</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>ResourceURIs is a list of URIs of the resources to check.</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>Permissions is a list of permission names that the principal should have.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-CheckPermissionResponse"></a></p>
+<h3 id="checkpermissionresponse">CheckPermissionResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>passed</td>
+<td><a href="#bool">bool</a></td>
+<td></td>
+<td>passed is true if the principal has all of the specified permissions on the specified resources.</td>
+</tr>
+<tr>
+<td>missing_permissions</td>
+<td><a href="#permissions_service-v1-MissingPermissions">MissingPermissions</a></td>
+<td>repeated</td>
+<td>missing_permissions is a list of resources and the permissions that the principal does not have on them.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-CreatePermissionRequest"></a></p>
+<h3 id="createpermissionrequest">CreatePermissionRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the permission will belong to.</td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name is the name of the permission.</td>
+</tr>
+<tr>
+<td>description</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Description is the description of the permission.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-CreateRoleRequest"></a></p>
+<h3 id="createrolerequest">CreateRoleRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the role belongs to.</td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name is the name of the role.</td>
+</tr>
+<tr>
+<td>description</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Description is the description of the role.</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>Permissions is a list of permission IDs that the role has.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-DeletePermissionRequest"></a></p>
+<h3 id="deletepermissionrequest">DeletePermissionRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the permission belongs to.</td>
+</tr>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ID is the unique identifier of the permission.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-DeleteRoleRequest"></a></p>
+<h3 id="deleterolerequest">DeleteRoleRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the role belongs to.</td>
+</tr>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ID is the unique identifier of the role.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-GetAllAssignmentsForPrincipalRequest"></a></p>
+<h3 id="getallassignmentsforprincipalrequest">GetAllAssignmentsForPrincipalRequest</h3>
+<p>GetAllAssignmentsForPrincipalRequest is the request to get all assignments for a principal.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that principal belongs to.</td>
+</tr>
+<tr>
+<td>principal_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>PrincipalID is the unique identifier of the principal.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-GetAllAssignmentsForPrincipalResponse"></a></p>
+<h3 id="getallassignmentsforprincipalresponse">GetAllAssignmentsForPrincipalResponse</h3>
+<p>GetAllAssignmentsForPrincipalResponse is the response to the GetAllAssignmentsForPrincipal request.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>assignments</td>
+<td><a href="#permissions_service-v1-Assignment">Assignment</a></td>
+<td>repeated</td>
+<td>Assignments is a list of assignments for the principal.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-GetPermissionRequest"></a></p>
+<h3 id="getpermissionrequest">GetPermissionRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the permission belongs to.</td>
+</tr>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ID is the unique identifier of the permission.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-GetRoleRequest"></a></p>
+<h3 id="getrolerequest">GetRoleRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the role belongs to.</td>
+</tr>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ID is the unique identifier of the role.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-GetUserPermissionsAndRolesOnResourceRequest"></a></p>
+<h3 id="getuserpermissionsandrolesonresourcerequest">GetUserPermissionsAndRolesOnResourceRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the grant will belong to.</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>UserID is the unique identifier of the user.</td>
+</tr>
+<tr>
+<td>resource_uri</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ResourceURI is the URI of the resource to which the user is being assigned permissions.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-GetUserPermissionsAndRolesOnResourceResponse"></a></p>
+<h3 id="getuserpermissionsandrolesonresourceresponse">GetUserPermissionsAndRolesOnResourceResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>user_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>UserID is the unique identifier of the user.</td>
+</tr>
+<tr>
+<td>resource_uri</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ResourceURI is the URI of the resource to which the user is being assigned permissions.</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>Permissions is a list of permission IDs that should be assigned to the user.</td>
+</tr>
+<tr>
+<td>roles</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>Roles is a list of role IDs that should be assigned to the user.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-GrantUserPermissionsAndRolesOnResourceRequest"></a></p>
+<h3 id="grantuserpermissionsandrolesonresourcerequest">GrantUserPermissionsAndRolesOnResourceRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the grant will belong to.</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>UserID is the unique identifier of the user.</td>
+</tr>
+<tr>
+<td>resource_uri</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ResourceURI is the URI of the resource to which the user is being assigned permissions.</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>Permissions is a list of permission IDs that should be assigned to the user.</td>
+</tr>
+<tr>
+<td>roles</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>Roles is a list of role IDs that should be assigned to the user.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-InheritedPermission"></a></p>
+<h3 id="inheritedpermission">InheritedPermission</h3>
+<p>an InheritedPermission is a permission that a principal has inherited from a role.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>permission</td>
+<td><a href="#permissions_service-v1-Permission">Permission</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inherited_from</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-InheritedRole"></a></p>
+<h3 id="inheritedrole">InheritedRole</h3>
+<p>an InheritedRole is a role that a principal has inherited.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>role</td>
+<td><a href="#permissions_service-v1-Role">Role</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>inherited_from</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-ListPermissionsRequest"></a></p>
+<h3 id="listpermissionsrequest">ListPermissionsRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the permissions belong to.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-ListPermissionsResponse"></a></p>
+<h3 id="listpermissionsresponse">ListPermissionsResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>permissions</td>
+<td><a href="#permissions_service-v1-Permission">Permission</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-ListPrincipalsRequest"></a></p>
+<h3 id="listprincipalsrequest">ListPrincipalsRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the principals belong to.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-ListPrincipalsResponse"></a></p>
+<h3 id="listprincipalsresponse">ListPrincipalsResponse</h3>
+<p>ListPrincipalsResponse is the response to the ListPrincipals request.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>principals</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-ListRolesRequest"></a></p>
+<h3 id="listrolesrequest">ListRolesRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the roles belong to.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-ListRolesResponse"></a></p>
+<h3 id="listrolesresponse">ListRolesResponse</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>roles</td>
+<td><a href="#permissions_service-v1-Role">Role</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-MissingPermissions"></a></p>
+<h3 id="missingpermissions">MissingPermissions</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>resource_uri</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>missing_permissions</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-Permission"></a></p>
+<h3 id="permission">Permission</h3>
+<p>a Permission identifies an action that can be performed on a resource.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ID is the unique identifier of the permission.</td>
+</tr>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>OrganisationID is the unique identifier of the organisation that owns the permission.</td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name is the name of the permission.</td>
+</tr>
+<tr>
+<td>description</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Description is the description of the permission.</td>
+</tr>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the permission belongs to.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-PrincipalCountUpdatedEvent"></a></p>
+<h3 id="principalcountupdatedevent">PrincipalCountUpdatedEvent</h3>
+<p>PrincipalCountUpdatedEvent is an event that is published when the number of unique principals in an organisation is updated.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>OrganisationID is the unique identifier of the organisation that the principal count was updated for.</td>
+</tr>
+<tr>
+<td>unique_principal_count</td>
+<td><a href="#int64">int64</a></td>
+<td></td>
+<td>UniquePrincipalCount is the new number of unique principals in the organisation.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-RevokeUserPermissionsAndRolesOnResourceRequest"></a></p>
+<h3 id="revokeuserpermissionsandrolesonresourcerequest">RevokeUserPermissionsAndRolesOnResourceRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that grant belongs to.</td>
+</tr>
+<tr>
+<td>user_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>UserID is the unique identifier of the user.</td>
+</tr>
+<tr>
+<td>resource_uri</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ResourceURI is the URI of the resource from which the user&#39;s permissions should be revoked.</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>Permissions is a list of permission IDs that should be revoked from the user.</td>
+</tr>
+<tr>
+<td>roles</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>Roles is a list of role IDs that should be revoked from the user.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-Role"></a></p>
+<h3 id="role">Role</h3>
+<p>a Role is a collection of permissions.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ID is the unique identifier of the role.</td>
+</tr>
+<tr>
+<td>organisation_id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>OrganisationID is the unique identifier of the organisation that owns the role.</td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name is the name of the role.</td>
+</tr>
+<tr>
+<td>description</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Description is the description of the role.</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td><a href="#permissions_service-v1-Permission">Permission</a></td>
+<td>repeated</td>
+<td>Permissions is a list of permissions that the role contains.</td>
+</tr>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the role belongs to.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-UpdatePermissionRequest"></a></p>
+<h3 id="updatepermissionrequest">UpdatePermissionRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the permission belongs to.</td>
+</tr>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ID is the unique identifier of the permission.</td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name is the name of the permission.</td>
+</tr>
+<tr>
+<td>description</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Description is the description of the permission.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-UpdateRoleRequest"></a></p>
+<h3 id="updaterolerequest">UpdateRoleRequest</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Label</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>project_name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>project_name is the name of the project that the role belongs to.</td>
+</tr>
+<tr>
+<td>id</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>ID is the unique identifier of the role.</td>
+</tr>
+<tr>
+<td>name</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Name is the name of the role.</td>
+</tr>
+<tr>
+<td>description</td>
+<td><a href="#string">string</a></td>
+<td></td>
+<td>Description is the description of the role.</td>
+</tr>
+<tr>
+<td>permissions</td>
+<td><a href="#string">string</a></td>
+<td>repeated</td>
+<td>Permissions is a list of permission IDs that the role has.</td>
+</tr>
+</tbody>
+</table>
+<p><a name="permissions_service-v1-PermissionsService"></a></p>
+<h3 id="permissionsservice">PermissionsService</h3>
+<table>
+<thead>
+<tr>
+<th>Method Name</th>
+<th>Request Type</th>
+<th>Response Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CreatePermission</td>
+<td><a href="#permissions_service-v1-CreatePermissionRequest">CreatePermissionRequest</a></td>
+<td><a href="#permissions_service-v1-Permission">Permission</a></td>
+<td>CreatePermission creates a new permission. It is idempotent and will update the permission if it already exists. Required Permissions: - permission.create on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>GetPermission</td>
+<td><a href="#permissions_service-v1-GetPermissionRequest">GetPermissionRequest</a></td>
+<td><a href="#permissions_service-v1-Permission">Permission</a></td>
+<td>GetPermission returns a permission by ID. Required Permissions: - permission.get on /organisation/{organisation_id}/permission/{id}</td>
+</tr>
+<tr>
+<td>UpdatePermission</td>
+<td><a href="#permissions_service-v1-UpdatePermissionRequest">UpdatePermissionRequest</a></td>
+<td><a href="#permissions_service-v1-Permission">Permission</a></td>
+<td>UpdatePermission updates a permission. It will return not found if the permission does not exist. Required Permissions: - permission.update on /organisation/{organisation_id}/permission/{id}</td>
+</tr>
+<tr>
+<td>DeletePermission</td>
+<td><a href="#permissions_service-v1-DeletePermissionRequest">DeletePermissionRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td>DeletePermission deletes a permission. It is idempotent and will return ok whether the permission existed or not. Required Permissions: - permission.delete on /organisation/{organisation_id}/permission/{id}</td>
+</tr>
+<tr>
+<td>ListPermissions</td>
+<td><a href="#permissions_service-v1-ListPermissionsRequest">ListPermissionsRequest</a></td>
+<td><a href="#permissions_service-v1-ListPermissionsResponse">ListPermissionsResponse</a></td>
+<td>ListPermissions returns a list of permissions. Required Permissions: - permission.list on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>CreateRole</td>
+<td><a href="#permissions_service-v1-CreateRoleRequest">CreateRoleRequest</a></td>
+<td><a href="#permissions_service-v1-Role">Role</a></td>
+<td>CreateRole creates a new role. It is idempotent and will update the role if it already exists. Required Permissions: - role.create on /organisation/{organisation_id} - permission.get on /organisation/{organisation_id}/permission/{permission_id} for each permission in the role</td>
+</tr>
+<tr>
+<td>GetRole</td>
+<td><a href="#permissions_service-v1-GetRoleRequest">GetRoleRequest</a></td>
+<td><a href="#permissions_service-v1-Role">Role</a></td>
+<td>GetRole returns a role by ID. Required Permissions: - role.get on /organisation/{organisation_id}/role/{id}</td>
+</tr>
+<tr>
+<td>UpdateRole</td>
+<td><a href="#permissions_service-v1-UpdateRoleRequest">UpdateRoleRequest</a></td>
+<td><a href="#permissions_service-v1-Role">Role</a></td>
+<td>UpdateRole updates a role. It will return not found if the role does not exist. Required Permissions: - role.update on /organisation/{organisation_id}/role/{id}</td>
+</tr>
+<tr>
+<td>DeleteRole</td>
+<td><a href="#permissions_service-v1-DeleteRoleRequest">DeleteRoleRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td>DeleteRole deletes a role. It is idempotent and will return ok whether the role existed or not. Required Permissions: - role.delete on /organisation/{organisation_id}/role/{id}</td>
+</tr>
+<tr>
+<td>ListRoles</td>
+<td><a href="#permissions_service-v1-ListRolesRequest">ListRolesRequest</a></td>
+<td><a href="#permissions_service-v1-ListRolesResponse">ListRolesResponse</a></td>
+<td>ListRoles returns a list of roles. Required Permissions: - role.list on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>GrantUserPermissionsAndRolesOnResource</td>
+<td><a href="#permissions_service-v1-GrantUserPermissionsAndRolesOnResourceRequest">GrantUserPermissionsAndRolesOnResourceRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td>GrantUserPermissionsAndRolesOnResource assigns permissions and roles to a user on a resource. It is additive and will not remove existing permissions or roles. Required Permissions: - permission.get on /organisation/{organisation_id}/permission/{permission_id} for each permission - role.get on /organisation/{organisation_id}/role/{role_id} for each role - principal.assignment.create on /organisation/{organisation_id}/principal/{user_id}</td>
+</tr>
+<tr>
+<td>RevokeUserPermissionsAndRolesOnResource</td>
+<td><a href="#permissions_service-v1-RevokeUserPermissionsAndRolesOnResourceRequest">RevokeUserPermissionsAndRolesOnResourceRequest</a></td>
+<td><a href="#google-protobuf-Empty">.google.protobuf.Empty</a></td>
+<td>RevokeUserPermissionsAndRolesOnResource revokes permissions and roles from a user on a resource. Required Permissions: - principal.assignment.delete on RevokeUserPermissionsAndRolesOnResourceRequest.resource_uri</td>
+</tr>
+<tr>
+<td>GetUserPermissionsAndRolesOnResource</td>
+<td><a href="#permissions_service-v1-GetUserPermissionsAndRolesOnResourceRequest">GetUserPermissionsAndRolesOnResourceRequest</a></td>
+<td><a href="#permissions_service-v1-GetUserPermissionsAndRolesOnResourceResponse">GetUserPermissionsAndRolesOnResourceResponse</a></td>
+<td>GetUserPermissionsAndRolesOnResource returns the permissions and roles assigned to a user on a resource. Required Permissions: - principal.assignment.get on GetUserPermissionsAndRolesOnResourceRequest.resource_uri</td>
+</tr>
+<tr>
+<td>ListPrincipals</td>
+<td><a href="#permissions_service-v1-ListPrincipalsRequest">ListPrincipalsRequest</a></td>
+<td><a href="#permissions_service-v1-ListPrincipalsResponse">ListPrincipalsResponse</a></td>
+<td>ListPrincipals returns a list of principals. Required Permissions: - principal.list on /organisation/{organisation_id}</td>
+</tr>
+<tr>
+<td>GetAllAssignmentsForPrincipal</td>
+<td><a href="#permissions_service-v1-GetAllAssignmentsForPrincipalRequest">GetAllAssignmentsForPrincipalRequest</a></td>
+<td><a href="#permissions_service-v1-GetAllAssignmentsForPrincipalResponse">GetAllAssignmentsForPrincipalResponse</a></td>
+<td>GetAllAssignmentsForPrincipal returns all assignments for a principal within an organisation. Required Permissions: - principal.assignment.list on /organisation/{organisation_id}/principal/{principal_id}</td>
+</tr>
+<tr>
+<td>Check</td>
+<td><a href="#permissions_service-v1-CheckPermissionRequest">CheckPermissionRequest</a></td>
+<td><a href="#permissions_service-v1-CheckPermissionResponse">CheckPermissionResponse</a></td>
+<td>Check checks if a principal has the specified permissions on the specified resources</td>
+</tr>
+</tbody>
+</table>
+<h2 id="scalar-value-types">Scalar Value Types</h2>
+<table>
+<thead>
+<tr>
+<th>.proto Type</th>
+<th>Notes</th>
+<th>C++</th>
+<th>Java</th>
+<th>Python</th>
+<th>Go</th>
+<th>C#</th>
+<th>PHP</th>
+<th>Ruby</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a name="double" /> double</td>
+<td></td>
+<td>double</td>
+<td>double</td>
+<td>float</td>
+<td>float64</td>
+<td>double</td>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td><a name="float" /> float</td>
+<td></td>
+<td>float</td>
+<td>float</td>
+<td>float</td>
+<td>float32</td>
+<td>float</td>
+<td>float</td>
+<td>Float</td>
+</tr>
+<tr>
+<td><a name="int32" /> int32</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint32 instead.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="int64" /> int64</td>
+<td>Uses variable-length encoding. Inefficient for encoding negative numbers – if your field is likely to have negative values, use sint64 instead.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="uint32" /> uint32</td>
+<td>Uses variable-length encoding.</td>
+<td>uint32</td>
+<td>int</td>
+<td>int/long</td>
+<td>uint32</td>
+<td>uint</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="uint64" /> uint64</td>
+<td>Uses variable-length encoding.</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>ulong</td>
+<td>integer/string</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sint32" /> sint32</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int32s.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sint64" /> sint64</td>
+<td>Uses variable-length encoding. Signed int value. These more efficiently encode negative numbers than regular int64s.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="fixed32" /> fixed32</td>
+<td>Always four bytes. More efficient than uint32 if values are often greater than 2^28.</td>
+<td>uint32</td>
+<td>int</td>
+<td>int</td>
+<td>uint32</td>
+<td>uint</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="fixed64" /> fixed64</td>
+<td>Always eight bytes. More efficient than uint64 if values are often greater than 2^56.</td>
+<td>uint64</td>
+<td>long</td>
+<td>int/long</td>
+<td>uint64</td>
+<td>ulong</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="sfixed32" /> sfixed32</td>
+<td>Always four bytes.</td>
+<td>int32</td>
+<td>int</td>
+<td>int</td>
+<td>int32</td>
+<td>int</td>
+<td>integer</td>
+<td>Bignum or Fixnum (as required)</td>
+</tr>
+<tr>
+<td><a name="sfixed64" /> sfixed64</td>
+<td>Always eight bytes.</td>
+<td>int64</td>
+<td>long</td>
+<td>int/long</td>
+<td>int64</td>
+<td>long</td>
+<td>integer/string</td>
+<td>Bignum</td>
+</tr>
+<tr>
+<td><a name="bool" /> bool</td>
+<td></td>
+<td>bool</td>
+<td>boolean</td>
+<td>boolean</td>
+<td>bool</td>
+<td>bool</td>
+<td>boolean</td>
+<td>TrueClass/FalseClass</td>
+</tr>
+<tr>
+<td><a name="string" /> string</td>
+<td>A string must always contain UTF-8 encoded or 7-bit ASCII text.</td>
+<td>string</td>
+<td>String</td>
+<td>str/unicode</td>
+<td>string</td>
+<td>string</td>
+<td>string</td>
+<td>String (UTF-8)</td>
+</tr>
+<tr>
+<td><a name="bytes" /> bytes</td>
+<td>May contain any arbitrary sequence of bytes.</td>
+<td>string</td>
+<td>ByteString</td>
+<td>str</td>
+<td>[]byte</td>
+<td>ByteString</td>
+<td>string</td>
+<td>String (ASCII-8BIT)</td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "content.code.annotate", {"content.code.highlight": false}], "search": "../../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>
