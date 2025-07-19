@@ -20,7 +20,7 @@ Define roles and permissions at higher levels (e.g., /user) and let them *automa
 - **REST API** for web applications
 - **gRPC API** for high-performance backend services
 - **Authentication-agnostic** - works with any auth provider
-- **Language SDKs** for Go, Rust, Python, Java, TypeScript
+- **gRPC clients** for Go, Rust, Python, Java, TypeScript
 
 ### 🎯 Easy Integration
 - **Express.js, Django, Go** middleware examples
