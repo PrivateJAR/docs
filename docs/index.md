@@ -2,7 +2,7 @@
     <img src="./assets/transparentLogoSquare.png" alt="My Image" width="400" height="400">
 </div>
 
-Permio is a **Resource-Specific Role-Based Access Control (RBAC)** system designed for modern applications that require **fine-grained, high-performance, and scalable permission management**. With an **API-First approach**, **authentication-agnostic design**, and a built-in **UI Dashboard**, Permio empowers developers and admins to define and enforce permissions at the most granular level.
+Permio is a **Resource-Specific Role-Based Access Control (RBAC)** system designed for modern applications that require **fine-grained and scalable permission management**. With an **API-First approach**, **authentication-agnostic design**, and a built-in **UI Dashboard**, Permio empowers developers and admins to define and enforce permissions at the most granular level.
 
 Manage your organization visually via the dashboard at [app.perms.io](https://app.perms.io) or programmatically via the API.
 
@@ -16,16 +16,53 @@ Permio enables access control at the *individual object level*. You can define a
 ### 🏗️ Hierarchical Inheritance
 Define roles and permissions at higher levels (e.g., /user) and let them *automatically propagate* to nested resources (e.g., /user/1234, /user/1234/documents/5678).
 
-## Commands
+### 🔌 API-First Design
+- **REST API** for web applications
+- **gRPC API** for backend services
+- **Authentication-agnostic** - works with any auth provider
+- **gRPC clients** for Go, Rust, Python, Java, TypeScript
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+---
 
-## Project layout
+## 🚀 Quick Start
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+Ready to get started? Follow our comprehensive guide:
+
+**[📖 Quick Start Guide →](./quickstart.md)**
+
+Learn the fundamentals of access control:
+
+**[🔐 IAM Fundamentals →](./iam-basics.md)**
+
+Understand how Permio works:
+
+**[⚙️ How It Works →](./how-it-works.md)**
+
+---
+
+## 📚 Documentation
+
+### Core Concepts
+- **[How It Works](./how-it-works.md)** - Understanding resource-specific RBAC
+- **[IAM Fundamentals](./iam-basics.md)** - Identity and access management fundamentals
+
+### API Reference
+- **[Organizations & Projects](./api-reference/organizations.md)** - Manage your organization structure
+- **[Permissions](./api-reference/permissions.md)** - Create and manage permissions
+- **[Pagination](./api-reference/pagination.md)** - Handle large result sets efficiently
+
+### Integration Examples
+- **Multi-tenant Applications** - Isolate tenant data securely
+- **Document Management Systems** - File-level access control
+- **Project-based Access** - Team and environment permissions
+
+---
+
+## 💬 Support
+
+Need help getting started or have questions?
+
+- **📧 Email**: [support@perms.io](mailto:support@perms.io)
+- **💬 Discord**: [Join our community](https://discord.gg/permio)
+- **📖 Documentation**: Browse these docs for detailed guides
+- **🐛 Issues**: [Report bugs or request features](https://github.com/permio/permio/issues)
