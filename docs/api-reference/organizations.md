@@ -1,10 +1,10 @@
 # Organizations & Projects
 
-Manage your organizations, projects, users, and API keys through perms.io's comprehensive management APIs.
+Learn about the organizational structure in perms.io and how to work with your existing setup.
 
 ## Overview
 
-Your perms.io setup is built around **organizations** as the top-level container for all resources. Within an organization, you can create **projects** to logically separate different applications or environments, manage **users** and their access, and create **API keys** for programmatic access.
+Your perms.io setup is built around **organizations** as the top-level container for all resources. Within an organization, you can have **projects** to logically separate different applications or environments.
 
 ### Key Concepts
 
@@ -27,147 +27,7 @@ https://api.perms.io/organisation-service/v1
 
 ## Organization Management
 
-### Create Organization
-
-Creates a new organization with the specified user as the initial admin.
-
-=== "cURL"
-    ```bash
-    curl -X POST "https://api.perms.io/organisation-service/v1/organisation" \
-      -H "Authorization: Bearer YOUR_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "name": "My Company",
-        "user_id": "usr_123"
-      }'
-    ```
-
-=== "Go"
-    ```go
-    package main
-
-    import (
-        "context"
-        "log"
-        
-        "google.golang.org/grpc"
-        organisationv1 "github.com/PrivateJAR/permio-go/proto/organisation/v1"
-    )
-
-    func createOrganisation(client organisationv1.OrganisationServiceClient) {
-        req := &organisationv1.CreateOrganisationRequest{
-            Name:   "My Company",
-            UserId: "usr_123",
-        }
-        
-        resp, err := client.CreateOrganisation(context.Background(), req)
-        if err != nil {
-            log.Fatalf("Failed to create organisation: %v", err)
-        }
-        
-        log.Printf("Created organisation: %s", resp.Organisation.Id)
-    }
-    ```
-
-=== "Rust"
-    ```rust
-    use tonic::transport::Channel;
-    use permio_proto::organisation::v1::{
-        organisation_service_client::OrganisationServiceClient,
-        CreateOrganisationRequest,
-    };
-
-    async fn create_organisation(client: &mut OrganisationServiceClient<Channel>) -> Result<(), Box<dyn std::error::Error>> {
-        let request = tonic::Request::new(CreateOrganisationRequest {
-            name: "My Company".to_string(),
-            user_id: "usr_123".to_string(),
-        });
-        
-        let response = client.create_organisation(request).await?;
-        println!("Created organisation: {}", response.get_ref().organisation.as_ref().unwrap().id);
-        
-        Ok(())
-    }
-    ```
-
-=== "Python"
-    ```python
-    import grpc
-    from proto.organisation.v1 import organisation_service_pb2
-    from proto.organisation.v1 import organisation_service_pb2_grpc
-
-    def create_organisation():
-        channel = grpc.secure_channel('api.perms.io:443', grpc.ssl_channel_credentials())
-        client = organisation_service_pb2_grpc.OrganisationServiceStub(channel)
-        
-        request = organisation_service_pb2.CreateOrganisationRequest(
-            name="My Company",
-            user_id="usr_123"
-        )
-        
-        response = client.CreateOrganisation(request)
-        print(f"Created organisation: {response.organisation.id}")
-    ```
-
-=== "Java"
-    ```java
-    import io.grpc.ManagedChannel;
-    import io.grpc.ManagedChannelBuilder;
-    import permio.organisation.v1.OrganisationServiceGrpc;
-    import permio.organisation.v1.Organisation.CreateOrganisationRequest;
-    import permio.organisation.v1.Organisation.CreateOrganisationResponse;
-
-    public void createOrganisation() {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("api.perms.io", 443)
-                .useTransportSecurity()
-                .build();
-        
-        OrganisationServiceGrpc.OrganisationServiceBlockingStub client = 
-                OrganisationServiceGrpc.newBlockingStub(channel);
-        
-        CreateOrganisationRequest request = CreateOrganisationRequest.newBuilder()
-                .setName("My Company")
-                .setUserId("usr_123")
-                .build();
-        
-        CreateOrganisationResponse response = client.createOrganisation(request);
-        System.out.println("Created organisation: " + response.getOrganisation().getId());
-        
-        channel.shutdown();
-    }
-    ```
-
-=== "TypeScript"
-    ```typescript
-    import * as grpc from '@grpc/grpc-js';
-    import * as protoLoader from '@grpc/proto-loader';
-
-    const packageDefinition = protoLoader.loadSync('organisation_service.proto');
-    const organisationService = grpc.loadPackageDefinition(packageDefinition).organisation_service.v1 as any;
-
-    const client = new organisationService.OrganisationService('api.perms.io:443', 
-        grpc.credentials.createSsl());
-
-    interface CreateOrganisationRequest {
-        name: string;
-        user_id: string;
-    }
-
-    function createOrganisation(): void {
-        const request: CreateOrganisationRequest = {
-            name: 'My Company',
-            user_id: 'usr_123'
-        };
-        
-        client.CreateOrganisation(request, (error: grpc.ServiceError | null, response: any) => {
-            if (error) {
-                console.error('Error:', error);
-                return;
-            }
-            console.log('Created organisation:', response.organisation.id);
-        });
-    }
-    ```
+Organizations are created and managed through the [dashboard](https://app.perms.io). Once created, you can work with your organization's data through the API.
 
 ### Get Organization
 
@@ -265,220 +125,9 @@ Retrieves details of a specific organisation.
     }
     ```
 
-### Update Organization
-
-Updates an organisation's details. Requires `organisation.update` permission.
-
-=== "cURL"
-    ```bash
-    curl -X PUT "https://api.perms.io/organisation-service/v1/organisation/{id}" \
-      -H "Authorization: Bearer YOUR_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "name": "Updated Company Name"
-      }'
-    ```
-
-=== "Go"
-    ```go
-    func updateOrganisation(client organisationv1.OrganisationServiceClient, orgId, newName string) {
-        req := &organisationv1.UpdateOrganisationRequest{
-            Id:   orgId,
-            Name: newName,
-        }
-        
-        resp, err := client.UpdateOrganisation(context.Background(), req)
-        if err != nil {
-            log.Fatalf("Failed to update organisation: %v", err)
-        }
-        
-        log.Printf("Updated organisation: %s", resp.Organisation.Name)
-    }
-    ```
-
-=== "Rust"
-    ```rust
-    async fn update_organisation(client: &mut OrganisationServiceClient<Channel>, org_id: &str, new_name: &str) -> Result<(), Box<dyn std::error::Error>> {
-        let request = tonic::Request::new(UpdateOrganisationRequest {
-            id: org_id.to_string(),
-            name: new_name.to_string(),
-        });
-        
-        let response = client.update_organisation(request).await?;
-        println!("Updated organisation: {}", response.get_ref().organisation.as_ref().unwrap().name);
-        
-        Ok(())
-    }
-    ```
-
-=== "Python"
-    ```python
-    def update_organisation(org_id: str, new_name: str):
-        channel = grpc.secure_channel('api.perms.io:443', grpc.ssl_channel_credentials())
-        client = organisation_service_pb2_grpc.OrganisationServiceStub(channel)
-        
-        request = organisation_service_pb2.UpdateOrganisationRequest(
-            id=org_id,
-            name=new_name
-        )
-        
-        response = client.UpdateOrganisation(request)
-        print(f"Updated organisation: {response.organisation.name}")
-    ```
-
-=== "Java"
-    ```java
-    public void updateOrganisation(String orgId, String newName) {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("api.perms.io", 443)
-                .useTransportSecurity()
-                .build();
-        
-        OrganisationServiceGrpc.OrganisationServiceBlockingStub client = 
-                OrganisationServiceGrpc.newBlockingStub(channel);
-        
-        UpdateOrganisationRequest request = UpdateOrganisationRequest.newBuilder()
-                .setId(orgId)
-                .setName(newName)
-                .build();
-        
-        UpdateOrganisationResponse response = client.updateOrganisation(request);
-        System.out.println("Updated organisation: " + response.getOrganisation().getName());
-        
-        channel.shutdown();
-    }
-    ```
-
-=== "TypeScript"
-    ```typescript
-    interface UpdateOrganisationRequest {
-        id: string;
-        name: string;
-    }
-
-    function updateOrganisation(orgId: string, newName: string): void {
-        const request: UpdateOrganisationRequest = {
-            id: orgId,
-            name: newName
-        };
-        
-        client.UpdateOrganisation(request, (error: grpc.ServiceError | null, response: any) => {
-            if (error) {
-                console.error('Error:', error);
-                return;
-            }
-            console.log(`Updated organisation: ${response.organisation.name}`);
-        });
-    }
-    ```
-
 ## Project Management
 
-### Create Project
-
-Creates a new project within an organisation. Requires `project.create` permission.
-
-=== "cURL"
-    ```bash
-    curl -X POST "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/project" \
-      -H "Authorization: Bearer YOUR_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "name": "production",
-        "organisation_id": "org_123"
-      }'
-    ```
-
-=== "Go"
-    ```go
-    func createProject(client organisationv1.OrganisationServiceClient, orgId, projectName string) {
-        req := &organisationv1.CreateProjectRequest{
-            OrganisationId: orgId,
-            Name:          projectName,
-        }
-        
-        resp, err := client.CreateProject(context.Background(), req)
-        if err != nil {
-            log.Fatalf("Failed to create project: %v", err)
-        }
-        
-        log.Printf("Created project: %s", resp.Project.Name)
-    }
-    ```
-
-=== "Rust"
-    ```rust
-    async fn create_project(client: &mut OrganisationServiceClient<Channel>, org_id: &str, project_name: &str) -> Result<(), Box<dyn std::error::Error>> {
-        let request = tonic::Request::new(CreateProjectRequest {
-            organisation_id: org_id.to_string(),
-            name: project_name.to_string(),
-        });
-        
-        let response = client.create_project(request).await?;
-        println!("Created project: {}", response.get_ref().project.as_ref().unwrap().name);
-        
-        Ok(())
-    }
-    ```
-
-=== "Python"
-    ```python
-    def create_project(org_id: str, project_name: str):
-        channel = grpc.secure_channel('api.perms.io:443', grpc.ssl_channel_credentials())
-        client = organisation_service_pb2_grpc.OrganisationServiceStub(channel)
-        
-        request = organisation_service_pb2.CreateProjectRequest(
-            organisation_id=org_id,
-            name=project_name
-        )
-        
-        response = client.CreateProject(request)
-        print(f"Created project: {response.project.name}")
-    ```
-
-=== "Java"
-    ```java
-    public void createProject(String orgId, String projectName) {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("api.perms.io", 443)
-                .useTransportSecurity()
-                .build();
-        
-        OrganisationServiceGrpc.OrganisationServiceBlockingStub client = 
-                OrganisationServiceGrpc.newBlockingStub(channel);
-        
-        CreateProjectRequest request = CreateProjectRequest.newBuilder()
-                .setOrganisationId(orgId)
-                .setName(projectName)
-                .build();
-        
-        CreateProjectResponse response = client.createProject(request);
-        System.out.println("Created project: " + response.getProject().getName());
-        
-        channel.shutdown();
-    }
-    ```
-
-=== "TypeScript"
-    ```typescript
-    interface CreateProjectRequest {
-        organisation_id: string;
-        name: string;
-    }
-
-    function createProject(orgId: string, projectName: string): void {
-        const request: CreateProjectRequest = {
-            organisation_id: orgId,
-            name: projectName
-        };
-        
-        client.CreateProject(request, (error: grpc.ServiceError | null, response: any) => {
-            if (error) {
-                console.error('Error:', error);
-                return;
-            }
-            console.log(`Created project: ${response.project.name}`);
-        });
-    }
-    ```
+Projects are created and managed through the [dashboard](https://app.perms.io). Use the API to work with your existing projects.
 
 ### Get Project
 
@@ -619,135 +268,9 @@ Lists all projects within an organisation. Requires `project.get` permission.
     }
     ```
 
-### Delete Project
-
-Deletes a project from an organisation. Requires `project.delete` permission.
-
-=== "cURL"
-    ```bash
-    curl -X DELETE "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/project?project_name={project_name}" \
-      -H "Authorization: Bearer YOUR_TOKEN"
-    ```
-
 ## API Key Management
 
-### Create API Key
-
-Creates a new API key for programmatic access to a specific project.
-
-=== "cURL"
-    ```bash
-    curl -X POST "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/api-key" \
-      -H "Authorization: Bearer YOUR_TOKEN" \
-      -H "Content-Type: application/json" \
-      -d '{
-        "project_name": "production",
-        "name": "CI/CD Pipeline Key"
-      }'
-    ```
-
-=== "Go"
-    ```go
-    func createAPIKey(client organisationv1.OrganisationServiceClient, orgId, projectName, keyName string) {
-        req := &organisationv1.CreateAPIKeyRequest{
-            OrganisationId: orgId,
-            ProjectName:    projectName,
-            Name:          keyName,
-        }
-        
-        resp, err := client.CreateAPIKey(context.Background(), req)
-        if err != nil {
-            log.Fatalf("Failed to create API key: %v", err)
-        }
-        
-        log.Printf("Created API key: %s", resp.ApiKey.Key)
-        // Store this key securely - it won't be shown again
-    }
-    ```
-
-=== "Rust"
-    ```rust
-    async fn create_api_key(client: &mut OrganisationServiceClient<Channel>, org_id: &str, project_name: &str, key_name: &str) -> Result<(), Box<dyn std::error::Error>> {
-        let request = tonic::Request::new(CreateApiKeyRequest {
-            organisation_id: org_id.to_string(),
-            project_name: project_name.to_string(),
-            name: key_name.to_string(),
-        });
-        
-        let response = client.create_api_key(request).await?;
-        println!("Created API key: {}", response.get_ref().api_key.as_ref().unwrap().key);
-        // Store this key securely - it won't be shown again
-        
-        Ok(())
-    }
-    ```
-
-=== "Python"
-    ```python
-    def create_api_key(org_id: str, project_name: str, key_name: str):
-        channel = grpc.secure_channel('api.perms.io:443', grpc.ssl_channel_credentials())
-        client = organisation_service_pb2_grpc.OrganisationServiceStub(channel)
-        
-        request = organisation_service_pb2.CreateAPIKeyRequest(
-            organisation_id=org_id,
-            project_name=project_name,
-            name=key_name
-        )
-        
-        response = client.CreateAPIKey(request)
-        print(f"Created API key: {response.api_key.key}")
-        # Store this key securely - it won't be shown again
-    ```
-
-=== "Java"
-    ```java
-    public void createAPIKey(String orgId, String projectName, String keyName) {
-        ManagedChannel channel = ManagedChannelBuilder.forAddress("api.perms.io", 443)
-                .useTransportSecurity()
-                .build();
-        
-        OrganisationServiceGrpc.OrganisationServiceBlockingStub client = 
-                OrganisationServiceGrpc.newBlockingStub(channel);
-        
-        CreateAPIKeyRequest request = CreateAPIKeyRequest.newBuilder()
-                .setOrganisationId(orgId)
-                .setProjectName(projectName)
-                .setName(keyName)
-                .build();
-        
-        CreateAPIKeyResponse response = client.createAPIKey(request);
-        System.out.println("Created API key: " + response.getApiKey().getKey());
-        // Store this key securely - it won't be shown again
-        
-        channel.shutdown();
-    }
-    ```
-
-=== "TypeScript"
-    ```typescript
-    interface CreateAPIKeyRequest {
-        organisation_id: string;
-        project_name: string;
-        name: string;
-    }
-
-    function createAPIKey(orgId: string, projectName: string, keyName: string): void {
-        const request: CreateAPIKeyRequest = {
-            organisation_id: orgId,
-            project_name: projectName,
-            name: keyName
-        };
-        
-        client.CreateAPIKey(request, (error: grpc.ServiceError | null, response: any) => {
-            if (error) {
-                console.error('Error:', error);
-                return;
-            }
-            console.log(`Created API key: ${response.api_key.key}`);
-            // Store this key securely - it won't be shown again
-        });
-    }
-    ```
+API keys are created and managed through the [dashboard](https://app.perms.io). Use the API to list your existing keys.
 
 ### List API Keys
 
@@ -756,16 +279,6 @@ Lists all API keys for a project. Requires `apiKeys.list` permission.
 === "cURL"
     ```bash
     curl -X GET "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/api-key?project_name={project_name}" \
-      -H "Authorization: Bearer YOUR_TOKEN"
-    ```
-
-### Invalidate API Key
-
-Invalidates an API key, making it unusable for future requests.
-
-=== "cURL"
-    ```bash
-    curl -X DELETE "https://api.perms.io/organisation-service/v1/organisation/{organisation_id}/api-key/{id}?project_name={project_name}" \
       -H "Authorization: Bearer YOUR_TOKEN"
     ```
 
@@ -1054,14 +567,14 @@ API requests are subject to rate limiting:
 - **API keys**: 10000 requests per hour
 - **Burst limit**: 100 requests per minute
 
-## Best Practices
+## Setup Instructions
 
-1. **Project Organization**: Use projects to separate environments (production, staging, development)
-2. **API Key Management**: 
-   - Create separate API keys for different applications
-   - Rotate keys regularly
-   - Use descriptive names for easy identification
-3. **User Management**: 
-   - Invite users via email rather than adding them directly
-   - Regularly audit user access
-4. **Error Handling**: Always check for permission errors and handle them gracefully
+To set up your organization structure:
+
+1. **Create Organization**: Use the [dashboard](https://app.perms.io) to create your organization
+2. **Add Projects**: Create projects for different environments or applications
+3. **Generate API Keys**: Create API keys for programmatic access to specific projects
+4. **Invite Users**: Add team members to your organization
+5. **Configure Permissions**: Use the permissions API to set up your access control
+
+For detailed setup instructions, see the [Quick Start Guide](../quickstart.md).

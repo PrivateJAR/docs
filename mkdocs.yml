@@ -14,8 +14,7 @@ theme:
 nav:
   - Home: index.md
   - Quick Start: quickstart.md
-  - Getting Started: getting-started.md
-  - IAM Basics: iam-basics.md
+  - IAM Fundamentals: iam-basics.md
   - How It Works: how-it-works.md
   - API Reference:
     - Organizations & Projects: api-reference/organizations.md
