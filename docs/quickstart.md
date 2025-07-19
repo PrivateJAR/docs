@@ -25,9 +25,6 @@ Before using the API, complete the initial setup through the web dashboard:
 2. **Create a Project**: Create a project within your organization (e.g., "production")
 3. **Generate API Key**: Create an API key for your project to use in the examples below
 
-!!! tip "Save Your API Key"
-    Store your API key securely - it will only be shown once during creation.
-
 ## Step 2: Create Permissions
 
 Define the actions that can be performed in your application.
@@ -545,6 +542,6 @@ Now that you have a working RBAC system, you can:
 
 - Check the [API Reference](./api-reference/organizations.md) for detailed endpoint documentation
 - Visit [app.perms.io](https://app.perms.io) for the web dashboard
-- Review the [IAM Basics](./iam-basics.md) guide for RBAC concepts
+- Review the [IAM Fundamentals](./iam-basics.md) guide for RBAC concepts
 
 You're now ready to implement fine-grained access control in your applications with perms.io!

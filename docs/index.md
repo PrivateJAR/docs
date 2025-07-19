@@ -32,7 +32,7 @@ Ready to get started? Follow our comprehensive guide:
 
 Learn the fundamentals of access control:
 
-**[🔐 IAM Basics →](./iam-basics.md)**
+**[🔐 IAM Fundamentals →](./iam-basics.md)**
 
 Understand how Permio works:
 
@@ -44,7 +44,7 @@ Understand how Permio works:
 
 ### Core Concepts
 - **[How It Works](./how-it-works.md)** - Understanding resource-specific RBAC
-- **[IAM Basics](./iam-basics.md)** - Identity and access management fundamentals
+- **[IAM Fundamentals](./iam-basics.md)** - Identity and access management fundamentals
 
 ### API Reference
 - **[Organizations & Projects](./api-reference/organizations.md)** - Manage your organization structure

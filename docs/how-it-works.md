@@ -174,7 +174,7 @@ Permio focuses purely on **authorization** (what can you do?) and is completely 
 3. AuthProvider ────→ App: User identity
 4. App ─────────────→ Permio: Check permissions
 5. Permio ──────────→ App: Permission result
-6. App ─────────────→ Client: Allow/deny response
+6. App ─────────────→ Client: Allow/block response
 ```
 
 1. **Client** sends request with authentication token

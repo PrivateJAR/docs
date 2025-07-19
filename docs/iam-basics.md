@@ -1,4 +1,4 @@
-# IAM Basics
+# IAM Fundamentals
 
 Identity and Access Management (IAM) is a fundamental security framework that controls **who** can access **what** resources in your application and **what actions** they can perform. Understanding IAM concepts is crucial for implementing secure, scalable access control systems.
 
@@ -257,18 +257,6 @@ Create roles specific to your application's needs:
 }
 ```
 
-#### Deny Policies
-```json
-{
-  "principal": "*",
-  "resource": "/organization/acme/billing/*",
-  "permissions": ["*"],
-  "effect": "deny",
-  "conditions": {
-    "user_role": "contractor"
-  }
-}
-```
 
 ## IAM Models
 
@@ -369,9 +357,8 @@ Resources often exist in hierarchical relationships where permissions granted at
 ### Inheritance Rules
 
 1. **Explicit permissions** override inherited permissions
-2. **Deny permissions** override allow permissions
-3. **More specific** permissions override general permissions
-4. **Closest parent** permissions take precedence
+2. **More specific** permissions override general permissions
+3. **Closest parent** permissions take precedence
 
 ### Inheritance Example
 
@@ -388,18 +375,12 @@ Given these permission assignments:
     "resource": "/organization/acme/project/web",
     "permissions": ["write"]
   },
-  {
-    "principal": "alice",
-    "resource": "/organization/acme/project/web/environment/production", 
-    "permissions": ["deny:write"]
-  }
 ]
 ```
 
 Alice's effective permissions:
 - `/organization/acme/*`: **read** (inherited)
 - `/organization/acme/project/web/*`: **read + write** (inherited + explicit)
-- `/organization/acme/project/web/environment/production`: **read only** (deny overrides write)
 
 ## Best Practices
 
@@ -508,138 +489,6 @@ Prevent conflicts of interest by separating incompatible functions:
   "release_manager": ["deploy.production", "rollback.production"]
 }
 ```
-
-## Common IAM Challenges
-
-### 1. Permission Sprawl
-
-**Problem**: Too many fine-grained permissions become unmanageable
-
-**Solution**: 
-- Group related permissions into logical roles
-- Use permission hierarchies (e.g., `document.*` includes `document.read`, `document.write`)
-- Regular permission audits and cleanup
-
-### 2. Role Explosion
-
-**Problem**: Creating too many specific roles
-
-**Solution**:
-- Use composable permissions instead of many roles
-- Implement role hierarchies (e.g., Senior Engineer inherits Engineer permissions)
-- Focus on job functions, not individuals
-
-### 3. Orphaned Permissions
-
-**Problem**: Permissions granted to users who no longer need them
-
-**Solution**:
-- Automated access reviews
-- Time-limited permissions for temporary access
-- Integration with HR systems for role changes
-
-### 4. Privilege Escalation
-
-**Problem**: Users gaining more permissions than intended
-
-**Solution**:
-- Explicit deny policies for sensitive resources
-- Regular audit of permission inheritance
-- Principle of least privilege enforcement
-
-### 5. Cross-System Consistency
-
-**Problem**: Inconsistent permissions across multiple systems
-
-**Solution**:
-- Centralized IAM system
-- Single source of truth for user roles
-- Automated permission synchronization
-
-## Implementation Patterns
-
-### 1. Multi-Tenant Applications
-
-Isolate tenants using hierarchical resource URIs:
-
-```bash
-/tenant/company-a/projects/web-app
-/tenant/company-a/users/alice
-/tenant/company-b/projects/mobile-app  
-/tenant/company-b/users/bob
-```
-
-### 2. Microservices Architecture
-
-Each service validates permissions independently:
-
-```go
-// In each microservice
-func authMiddleware(requiredPermission string) gin.HandlerFunc {
-    return func(c *gin.Context) {
-        userID := getUserFromToken(c.GetHeader("Authorization"))
-        resourceURI := getResourceURI(c.Request.URL.Path)
-        
-        if !checkPermission(userID, resourceURI, requiredPermission) {
-            c.JSON(403, gin.H{"error": "Access denied"})
-            c.Abort()
-            return
-        }
-        
-        c.Next()
-    }
-}
-```
-
-### 3. API Gateway Integration
-
-Centralize permission checking at the gateway level:
-
-```yaml
-# API Gateway configuration
-routes:
-  - path: /api/documents/*
-    backend: document-service
-    auth:
-      required_permission: document.read
-      resource_template: "/documents/{id}"
-      
-  - path: /api/admin/*
-    backend: admin-service  
-    auth:
-      required_role: admin
-      resource_template: "/admin/*"
-```
-
-## Getting Started with IAM
-
-### 1. Assessment Phase
-
-- **Identify resources**: List all systems, data, and services requiring protection
-- **Map user roles**: Document existing job functions and responsibilities  
-- **Define permissions**: Catalog all actions users perform on resources
-- **Assess current state**: Evaluate existing access controls and gaps
-
-### 2. Design Phase
-
-- **Design resource hierarchy**: Create logical URI structure
-- **Define permission model**: Choose between RBAC, ABAC, or hybrid approach
-- **Create role taxonomy**: Design roles that match your organization
-- **Plan inheritance strategy**: Determine how permissions will cascade
-
-### 3. Implementation Phase
-
-- **Choose IAM platform**: Select tool that meets your requirements (like Permio)
-- **Configure resources**: Set up resource hierarchy and permissions
-- **Create roles and policies**: Implement your permission model
-- **Integrate applications**: Add permission checks to your systems
-
-### 4. Operation Phase
-
-- **Monitor access patterns**: Track permission usage and violations
-- **Regular reviews**: Periodically audit roles and permissions
-- **Update as needed**: Adapt permissions as your organization evolves
-- **Train users**: Educate teams on IAM best practices
 
 ## Conclusion
 
