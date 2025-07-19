@@ -16,11 +16,6 @@ Permio enables access control at the *individual object level*. You can define a
 ### 🏗️ Hierarchical Inheritance
 Define roles and permissions at higher levels (e.g., /user) and let them *automatically propagate* to nested resources (e.g., /user/1234, /user/1234/documents/5678).
 
-### ⚡ High Performance
-- **Sub-millisecond latency** for permission checks
-- **Thousands of checks per second** with intelligent caching
-- **Global edge deployment** for worldwide performance
-
 ### 🔌 API-First Design
 - **REST API** for web applications
 - **gRPC API** for high-performance backend services
