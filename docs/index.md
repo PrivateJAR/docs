@@ -2,7 +2,7 @@
     <img src="./assets/transparentLogoSquare.png" alt="My Image" width="400" height="400">
 </div>
 
-Permio is a **Resource-Specific Role-Based Access Control (RBAC)** system designed for modern applications that require **fine-grained, high-performance, and scalable permission management**. With an **API-First approach**, **authentication-agnostic design**, and a built-in **UI Dashboard**, Permio empowers developers and admins to define and enforce permissions at the most granular level.
+Permio is a **Resource-Specific Role-Based Access Control (RBAC)** system designed for modern applications that require **fine-grained and scalable permission management**. With an **API-First approach**, **authentication-agnostic design**, and a built-in **UI Dashboard**, Permio empowers developers and admins to define and enforce permissions at the most granular level.
 
 Manage your organization visually via the dashboard at [app.perms.io](https://app.perms.io) or programmatically via the API.
 
@@ -18,15 +18,9 @@ Define roles and permissions at higher levels (e.g., /user) and let them *automa
 
 ### 🔌 API-First Design
 - **REST API** for web applications
-- **gRPC API** for high-performance backend services
+- **gRPC API** for backend services
 - **Authentication-agnostic** - works with any auth provider
 - **gRPC clients** for Go, Rust, Python, Java, TypeScript
-
-### 🎯 Easy Integration
-- **Express.js, Django, Go** middleware examples
-- **API Gateway** integration patterns
-- **Multi-tenant** application support
-- **Microservices** architecture ready
 
 ---
 

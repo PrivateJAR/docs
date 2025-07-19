@@ -96,13 +96,13 @@ One of Permio's most powerful features is **hierarchical inheritance**. Permissi
 
 ### How Inheritance Works
 
-```mermaid
-graph TD
-    A["/organization/123"] --> B["/organization/123/project/456"]
-    B --> C["/organization/123/project/456/document/789"]
-    B --> D["/organization/123/project/456/document/101"]
-    A --> E["/organization/123/project/789"]
-    E --> F["/organization/123/project/789/document/456"]
+```
+/organization/123
+├── /organization/123/project/456
+│   ├── /organization/123/project/456/document/789
+│   └── /organization/123/project/456/document/101
+└── /organization/123/project/789
+    └── /organization/123/project/789/document/456
 ```
 
 If a user has `document.read` permission on `/organization/123`, they automatically have read access to:
@@ -168,19 +168,13 @@ Permio focuses purely on **authorization** (what can you do?) and is completely 
 
 ### Integration Flow
 
-```mermaid
-sequenceDiagram
-    participant Client
-    participant App
-    participant AuthProvider
-    participant Permio
-    
-    Client->>App: Request with token
-    App->>AuthProvider: Validate token
-    AuthProvider->>App: User identity
-    App->>Permio: Check permissions
-    Permio->>App: Permission result
-    App->>Client: Allow/deny response
+```
+1. Client ──────────→ App: Request with token
+2. App ─────────────→ AuthProvider: Validate token  
+3. AuthProvider ────→ App: User identity
+4. App ─────────────→ Permio: Check permissions
+5. Permio ──────────→ App: Permission result
+6. App ─────────────→ Client: Allow/deny response
 ```
 
 1. **Client** sends request with authentication token
@@ -220,18 +214,6 @@ Web interface for visual management:
 - Manage organizations and projects
 
 ## Performance and Scalability
-
-### Optimized for Speed
-- **Sub-millisecond latency**: Cached permission checks
-- **High throughput**: Thousands of checks per second
-- **Efficient algorithms**: Optimized permission resolution
-- **Smart caching**: Automatic result caching
-
-### Scaling Strategies
-- **Batch operations**: Check multiple permissions at once
-- **Client-side caching**: Cache results in your application
-- **Regional deployment**: Global edge locations
-- **Horizontal scaling**: Auto-scaling infrastructure
 
 ### Performance Best Practices
 

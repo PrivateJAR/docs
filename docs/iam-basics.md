@@ -304,14 +304,10 @@ Access based on user roles within the organization:
 - **Standard approach**: Widely adopted in business applications
 
 #### RBAC Components
-```mermaid
-graph LR
-    U[Users] --> R[Roles]
-    R --> P[Permissions]
-    P --> O[Objects/Resources]
-    
-    U -.-> S[Sessions]
-    S -.-> R
+```
+Users ──→ Roles ──→ Permissions ──→ Objects/Resources
+  │                                          
+  └─────→ Sessions ──→ Roles
 ```
 
 **Users** → assigned to → **Roles** → granted → **Permissions** → on → **Resources**
