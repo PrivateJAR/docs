@@ -1,0 +1,1900 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://docs.perms.io/iam-basics/">
+      
+      
+        <link rel="prev" href="../quickstart/">
+      
+      
+        <link rel="next" href="../how-it-works/">
+      
+      
+      <link rel="icon" href="../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.15">
+    
+    
+      
+        <title>IAM Fundamentals - perms.io docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.342714a4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#iam-fundamentals" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="perms.io docs" class="md-header__button md-logo" aria-label="perms.io docs" data-md-component="logo">
+      
+  <img src="../assets/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            perms.io docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              IAM Fundamentals
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="perms.io docs" class="md-nav__button md-logo" aria-label="perms.io docs" data-md-component="logo">
+      
+  <img src="../assets/favicon.png" alt="logo">
+
+    </a>
+    perms.io docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Home
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    IAM Fundamentals
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    IAM Fundamentals
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is IAM?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is IAM?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authorization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-iam-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core IAM Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core IAM Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-identity-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Identity (Principal)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Identity (Principal)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Users
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Accounts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupsteams" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groups/Teams
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Physical Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digital-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Digital Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logical-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logical Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Identification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Permissions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#action-based-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Action-Based Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crud-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      CRUD Operations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#administrative-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Administrative Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain-specific-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain-Specific Permissions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Roles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#predefined-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predefined Roles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Roles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Policies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-policy-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Policy Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conditional Policies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iam-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      IAM Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IAM Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-discretionary-access-control-dac" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Discretionary Access Control (DAC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mandatory-access-control-mac" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Mandatory Access Control (MAC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-role-based-access-control-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Role-Based Access Control (RBAC)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Role-Based Access Control (RBAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rbac-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      RBAC Components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rbac-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      RBAC Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-attribute-based-access-control-abac" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Attribute-Based Access Control (ABAC)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Attribute-Based Access Control (ABAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#abac-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      ABAC Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permission-inheritance-and-hierarchies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Inheritance and Hierarchies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Permission Inheritance and Hierarchies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hierarchical-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchical Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritance-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritance-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-principle-of-least-privilege" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Principle of Least Privilege
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-role-based-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Role-Based Organization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-resource-hierarchy-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Resource Hierarchy Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-regular-access-reviews" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Regular Access Reviews
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-audit-and-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Audit and Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-separation-of-duties" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Separation of Duties
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../how-it-works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    How It Works
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    API Reference
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            API Reference
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/organizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Organizations & Projects
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Permissions & Roles
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference/pagination/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Pagination
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-iam" class="md-nav__link">
+    <span class="md-ellipsis">
+      What is IAM?
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="What is IAM?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#authentication" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authentication
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#authorization" class="md-nav__link">
+    <span class="md-ellipsis">
+      Authorization
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-iam-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      Core IAM Components
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core IAM Components">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-identity-principal" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Identity (Principal)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Identity (Principal)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#users" class="md-nav__link">
+    <span class="md-ellipsis">
+      Users
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-accounts" class="md-nav__link">
+    <span class="md-ellipsis">
+      Service Accounts
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#api-keys" class="md-nav__link">
+    <span class="md-ellipsis">
+      API Keys
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#groupsteams" class="md-nav__link">
+    <span class="md-ellipsis">
+      Groups/Teams
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Resources
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#physical-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Physical Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#digital-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Digital Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logical-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Logical Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-identification" class="md-nav__link">
+    <span class="md-ellipsis">
+      Resource Identification
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Permissions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#action-based-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Action-Based Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#crud-operations" class="md-nav__link">
+    <span class="md-ellipsis">
+      CRUD Operations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#administrative-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Administrative Permissions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain-specific-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Domain-Specific Permissions
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Roles
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#predefined-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Predefined Roles
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#custom-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      Custom Roles
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Policies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Policies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#basic-policy-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Basic Policy Structure
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#conditional-policies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conditional Policies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#iam-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      IAM Models
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="IAM Models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-discretionary-access-control-dac" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Discretionary Access Control (DAC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-mandatory-access-control-mac" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Mandatory Access Control (MAC)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-role-based-access-control-rbac" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Role-Based Access Control (RBAC)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Role-Based Access Control (RBAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rbac-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      RBAC Components
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rbac-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      RBAC Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-attribute-based-access-control-abac" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Attribute-Based Access Control (ABAC)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Attribute-Based Access Control (ABAC)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#abac-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      ABAC Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permission-inheritance-and-hierarchies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Permission Inheritance and Hierarchies
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Permission Inheritance and Hierarchies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#hierarchical-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hierarchical Resources
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritance-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance Rules
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#inheritance-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      Inheritance Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      Best Practices
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-principle-of-least-privilege" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. Principle of Least Privilege
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-role-based-organization" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. Role-Based Organization
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-resource-hierarchy-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. Resource Hierarchy Design
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-regular-access-reviews" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. Regular Access Reviews
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-audit-and-logging" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. Audit and Logging
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-separation-of-duties" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. Separation of Duties
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      Conclusion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="iam-fundamentals">IAM Fundamentals</h1>
+<p>Identity and Access Management (IAM) is a fundamental security framework that controls <strong>who</strong> can access <strong>what</strong> resources in your application and <strong>what actions</strong> they can perform. Understanding IAM concepts is crucial for implementing secure, scalable access control systems.</p>
+<h2 id="what-is-iam">What is IAM?</h2>
+<p>IAM encompasses two core security functions:</p>
+<h3 id="authentication">Authentication</h3>
+<p><strong>"Who are you?"</strong> - Verifying the identity of users, services, or systems
+- Login credentials (username/password)
+- Multi-factor authentication (MFA)
+- OAuth providers (Google, GitHub, etc.)
+- API keys and tokens
+- Biometric verification</p>
+<h3 id="authorization">Authorization</h3>
+<p><strong>"What can you do?"</strong> - Determining what authenticated entities are allowed to access
+- Permission checking
+- Access control policies
+- Resource-level restrictions
+- Role-based access control (RBAC)</p>
+<h2 id="core-iam-components">Core IAM Components</h2>
+<h3 id="1-identity-principal">1. Identity (Principal)</h3>
+<p>An <strong>identity</strong> (also called a <strong>principal</strong>) represents an entity that can be authenticated and granted permissions. Identities include:</p>
+<h4 id="users">Users</h4>
+<p>Real people with accounts in your system:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_12345&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;email&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alice@company.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Alice Johnson&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="service-accounts">Service Accounts</h4>
+<p>Applications or automated systems:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;service_backup_system&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Backup Service&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;service_account&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="api-keys">API Keys</h4>
+<p>Programmatic access tokens:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;api_key_67890&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Mobile App API Key&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;api_key&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="groupsteams">Groups/Teams</h4>
+<p>Collections of users:
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;group_engineering&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Engineering Team&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;members&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;user_12345&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;user_67890&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;group&quot;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="2-resources">2. Resources</h3>
+<p><strong>Resources</strong> are the objects, data, or services you want to protect. Everything that requires access control is a resource.</p>
+<h4 id="physical-resources">Physical Resources</h4>
+<ul>
+<li>Servers and infrastructure</li>
+<li>Database instances</li>
+<li>Storage systems</li>
+<li>Network devices</li>
+</ul>
+<h4 id="digital-resources">Digital Resources</h4>
+<ul>
+<li>Files and documents</li>
+<li>Database records</li>
+<li>API endpoints</li>
+<li>Applications and services</li>
+</ul>
+<h4 id="logical-resources">Logical Resources</h4>
+<ul>
+<li>Projects and workspaces</li>
+<li>Organizations and teams</li>
+<li>Workflows and processes</li>
+<li>Configurations and settings</li>
+</ul>
+<h4 id="resource-identification">Resource Identification</h4>
+<p>Resources are identified using <strong>Resource URIs</strong> - hierarchical identifiers that uniquely specify each resource:</p>
+<div class="highlight"><pre><span></span><code>/organization/acme
+├── /organization/acme/project/web-app
+│   ├── /organization/acme/project/web-app/environment/production
+│   ├── /organization/acme/project/web-app/environment/staging
+│   └── /organization/acme/project/web-app/database/users
+├── /organization/acme/project/mobile-app
+│   ├── /organization/acme/project/mobile-app/api/v1
+│   └── /organization/acme/project/mobile-app/api/v2
+└── /organization/acme/billing
+    ├── /organization/acme/billing/invoices
+    └── /organization/acme/billing/payments
+</code></pre></div>
+<h3 id="3-permissions">3. Permissions</h3>
+<p><strong>Permissions</strong> define specific actions that can be performed on resources. They represent the most granular level of access control.</p>
+<h4 id="action-based-permissions">Action-Based Permissions</h4>
+<div class="highlight"><pre><span></span><code>document.read      - View document content
+document.write     - Create or modify documents
+document.delete    - Remove documents
+document.share     - Share documents with others
+</code></pre></div>
+<h4 id="crud-operations">CRUD Operations</h4>
+<div class="highlight"><pre><span></span><code>create    - Add new resources
+read      - View existing resources
+update    - Modify existing resources
+delete    - Remove resources
+</code></pre></div>
+<h4 id="administrative-permissions">Administrative Permissions</h4>
+<div class="highlight"><pre><span></span><code>admin.users.create    - Create new user accounts
+admin.users.suspend   - Suspend user accounts
+admin.billing.view    - View billing information
+admin.logs.access     - Access system logs
+</code></pre></div>
+<h4 id="domain-specific-permissions">Domain-Specific Permissions</h4>
+<div class="highlight"><pre><span></span><code>deploy.staging      - Deploy to staging environment
+deploy.production   - Deploy to production environment
+database.backup     - Create database backups
+support.tickets     - Access support tickets
+</code></pre></div>
+<h3 id="4-roles">4. Roles</h3>
+<p><strong>Roles</strong> are collections of permissions that can be assigned as a group. They simplify access management by grouping related permissions together.</p>
+<h4 id="predefined-roles">Predefined Roles</h4>
+<p><strong>Viewer Role</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;viewer&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Read-only access to resources&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;list&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;view&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Editor Role</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;editor&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Can view and modify resources&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;write&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;update&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;create&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>Admin Role</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;admin&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Full control over resources&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;write&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;update&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;create&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;delete&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;manage&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;configure&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h4 id="custom-roles">Custom Roles</h4>
+<p>Create roles specific to your application's needs:</p>
+<p><strong>Content Manager</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;content_manager&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Manages content creation and publication&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;content.create&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;content.edit&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;content.publish&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;content.review&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;media.upload&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p><strong>DevOps Engineer</strong>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;devops_engineer&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Manages infrastructure and deployments&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;deploy.staging&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;deploy.production&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;infrastructure.configure&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;monitoring.access&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;logs.view&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="5-policies">5. Policies</h3>
+<p><strong>Policies</strong> define the rules that govern access control. They specify which principals can perform which actions on which resources under what conditions.</p>
+<h4 id="basic-policy-structure">Basic Policy Structure</h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;user_alice&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/project/web-app/database/users&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;read&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;write&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;allow&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h4 id="conditional-policies">Conditional Policies</h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;group_developers&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/project/*/environment/staging&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;deploy&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;effect&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;allow&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;time_of_day&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;09:00-17:00&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;source_ip&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;10.0.0.0/8&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="iam-models">IAM Models</h2>
+<h3 id="1-discretionary-access-control-dac">1. Discretionary Access Control (DAC)</h3>
+<p>Resource owners control access to their resources:</p>
+<ul>
+<li><strong>User-controlled</strong>: Individual users set permissions</li>
+<li><strong>Flexible</strong>: Easy to share and delegate access</li>
+<li><strong>Scalability issues</strong>: Difficult to manage at scale</li>
+<li><strong>Security risks</strong>: Users may grant excessive permissions</li>
+</ul>
+<p><strong>Example</strong>: File system permissions where file owners can set read/write permissions for other users.</p>
+<h3 id="2-mandatory-access-control-mac">2. Mandatory Access Control (MAC)</h3>
+<p>System-wide policies control access:</p>
+<ul>
+<li><strong>Centrally controlled</strong>: Administrators set all permissions</li>
+<li><strong>Security focused</strong>: Strong security guarantees</li>
+<li><strong>Inflexible</strong>: Difficult to adapt to changing needs</li>
+<li><strong>Complex</strong>: Requires detailed security classifications</li>
+</ul>
+<p><strong>Example</strong>: Military security systems with Top Secret, Secret, and Confidential classifications.</p>
+<h3 id="3-role-based-access-control-rbac">3. Role-Based Access Control (RBAC)</h3>
+<p>Access based on user roles within the organization:</p>
+<ul>
+<li><strong>Role-centric</strong>: Permissions assigned to roles, not individuals</li>
+<li><strong>Scalable</strong>: Easy to manage large numbers of users</li>
+<li><strong>Organizational alignment</strong>: Reflects real-world job functions</li>
+<li><strong>Standard approach</strong>: Widely adopted in business applications</li>
+</ul>
+<h4 id="rbac-components">RBAC Components</h4>
+<div class="highlight"><pre><span></span><code>Users ──→ Roles ──→ Permissions ──→ Objects/Resources
+  │                                          
+  └─────→ Sessions ──→ Roles
+</code></pre></div>
+<p><strong>Users</strong> → assigned to → <strong>Roles</strong> → granted → <strong>Permissions</strong> → on → <strong>Resources</strong></p>
+<h4 id="rbac-example">RBAC Example</h4>
+<div class="highlight"><pre><span></span><code>Alice (User) → Editor Role → [read, write, publish] → /blog/posts/*
+Bob (User) → Viewer Role → [read] → /blog/posts/*
+Carol (User) → Admin Role → [read, write, delete, manage] → /blog/*
+</code></pre></div>
+<h3 id="4-attribute-based-access-control-abac">4. Attribute-Based Access Control (ABAC)</h3>
+<p>Dynamic access based on attributes:</p>
+<ul>
+<li><strong>Context-aware</strong>: Considers user, resource, and environmental attributes</li>
+<li><strong>Fine-grained</strong>: Very precise access control</li>
+<li><strong>Complex</strong>: Requires sophisticated policy engines</li>
+<li><strong>Flexible</strong>: Adapts to complex business rules</li>
+</ul>
+<h4 id="abac-example">ABAC Example</h4>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;policy&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Allow access if user is manager AND resource is in their department AND current time is business hours&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;user_attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;manager&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;department&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;engineering&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;clearance_level&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;resource_attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;department&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;engineering&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">&quot;classification&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;internal&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;data_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;source_code&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;environment_attributes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;time&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;14:30&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;day_of_week&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Tuesday&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;office_network&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="permission-inheritance-and-hierarchies">Permission Inheritance and Hierarchies</h2>
+<h3 id="hierarchical-resources">Hierarchical Resources</h3>
+<p>Resources often exist in hierarchical relationships where permissions granted at higher levels automatically apply to lower levels:</p>
+<div class="highlight"><pre><span></span><code>/organization/acme                 ← Admin permissions here
+├── /organization/acme/project/web ← apply to all projects
+│   ├── /environment/staging       ← and all environments
+│   └── /environment/production    ← within those projects
+└── /organization/acme/project/api
+    ├── /environment/staging
+    └── /environment/production
+</code></pre></div>
+<h3 id="inheritance-rules">Inheritance Rules</h3>
+<ol>
+<li><strong>Explicit permissions</strong> override inherited permissions</li>
+<li><strong>More specific</strong> permissions override general permissions</li>
+<li><strong>Closest parent</strong> permissions take precedence</li>
+</ol>
+<h3 id="inheritance-example">Inheritance Example</h3>
+<p>Given these permission assignments:
+<div class="highlight"><pre><span></span><code><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alice&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/organization/acme&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;read&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alice&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/organization/acme/project/web&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;write&quot;</span><span class="p">]</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="p">]</span>
+</code></pre></div></p>
+<p>Alice's effective permissions:
+- <code>/organization/acme/*</code>: <strong>read</strong> (inherited)
+- <code>/organization/acme/project/web/*</code>: <strong>read + write</strong> (inherited + explicit)</p>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-principle-of-least-privilege">1. Principle of Least Privilege</h3>
+<p>Grant the minimum permissions necessary for users to perform their job functions:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Good: Specific permissions</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;content_editor&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;articles.create&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;articles.edit&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;articles.publish&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;media.upload&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1">// Avoid: Overly broad permissions</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;role&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;content_editor&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">&quot;permissions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;admin.*&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;system.*&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="2-role-based-organization">2. Role-Based Organization</h3>
+<p>Design roles that mirror your organization structure:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;engineering_roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;software_engineer&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;senior_engineer&quot;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">    </span><span class="s2">&quot;engineering_manager&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;principal_engineer&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;product_roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;product_manager&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;product_owner&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;product_analyst&quot;</span>
+<span class="w">  </span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;operations_roles&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="s2">&quot;devops_engineer&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;site_reliability_engineer&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="s2">&quot;system_administrator&quot;</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="3-resource-hierarchy-design">3. Resource Hierarchy Design</h3>
+<p>Create logical resource hierarchies that support inheritance:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Good: Logical hierarchy</span>
+/company/departments/engineering/teams/platform/projects/auth-service
+
+<span class="c1"># Avoid: Flat structure</span>
+/auth-service-engineering-platform-team
+</code></pre></div>
+<h3 id="4-regular-access-reviews">4. Regular Access Reviews</h3>
+<p>Implement periodic reviews of permissions:</p>
+<ul>
+<li><strong>Quarterly access reviews</strong>: Review all role assignments</li>
+<li><strong>Project completion</strong>: Remove project-specific access</li>
+<li><strong>Role changes</strong>: Update permissions when people change roles</li>
+<li><strong>Offboarding</strong>: Immediately revoke all access when people leave</li>
+</ul>
+<h3 id="5-audit-and-logging">5. Audit and Logging</h3>
+<p>Track all access control decisions:</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;timestamp&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-15T10:30:00Z&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;principal&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;alice@company.com&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;resource&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/project/web-app/database/users&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;action&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;read&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;result&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;allowed&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;reason&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;role:database_reader&quot;</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="6-separation-of-duties">6. Separation of Duties</h3>
+<p>Prevent conflicts of interest by separating incompatible functions:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// Finance roles - separate creation from approval</span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;expense_creator&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;expense.create&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;expense.submit&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;expense_approver&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;expense.approve&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;expense.reject&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;expense_payer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;payment.create&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;payment.execute&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+
+<span class="c1">// Development roles - separate development from production  </span>
+<span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;developer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;code.write&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;deploy.staging&quot;</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">&quot;release_manager&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;deploy.production&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;rollback.production&quot;</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>Effective IAM is critical for application security and requires careful planning and implementation. Key takeaways:</p>
+<ul>
+<li><strong>Start simple</strong>: Begin with basic RBAC and expand as needed</li>
+<li><strong>Think hierarchically</strong>: Design resource structures that support inheritance</li>
+<li><strong>Follow best practices</strong>: Implement least privilege, separation of duties, and regular reviews</li>
+<li><strong>Monitor continuously</strong>: Track access patterns and audit permissions regularly</li>
+<li><strong>Choose the right tools</strong>: Select IAM solutions that fit your architecture and scale</li>
+</ul>
+<p>Ready to implement robust access control? Permio provides a modern, scalable IAM platform that simplifies permission management while providing enterprise-grade security. Check out our <a href="../quickstart/">Quick Start Guide</a> to begin implementing fine-grained access control in your applications.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "content.code.annotate", {"content.code.highlight": false}], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.56ea9cef.min.js"></script>
+      
+    
+  </body>
+</html>
