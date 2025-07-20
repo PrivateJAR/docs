@@ -180,20 +180,20 @@ Creates a new permission within a project. Permissions are idempotent - creating
 
 Retrieves details of a specific permission.
 
-**Required Permission**: `permission.get` on `/organisation/{organisation_id}/permission/{id}`
+**Required Permission**: `permission.get` on `/organisation/{organisation_id}/permission/{name}`
 
 === "HTTP"
     ```bash
-    curl -X GET "https://api.perms.io/permissions-service/v1/permissions/{id}?project_name=production" \
+    curl -X GET "https://api.perms.io/permissions-service/v1/permissions/{name}?project_name=production" \
       -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
     ```go
-    func getPermission(client permissionsv1.PermissionsServiceClient, projectName, permissionId string) {
+    func getPermission(client permissionsv1.PermissionsServiceClient, projectName, permissionName string) {
         req := &permissionsv1.GetPermissionRequest{
             ProjectName: projectName,
-            Id:          permissionId,
+            Name:        permissionName,
         }
         
         resp, err := client.GetPermission(context.Background(), req)
@@ -207,10 +207,10 @@ Retrieves details of a specific permission.
 
 === "Rust"
     ```rust
-    async fn get_permission(client: &mut PermissionsServiceClient<Channel>, project_name: &str, permission_id: &str) -> Result<(), Box<dyn std::error::Error>> {
+    async fn get_permission(client: &mut PermissionsServiceClient<Channel>, project_name: &str, permission_name: &str) -> Result<(), Box<dyn std::error::Error>> {
         let request = tonic::Request::new(GetPermissionRequest {
             project_name: project_name.to_string(),
-            id: permission_id.to_string(),
+            name: permission_name.to_string(),
         });
         
         let response = client.get_permission(request).await?;
@@ -223,13 +223,13 @@ Retrieves details of a specific permission.
 
 === "Python"
     ```python
-    def get_permission(project_name: str, permission_id: str):
+    def get_permission(project_name: str, permission_name: str):
         channel = grpc.secure_channel('api.perms.io:443', grpc.ssl_channel_credentials())
         client = permissions_service_pb2_grpc.PermissionsServiceStub(channel)
         
         request = permissions_service_pb2.GetPermissionRequest(
             project_name=project_name,
-            id=permission_id
+            name=permission_name
         )
         
         response = client.GetPermission(request)
@@ -238,7 +238,7 @@ Retrieves details of a specific permission.
 
 === "Java"
     ```java
-    public void getPermission(String projectName, String permissionId) {
+    public void getPermission(String projectName, String permissionName) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("api.perms.io", 443)
                 .useTransportSecurity()
                 .build();
@@ -248,7 +248,7 @@ Retrieves details of a specific permission.
         
         GetPermissionRequest request = GetPermissionRequest.newBuilder()
                 .setProjectName(projectName)
-                .setId(permissionId)
+                .setName(permissionName)
                 .build();
         
         GetPermissionResponse response = client.getPermission(request);
@@ -262,13 +262,13 @@ Retrieves details of a specific permission.
     ```typescript
     interface GetPermissionRequest {
         project_name: string;
-        id: string;
+        name: string;
     }
 
-    function getPermission(projectName: string, permissionId: string): void {
+    function getPermission(projectName: string, permissionName: string): void {
         const request: GetPermissionRequest = {
             project_name: projectName,
-            id: permissionId
+            name: permissionName
         };
         
         client.GetPermission(request, (error: grpc.ServiceError | null, response: any) => {
@@ -285,27 +285,27 @@ Retrieves details of a specific permission.
 
 Updates an existing permission.
 
-**Required Permission**: `permission.update` on `/organisation/{organisation_id}/permission/{id}`
+**Required Permission**: `permission.update` on `/organisation/{organisation_id}/permission/{name}`
 
 === "HTTP"
     ```bash
-    curl -X PUT "https://api.perms.io/permissions-service/v1/permissions/{id}" \
+    curl -X PUT "https://api.perms.io/permissions-service/v1/permissions/{name}" \
       -H "Authorization: Bearer YOUR_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{
         "project_name": "production",
-        "name": "document.read",
+        "new_name": "document.read",
         "description": "Updated description for reading documents"
       }'
     ```
 
 === "Go"
     ```go
-    func updatePermission(client permissionsv1.PermissionsServiceClient, projectName, permissionId string) {
+    func updatePermission(client permissionsv1.PermissionsServiceClient, projectName, permissionName string) {
         req := &permissionsv1.UpdatePermissionRequest{
             ProjectName: projectName,
-            Id:          permissionId,
-            Name:        "document.read",
+            Name:        permissionName,
+            NewName:     "document.read",
             Description: "Updated description for reading documents",
         }
         
@@ -320,11 +320,11 @@ Updates an existing permission.
 
 === "Rust"
     ```rust
-    async fn update_permission(client: &mut PermissionsServiceClient<Channel>, project_name: &str, permission_id: &str) -> Result<(), Box<dyn std::error::Error>> {
+    async fn update_permission(client: &mut PermissionsServiceClient<Channel>, project_name: &str, permission_name: &str) -> Result<(), Box<dyn std::error::Error>> {
         let request = tonic::Request::new(UpdatePermissionRequest {
             project_name: project_name.to_string(),
-            id: permission_id.to_string(),
-            name: "document.read".to_string(),
+            name: permission_name.to_string(),
+            new_name: Some("document.read".to_string()),
             description: "Updated description for reading documents".to_string(),
         });
         
@@ -337,14 +337,14 @@ Updates an existing permission.
 
 === "Python"
     ```python
-    def update_permission(project_name: str, permission_id: str):
+    def update_permission(project_name: str, permission_name: str):
         channel = grpc.secure_channel('api.perms.io:443', grpc.ssl_channel_credentials())
         client = permissions_service_pb2_grpc.PermissionsServiceStub(channel)
         
         request = permissions_service_pb2.UpdatePermissionRequest(
             project_name=project_name,
-            id=permission_id,
-            name="document.read",
+            name=permission_name,
+            new_name="document.read",
             description="Updated description for reading documents"
         )
         
@@ -354,7 +354,7 @@ Updates an existing permission.
 
 === "Java"
     ```java
-    public void updatePermission(String projectName, String permissionId) {
+    public void updatePermission(String projectName, String permissionName) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("api.perms.io", 443)
                 .useTransportSecurity()
                 .build();
@@ -364,8 +364,8 @@ Updates an existing permission.
         
         UpdatePermissionRequest request = UpdatePermissionRequest.newBuilder()
                 .setProjectName(projectName)
-                .setId(permissionId)
-                .setName("document.read")
+                .setName(permissionName)
+                .setNewName("document.read")
                 .setDescription("Updated description for reading documents")
                 .build();
         
@@ -380,16 +380,16 @@ Updates an existing permission.
     ```typescript
     interface UpdatePermissionRequest {
         project_name: string;
-        id: string;
         name: string;
+        new_name?: string;
         description: string;
     }
 
-    function updatePermission(projectName: string, permissionId: string): void {
+    function updatePermission(projectName: string, permissionName: string): void {
         const request: UpdatePermissionRequest = {
             project_name: projectName,
-            id: permissionId,
-            name: 'document.read',
+            name: permissionName,
+            new_name: 'document.read',
             description: 'Updated description for reading documents'
         };
         
@@ -407,20 +407,20 @@ Updates an existing permission.
 
 Deletes a permission. This operation is idempotent.
 
-**Required Permission**: `permission.delete` on `/organisation/{organisation_id}/permission/{id}`
+**Required Permission**: `permission.delete` on `/organisation/{organisation_id}/permission/{name}`
 
 === "HTTP"
     ```bash
-    curl -X DELETE "https://api.perms.io/permissions-service/v1/permissions/{id}?project_name=production" \
+    curl -X DELETE "https://api.perms.io/permissions-service/v1/permissions/{name}?project_name=production" \
       -H "Authorization: Bearer YOUR_API_KEY"
     ```
 
 === "Go"
     ```go
-    func deletePermission(client permissionsv1.PermissionsServiceClient, projectName, permissionId string) {
+    func deletePermission(client permissionsv1.PermissionsServiceClient, projectName, permissionName string) {
         req := &permissionsv1.DeletePermissionRequest{
             ProjectName: projectName,
-            Id:          permissionId,
+            Name:        permissionName,
         }
         
         _, err := client.DeletePermission(context.Background(), req)
@@ -428,20 +428,20 @@ Deletes a permission. This operation is idempotent.
             log.Fatalf("Failed to delete permission: %v", err)
         }
         
-        log.Printf("Deleted permission: %s", permissionId)
+        log.Printf("Deleted permission: %s", permissionName)
     }
     ```
 
 === "Rust"
     ```rust
-    async fn delete_permission(client: &mut PermissionsServiceClient<Channel>, project_name: &str, permission_id: &str) -> Result<(), Box<dyn std::error::Error>> {
+    async fn delete_permission(client: &mut PermissionsServiceClient<Channel>, project_name: &str, permission_name: &str) -> Result<(), Box<dyn std::error::Error>> {
         let request = tonic::Request::new(DeletePermissionRequest {
             project_name: project_name.to_string(),
-            id: permission_id.to_string(),
+            name: permission_name.to_string(),
         });
         
         client.delete_permission(request).await?;
-        println!("Deleted permission: {}", permission_id);
+        println!("Deleted permission: {}", permission_name);
         
         Ok(())
     }
@@ -449,22 +449,22 @@ Deletes a permission. This operation is idempotent.
 
 === "Python"
     ```python
-    def delete_permission(project_name: str, permission_id: str):
+    def delete_permission(project_name: str, permission_name: str):
         channel = grpc.secure_channel('api.perms.io:443', grpc.ssl_channel_credentials())
         client = permissions_service_pb2_grpc.PermissionsServiceStub(channel)
         
         request = permissions_service_pb2.DeletePermissionRequest(
             project_name=project_name,
-            id=permission_id
+            name=permission_name
         )
         
         client.DeletePermission(request)
-        print(f"Deleted permission: {permission_id}")
+        print(f"Deleted permission: {permission_name}")
     ```
 
 === "Java"
     ```java
-    public void deletePermission(String projectName, String permissionId) {
+    public void deletePermission(String projectName, String permissionName) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("api.perms.io", 443)
                 .useTransportSecurity()
                 .build();
@@ -474,11 +474,11 @@ Deletes a permission. This operation is idempotent.
         
         DeletePermissionRequest request = DeletePermissionRequest.newBuilder()
                 .setProjectName(projectName)
-                .setId(permissionId)
+                .setName(permissionName)
                 .build();
         
         client.deletePermission(request);
-        System.out.println("Deleted permission: " + permissionId);
+        System.out.println("Deleted permission: " + permissionName);
         
         channel.shutdown();
     }
@@ -488,13 +488,13 @@ Deletes a permission. This operation is idempotent.
     ```typescript
     interface DeletePermissionRequest {
         project_name: string;
-        id: string;
+        name: string;
     }
 
-    function deletePermission(projectName: string, permissionId: string): void {
+    function deletePermission(projectName: string, permissionName: string): void {
         const request: DeletePermissionRequest = {
             project_name: projectName,
-            id: permissionId
+            name: permissionName
         };
         
         client.DeletePermission(request, (error: grpc.ServiceError | null, response: any) => {
@@ -502,7 +502,7 @@ Deletes a permission. This operation is idempotent.
                 console.error('Error:', error);
                 return;
             }
-            console.log(`Deleted permission: ${permissionId}`);
+            console.log(`Deleted permission: ${permissionName}`);
         });
     }
     ```
@@ -648,7 +648,7 @@ Creates a new role with a collection of permissions.
 
 **Required Permissions**: 
 - `role.create` on `/organisation/{organisation_id}`
-- `permission.get` on `/organisation/{organisation_id}/permission/{permission_id}` for each permission
+- `permission.get` on `/organisation/{organisation_id}/permission/{permission_name}` for each permission
 
 === "HTTP"
     ```bash
@@ -659,18 +659,18 @@ Creates a new role with a collection of permissions.
         "project_name": "production",
         "name": "document_editor",
         "description": "Can read and write documents",
-        "permissions": ["perm_123", "perm_456"]
+        "permissions": ["document.read", "document.write"]
       }'
     ```
 
 === "Go"
     ```go
-    func createRole(client permissionsv1.PermissionsServiceClient, projectName string, permissionIds []string) {
+    func createRole(client permissionsv1.PermissionsServiceClient, projectName string, permissionNames []string) {
         req := &permissionsv1.CreateRoleRequest{
             ProjectName: projectName,
             Name:        "document_editor",
             Description: "Can read and write documents",
-            Permissions: permissionIds,
+            Permissions: permissionNames,
         }
         
         resp, err := client.CreateRole(context.Background(), req)
@@ -684,12 +684,12 @@ Creates a new role with a collection of permissions.
 
 === "Rust"
     ```rust
-    async fn create_role(client: &mut PermissionsServiceClient<Channel>, permission_ids: Vec<String>) -> Result<(), Box<dyn std::error::Error>> {
+    async fn create_role(client: &mut PermissionsServiceClient<Channel>, permission_names: Vec<String>) -> Result<(), Box<dyn std::error::Error>> {
         let request = tonic::Request::new(CreateRoleRequest {
             project_name: "production".to_string(),
             name: "document_editor".to_string(),
             description: "Can read and write documents".to_string(),
-            permissions: permission_ids,
+            permissions: permission_names,
         });
         
         let response = client.create_role(request).await?;
@@ -701,7 +701,7 @@ Creates a new role with a collection of permissions.
 
 === "Python"
     ```python
-    def create_role(permission_ids: list[str]):
+    def create_role(permission_names: list[str]):
         channel = grpc.secure_channel('api.perms.io:443', grpc.ssl_channel_credentials())
         client = permissions_service_pb2_grpc.PermissionsServiceStub(channel)
         
@@ -709,7 +709,7 @@ Creates a new role with a collection of permissions.
             project_name="production",
             name="document_editor",
             description="Can read and write documents",
-            permissions=permission_ids
+            permissions=permission_names
         )
         
         response = client.CreateRole(request)
@@ -718,7 +718,7 @@ Creates a new role with a collection of permissions.
 
 === "Java"
     ```java
-    public void createRole(List<String> permissionIds) {
+    public void createRole(List<String> permissionNames) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("api.perms.io", 443)
                 .useTransportSecurity()
                 .build();
@@ -730,7 +730,7 @@ Creates a new role with a collection of permissions.
                 .setProjectName("production")
                 .setName("document_editor")
                 .setDescription("Can read and write documents")
-                .addAllPermissions(permissionIds)
+                .addAllPermissions(permissionNames)
                 .build();
         
         CreateRoleResponse response = client.createRole(request);
@@ -749,12 +749,12 @@ Creates a new role with a collection of permissions.
         permissions: string[];
     }
 
-    function createRole(permissionIds: string[]): void {
+    function createRole(permissionNames: string[]): void {
         const request: CreateRoleRequest = {
             project_name: 'production',
             name: 'document_editor',
             description: 'Can read and write documents',
-            permissions: permissionIds
+            permissions: permissionNames
         };
         
         client.CreateRole(request, (error: grpc.ServiceError | null, response: any) => {
@@ -888,19 +888,19 @@ Updates an existing role's permissions and metadata.
         "project_name": "production",
         "name": "document_editor",
         "description": "Updated description",
-        "permissions": ["perm_123", "perm_456", "perm_789"]
+        "permissions": ["document.read", "document.write", "document.delete"]
       }'
     ```
 
 === "Go"
     ```go
-    func updateRole(client permissionsv1.PermissionsServiceClient, projectName, roleId string, permissionIds []string) {
+    func updateRole(client permissionsv1.PermissionsServiceClient, projectName, roleId string, permissionNames []string) {
         req := &permissionsv1.UpdateRoleRequest{
             ProjectName: projectName,
             Id:          roleId,
             Name:        "document_editor",
             Description: "Updated description",
-            Permissions: permissionIds,
+            Permissions: permissionNames,
         }
         
         resp, err := client.UpdateRole(context.Background(), req)
@@ -914,13 +914,13 @@ Updates an existing role's permissions and metadata.
 
 === "Rust"
     ```rust
-    async fn update_role(client: &mut PermissionsServiceClient<Channel>, project_name: &str, role_id: &str, permission_ids: Vec<String>) -> Result<(), Box<dyn std::error::Error>> {
+    async fn update_role(client: &mut PermissionsServiceClient<Channel>, project_name: &str, role_id: &str, permission_names: Vec<String>) -> Result<(), Box<dyn std::error::Error>> {
         let request = tonic::Request::new(UpdateRoleRequest {
             project_name: project_name.to_string(),
             id: role_id.to_string(),
             name: "document_editor".to_string(),
             description: "Updated description".to_string(),
-            permissions: permission_ids,
+            permissions: permission_names,
         });
         
         let response = client.update_role(request).await?;
@@ -932,7 +932,7 @@ Updates an existing role's permissions and metadata.
 
 === "Python"
     ```python
-    def update_role(project_name: str, role_id: str, permission_ids: list[str]):
+    def update_role(project_name: str, role_id: str, permission_names: list[str]):
         channel = grpc.secure_channel('api.perms.io:443', grpc.ssl_channel_credentials())
         client = permissions_service_pb2_grpc.PermissionsServiceStub(channel)
         
@@ -941,7 +941,7 @@ Updates an existing role's permissions and metadata.
             id=role_id,
             name="document_editor",
             description="Updated description",
-            permissions=permission_ids
+            permissions=permission_names
         )
         
         response = client.UpdateRole(request)
@@ -950,7 +950,7 @@ Updates an existing role's permissions and metadata.
 
 === "Java"
     ```java
-    public void updateRole(String projectName, String roleId, List<String> permissionIds) {
+    public void updateRole(String projectName, String roleId, List<String> permissionNames) {
         ManagedChannel channel = ManagedChannelBuilder.forAddress("api.perms.io", 443)
                 .useTransportSecurity()
                 .build();
@@ -963,7 +963,7 @@ Updates an existing role's permissions and metadata.
                 .setId(roleId)
                 .setName("document_editor")
                 .setDescription("Updated description")
-                .addAllPermissions(permissionIds)
+                .addAllPermissions(permissionNames)
                 .build();
         
         UpdateRoleResponse response = client.updateRole(request);
@@ -983,13 +983,13 @@ Updates an existing role's permissions and metadata.
         permissions: string[];
     }
 
-    function updateRole(projectName: string, roleId: string, permissionIds: string[]): void {
+    function updateRole(projectName: string, roleId: string, permissionNames: string[]): void {
         const request: UpdateRoleRequest = {
             project_name: projectName,
             id: roleId,
             name: 'document_editor',
             description: 'Updated description',
-            permissions: permissionIds
+            permissions: permissionNames
         };
         
         client.UpdateRole(request, (error: grpc.ServiceError | null, response: any) => {
@@ -1247,7 +1247,7 @@ Lists all roles within a project with optional search and pagination.
 Grants permissions and roles to a principal on a specific resource. This operation is additive - it won't remove existing permissions.
 
 **Required Permissions**:
-- `permission.get` on `/organisation/{organisation_id}/permission/{permission_id}` for each permission
+- `permission.get` on `/organisation/{organisation_id}/permission/{permission_name}` for each permission
 - `role.get` on `/organisation/{organisation_id}/role/{role_id}` for each role  
 - `principal.assignment.create` on `/organisation/{organisation_id}/principal/{user_id}`
 
@@ -1260,7 +1260,7 @@ Grants permissions and roles to a principal on a specific resource. This operati
         "project_name": "production",
         "user_id": "usr_123",
         "resource_uri": "/project/456/documents/789",
-        "permissions": ["perm_123"],
+        "permissions": ["document.read"],
         "roles": ["role_456"]
       }'
     ```
@@ -1391,7 +1391,7 @@ Revokes specific permissions and roles from a principal on a resource.
         "project_name": "production",
         "user_id": "usr_123",
         "resource_uri": "/project/456/documents/789",
-        "permissions": ["perm_123"],
+        "permissions": ["document.read"],
         "roles": ["role_456"]
       }'
     ```
@@ -1891,7 +1891,7 @@ The core permission checking endpoint that determines if a principal has specifi
         "project_name": "production",
         "principal_id": "usr_123",
         "resource_uris": ["/project/456/documents/789", "/project/456/documents/101"],
-        "permissions": ["read", "write"]
+        "permissions": ["document.read", "document.write"]
       }'
     ```
 
@@ -2091,7 +2091,7 @@ grantPermissions("user_123", "/organization/789", []string{}, []string{"org_admi
 grantPermissions("user_456", "/organization/789/project/456", []string{}, []string{"project_manager"})
 
 // Resource-specific permissions
-grantPermissions("user_789", "/organization/789/project/456/resource/123", []string{"read"}, []string{})
+grantPermissions("user_789", "/organization/789/project/456/resource/123", []string{"document.read"}, []string{})
 ```
 
 ## Best Practices
