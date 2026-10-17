@@ -48,6 +48,25 @@ system.
 
 ---
 
+## For AI assistants
+
+If you use a coding assistant or an LLM, point it at these files:
+
+- [`llms.txt`](llms.txt) (`https://docs.perms.io/llms.txt`): an index of every page on this site, with a one-line
+  description of each.
+- [`llms-full.txt`](llms-full.txt) (`https://docs.perms.io/llms-full.txt`): the concepts, quickstart, TypeScript SDK
+  and API reference in one Markdown file, to load straight into the model's context.
+
+For example, give your assistant this prompt:
+
+```text
+Add Permio permissions to this app using the `permio` npm package. Docs: https://docs.perms.io/llms.txt
+```
+
+The `permio` package is a pre-release and isn't on npm yet. See the [TypeScript SDK](sdk/typescript.md).
+
+---
+
 ## Support
 
 Questions or problems? Email [hello@perms.io](mailto:hello@perms.io).
