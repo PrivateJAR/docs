@@ -37,6 +37,12 @@ principals in advance. A principal appears in perms.io once it has a grant.
 API keys are principals too. Each key is granted a role on its own project, which decides what it may call. See
 [API keys](concepts/api-keys.md).
 
+### Groups
+
+A **group** is a named set of principals in a project, such as `editors`. Grant to the group's principal ID,
+`group:editors`, and every member holds the grant; checks include a principal's groups automatically. See
+[Groups](concepts/groups.md).
+
 ### Resources
 
 A **resource** is anything you protect, identified by a URI path such as `/documents/42`. See

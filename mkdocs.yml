@@ -19,8 +19,11 @@ nav:
   - Concepts:
     - How it works: how-it-works.md
     - Resources and inheritance: concepts/resources.md
+    - Groups: concepts/groups.md
     - API keys: concepts/api-keys.md
     - IAM fundamentals: iam-basics.md
+  - Guides:
+    - Filtering lists and share dialogs: guides/filtering-and-sharing.md
   - TypeScript SDK: sdk/typescript.md
   - API Reference:
     - Overview: api-reference/index.md

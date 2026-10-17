@@ -22,6 +22,10 @@ Grant access to individual objects, such as `/projects/42` or `/documents/42/com
 A grant on `/documents` applies to `/documents/42` and everything beneath it, including resources created later.
 The `_` wildcard segment lets one grant cover a whole level. See [Resources and inheritance](concepts/resources.md).
 
+### Groups
+
+Grant to a group such as `group:editors` once, and every member holds the grant. See [Groups](concepts/groups.md).
+
 ### Bring your own authentication
 
 perms.io only does authorisation. Principals are whatever IDs your app already uses, so it works with any login

@@ -27,6 +27,11 @@ Treat cursors as opaque strings.
 | [ListRoles](permissions.md#listroles) | `roles` |
 | [ListPrincipals](permissions.md#listprincipals) | `principals` |
 | [GetAllAssignmentsForPrincipal](permissions.md#getallassignmentsforprincipal) | `assignments` |
+| [ListAccess](permissions.md#listaccess) | `scopes` |
+| [ListPrincipalsWithAccess](permissions.md#listprincipalswithaccess) | `principals` |
+| [ListGroups](permissions.md#listgroups) | `groups` |
+| [ListGroupMembers](permissions.md#listgroupmembers) | `members` |
+| [ListGroupsForPrincipal](permissions.md#listgroupsforprincipal) | `groups` |
 | [GetProjectsForOrganisation](organizations.md#projects) | `projects` |
 | [ListAPIKeys](organizations.md#api-keys) | `api_keys` |
 
