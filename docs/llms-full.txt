@@ -67,7 +67,7 @@ For example, give your assistant this prompt:
 Add Permio permissions to this app using the `permio` npm package. Docs: https://docs.perms.io/llms.txt
 ```
 
-The `permio` package is a pre-release and isn't on npm yet. See the [TypeScript SDK](https://docs.perms.io/sdk/typescript/).
+Install it with `npm install permio`. See the [TypeScript SDK](https://docs.perms.io/sdk/typescript/).
 
 ### Support
 
@@ -159,10 +159,6 @@ export PERMIO_API_KEY=perms_...   # your API key
 ```bash
 npm install permio
 ```
-
-**Warning: Pre-release**
-
-The `permio` package isn't on npm yet. Use the cURL tab until the first release is published.
 
 ```ts
 import { Permio, resource } from "permio";
@@ -980,11 +976,10 @@ and async iterators over list endpoints. The full generated API is there too, as
 - Ships ESM and CommonJS builds with bundled type definitions.
 - Has three runtime dependencies: `@bufbuild/protobuf`, `@connectrpc/connect` and `@connectrpc/connect-web`.
 
-**Warning: Pre-release**
+**Note: Versions**
 
-The package has not been published to npm yet. The install command below will work once the first version is
-released. [Batch checks](https://docs.perms.io/sdk/typescript/#batch-checks), [groups](https://docs.perms.io/sdk/typescript/#groups) and [access queries](https://docs.perms.io/sdk/typescript/#access-queries) are available
-from **0.2.0**, which needs the current perms.io API.
+[Batch checks](https://docs.perms.io/sdk/typescript/#batch-checks), [groups](https://docs.perms.io/sdk/typescript/#groups) and [access queries](https://docs.perms.io/sdk/typescript/#access-queries) are available from **0.2.0**
+([npm](https://www.npmjs.com/package/permio)).
 
 ### Install
 
@@ -1728,7 +1723,7 @@ Over gRPC and gRPC-web, the code arrives as `grpc-status` and the text as `grpc-
 
 **TypeScript**
 
-The [TypeScript SDK](https://docs.perms.io/sdk/typescript/) (`npm install permio`, pre-release) is the recommended client.
+The [TypeScript SDK](https://docs.perms.io/sdk/typescript/) (`npm install permio`) is the recommended client.
 Besides the check helpers, it exposes every RPC on this page through `permio.permissions` and
 `permio.organisations`.
 

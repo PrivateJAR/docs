@@ -63,7 +63,7 @@ For example, give your assistant this prompt:
 Add Permio permissions to this app using the `permio` npm package. Docs: https://docs.perms.io/llms.txt
 ```
 
-The `permio` package is a pre-release and isn't on npm yet. See the [TypeScript SDK](sdk/typescript.md).
+Install it with `npm install permio`. See the [TypeScript SDK](sdk/typescript.md).
 
 ---
 

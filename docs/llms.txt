@@ -9,7 +9,7 @@ Key facts:
 - Every Permissions API request names a project (`project_name`); every organisation starts with a `default` project.
 - A denied check is a normal response (`passed: false` plus the missing permissions), not an error.
 - Groups: grant to the principal ID `group:<slug>` and every member holds the grant; checks include a principal's groups.
-- The TypeScript SDK is the npm package `permio`. It is pre-release and not yet published to npm; batch checks, groups and access queries need 0.2.0. There is no Java SDK, and the generated Go, Python and Rust clients are not publicly available.
+- The TypeScript SDK is the npm package `permio` (`npm install permio`); batch checks, groups and access queries need 0.2.0 or later. There is no Java SDK. A generated Rust client is open source on GitHub (not on crates.io), and the generated Go and Python clients are not publicly available yet.
 - Manage projects, permissions, roles, grants, groups and API keys in the dashboard at https://app.perms.io.
 
 ## Docs
@@ -31,7 +31,7 @@ Key facts:
 
 ## SDKs
 
-- [TypeScript SDK](https://docs.perms.io/sdk/typescript/): The `permio` package (pre-release): client options, `check`, `checkDetailed`, `assert`, `checkAny`, `batchCheck`, groups, `listAccess`, `whoHasAccess`, `resource()`, typed errors, retries, iterators, raw clients, and Express and Next.js examples.
+- [TypeScript SDK](https://docs.perms.io/sdk/typescript/): The `permio` package on npm: client options, `check`, `checkDetailed`, `assert`, `checkAny`, `batchCheck`, groups, `listAccess`, `whoHasAccess`, `resource()`, typed errors, retries, iterators, raw clients, and Express and Next.js examples.
 
 ## Optional
 

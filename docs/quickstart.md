@@ -68,10 +68,6 @@ Ask whether `alice` may read document 42:
     npm install permio
     ```
 
-    !!! warning "Pre-release"
-
-        The `permio` package isn't on npm yet. Use the cURL tab until the first release is published.
-
     ```ts
     import { Permio, resource } from "permio";
 

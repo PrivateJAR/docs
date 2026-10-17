@@ -8,11 +8,10 @@ and async iterators over list endpoints. The full generated API is there too, as
 - Ships ESM and CommonJS builds with bundled type definitions.
 - Has three runtime dependencies: `@bufbuild/protobuf`, `@connectrpc/connect` and `@connectrpc/connect-web`.
 
-!!! warning "Pre-release"
+!!! note "Versions"
 
-    The package has not been published to npm yet. The install command below will work once the first version is
-    released. [Batch checks](#batch-checks), [groups](#groups) and [access queries](#access-queries) are available
-    from **0.2.0**, which needs the current perms.io API.
+    [Batch checks](#batch-checks), [groups](#groups) and [access queries](#access-queries) are available from **0.2.0**
+    ([npm](https://www.npmjs.com/package/permio)).
 
 ## Install
 

@@ -65,7 +65,7 @@ Over gRPC and gRPC-web, the code arrives as `grpc-status` and the text as `grpc-
 
 === "TypeScript"
 
-    The [TypeScript SDK](../sdk/typescript.md) (`npm install permio`, pre-release) is the recommended client.
+    The [TypeScript SDK](../sdk/typescript.md) (`npm install permio`) is the recommended client.
     Besides the check helpers, it exposes every RPC on this page through `permio.permissions` and
     `permio.organisations`.
 
