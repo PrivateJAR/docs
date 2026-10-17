@@ -11,6 +11,7 @@ make the call. **Check** is the default for new keys, and **Full** is the level 
 | RPC | REST | Key access |
 | --- | --- | --- |
 | [Check](#check) | `POST /permissions-service/v1/permissions/check` | Check |
+| [BatchCheck](#batchcheck) | `POST /permissions-service/v1/permissions/check/batch` | Check |
 | [CreatePermission](#createpermission) | `POST /permissions-service/v1/permissions` | Full |
 | [GetPermission](#getpermission) | `GET /permissions-service/v1/permissions/{name}` | Check |
 | [UpdatePermission](#updatepermission) | `PUT /permissions-service/v1/permissions/{name}` | Full |
@@ -26,6 +27,17 @@ make the call. **Check** is the default for new keys, and **Full** is the level 
 | [GetUserPermissionsAndRolesOnResource](#getuserpermissionsandrolesonresource) | `GET /permissions-service/v1/permissions/user/{user_id}/resource/{resource_uri=**}` | Check |
 | [ListPrincipals](#listprincipals) | `GET /permissions-service/v1/permissions/principals` | Check |
 | [GetAllAssignmentsForPrincipal](#getallassignmentsforprincipal) | `GET /permissions-service/v1/permissions/assignments/principal/{principal_id=**}` | Check |
+| [ListAccess](#listaccess) | `GET /permissions-service/v1/access` | Check |
+| [ListPrincipalsWithAccess](#listprincipalswithaccess) | `GET /permissions-service/v1/access/principals` | Check |
+| [CreateGroup](#creategroup) | `POST /permissions-service/v1/groups` | Full |
+| [GetGroup](#getgroup) | `GET /permissions-service/v1/groups/{name}` | Check |
+| [UpdateGroup](#updategroup) | `PUT /permissions-service/v1/groups/{name}` | Full |
+| [DeleteGroup](#deletegroup) | `DELETE /permissions-service/v1/groups/{name}` | Full |
+| [ListGroups](#listgroups) | `GET /permissions-service/v1/groups` | Check |
+| [AddGroupMembers](#addgroupmembers) | `POST /permissions-service/v1/groups/{name}/members/add` | Full |
+| [RemoveGroupMembers](#removegroupmembers) | `POST /permissions-service/v1/groups/{name}/members/remove` | Full |
+| [ListGroupMembers](#listgroupmembers) | `GET /permissions-service/v1/groups/{name}/members` | Check |
+| [ListGroupsForPrincipal](#listgroupsforprincipal) | `GET /permissions-service/v1/group-memberships/{principal_id=**}` | Check |
 
 `GetTotalRolesAndPermissionsForOrganisation` (`GET /permissions-service/v1/permissions/organisation/{organisation_id}/totals`)
 is also part of the service. It needs an organisation-level permission that API keys don't have, and the dashboard
@@ -39,6 +51,8 @@ uses it.
 | Permission `name` | 1–128 characters: `a-z A-Z 0-9 . _ -`. |
 | Role `name` | 1–128 characters, no control characters. |
 | Role `id` | 1–128 characters: `a-z A-Z 0-9 . _ -`. |
+| Group `name` | 1–64 characters: lowercase letters, digits and `-`. Its principal ID is `group:<name>`. |
+| Principal IDs | Any non-empty string. IDs starting with `group:` are reserved for [groups](../concepts/groups.md): such an ID must name a group that exists in the project, or the call fails with `NOT_FOUND` (`INVALID_ARGUMENT` if it isn't a valid group name). Revoking is the exception. |
 | Resource URIs | See [Resources and inheritance](../concepts/resources.md#rules-for-uris). |
 
 ## Messages
@@ -79,7 +93,9 @@ uses it.
 `POST /permissions-service/v1/permissions/check`
 
 Checks whether a principal holds **every** listed permission on **every** listed resource. Grants on ancestors of a
-resource count. See [how a check is decided](../concepts/resources.md#how-a-check-is-decided).
+resource count, and so do grants to the [groups](../concepts/groups.md) the principal is a member of. See
+[how a check is decided](../concepts/resources.md#how-a-check-is-decided). To get one answer per resource, use
+[BatchCheck](#batchcheck).
 
 **Request** (`CheckPermissionRequest`)
 
@@ -127,6 +143,132 @@ A failed check is a successful response with `passed: false`. `PERMISSION_DENIED
     ```json
     {"missingPermissions": [{"resourceUri": "/invoices/1", "missingPermissions": ["document.read"]}]}
     ```
+
+---
+
+## BatchCheck
+
+`POST /permissions-service/v1/permissions/check/batch`
+
+Checks a principal's permissions on each resource **separately** and returns one result per resource, in request
+order. It is evaluated exactly like [Check](#check): inheritance, stored `_` wildcards, roles and the principal's
+[groups](../concepts/groups.md) all count, and it fails closed. A resource is allowed only if the principal holds
+**every** requested permission on it.
+
+**Needs:** the same as Check: `permission.check` on every resource and on the principal.
+
+**Request** (`BatchCheckRequest`)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `project_name` | string | Required. Project to check in. |
+| `principal_id` | string | Required. The principal being checked. |
+| `resource_uris` | string[] | Required. 1–100 unique resource URIs, with the same rules as Check. |
+| `permissions` | string[] | Required. 1–100 unique permission names. |
+
+**Response** (`BatchCheckResponse`)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `results` | BatchCheckResult[] | One per requested resource, in request order. |
+
+**BatchCheckResult**
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `resource_uri` | string | The resource. |
+| `allowed` | bool | `true` if the principal holds every requested permission on it. |
+| `missing_permissions` | string[] | The requested permissions not held on it, in request order. |
+
+**Errors:** `INVALID_ARGUMENT` for a malformed request; `PERMISSION_DENIED` if the API key lacks `permission.check`;
+`NOT_FOUND` if `principal_id` is `group:<slug>` and that group doesn't exist.
+
+=== "TypeScript"
+
+    ```ts
+    const allowed = await permio.batchCheck({
+      principal: "alice",
+      resources: ["/documents/42", "/invoices/1"],
+      permission: "document.read",
+    });
+    allowed.get("/documents/42"); // true
+    ```
+
+    Available from SDK 0.2.0. `batchCheckDetailed` returns the missing permissions too. See
+    [Batch checks](../sdk/typescript.md#batch-checks).
+
+=== "cURL"
+
+    ```bash
+    curl -X POST "$PERMIO_API/permissions-service/v1/permissions/check/batch" \
+      -H "Authorization: Bearer $PERMIO_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "project_name": "default",
+        "principal_id": "alice",
+        "resource_uris": ["/documents/42", "/invoices/1"],
+        "permissions": ["document.read"]
+      }'
+    ```
+
+    ```json
+    {"results": [
+      {"resourceUri": "/documents/42", "allowed": true},
+      {"resourceUri": "/invoices/1", "missingPermissions": ["document.read"]}
+    ]}
+    ```
+
+=== "Go"
+
+    ```go
+    res, err := client.BatchCheck(ctx, &permissionsv1.BatchCheckRequest{
+        ProjectName:  "default",
+        PrincipalId:  "alice",
+        ResourceUris: []string{"/documents/42", "/invoices/1"},
+        Permissions:  []string{"document.read"},
+    })
+    // handle err
+    for _, r := range res.GetResults() {
+        fmt.Println(r.GetResourceUri(), r.GetAllowed())
+    }
+    ```
+
+=== "Python"
+
+    ```python
+    res = client.BatchCheck(
+        permissions_pb2.BatchCheckRequest(
+            project_name="default",
+            principal_id="alice",
+            resource_uris=["/documents/42", "/invoices/1"],
+            permissions=["document.read"],
+        ),
+        metadata=[("authorization", f"Bearer {api_key}")],
+    )
+    for r in res.results:
+        print(r.resource_uri, r.allowed)
+    ```
+
+=== "Rust"
+
+    ```rust
+    use permio_rust::permissions::v1::BatchCheckRequest;
+
+    let res = client
+        .batch_check(BatchCheckRequest {
+            project_name: "default".into(),
+            principal_id: "alice".into(),
+            resource_uris: vec!["/documents/42".into(), "/invoices/1".into()],
+            permissions: vec!["document.read".into()],
+        })
+        .await?
+        .into_inner();
+    for r in res.results {
+        println!("{} {}", r.resource_uri, r.allowed);
+    }
+    ```
+
+The Go, Python and Rust examples use a client set up as in [Clients](index.md#clients).
 
 ---
 
@@ -406,6 +548,10 @@ Grants permissions and/or roles to a principal on a resource. Grants are additiv
 grant also applies to every resource beneath `resource_uri`. Unknown permissions or roles are rejected with
 `INVALID_ARGUMENT`.
 
+To grant to a [group](../concepts/groups.md), set `user_id` to `group:<slug>`. The group must exist in the project,
+or the call fails with `NOT_FOUND`. Every member of the group then holds the grant. Grants to groups don't count
+towards your unique principals.
+
 | Field | Type | Description |
 | --- | --- | --- |
 | `project_name` | string | Required. |
@@ -438,7 +584,8 @@ grant also applies to every resource beneath `resource_uri`. Unknown permissions
 
 `POST /permissions-service/v1/permissions/revoke`
 
-Removes permissions and/or roles from a principal on a resource. It takes the same fields as Grant.
+Removes permissions and/or roles from a principal on a resource. It takes the same fields as Grant. Revoking from a
+`group:<slug>` principal works even if the group no longer exists, so stray grants can be cleaned up.
 
 === "TypeScript"
 
@@ -527,5 +674,521 @@ Principal IDs may contain slashes.
 
     ```bash
     curl "$PERMIO_API/permissions-service/v1/permissions/assignments/principal/alice?project_name=default" \
+      -H "Authorization: Bearer $PERMIO_API_KEY"
+    ```
+
+---
+
+## Access queries
+
+These answer "where?" and "who?" instead of "may they?", with the same rules as Check. The guide
+[Filtering lists and building share dialogs](../guides/filtering-and-sharing.md) shows how to use them.
+
+### ListAccess
+
+`GET /permissions-service/v1/access?project_name=…&principal_id=…&permission=…&under_uri=…`
+
+Answers "where can this principal use this permission, at or below `under_uri`?". It counts grants made to the
+principal directly, through roles, and through the groups it is a member of. perms.io doesn't know your records, so
+the answer is a list of **scopes** in your URI tree, not a list of objects:
+
+- If the principal holds the permission on `under_uri` itself (through a grant on it, on an ancestor, or on a stored
+  `_` wildcard URI that matches it), `covers_all` is `true` and `scopes` is a single `SUBTREE` scope for
+  `under_uri`. There are no further pages.
+- Otherwise `scopes` lists the URIs of the grants below `under_uri` that confer the permission. A concrete URI is a
+  `SUBTREE` scope, because a grant applies to its URI and everything below it. A URI with `_` wildcard segments is a
+  `PATTERN` scope. Scopes are ordered by `uri` and paginated.
+
+**Needs:** `permission.check` on `under_uri`, and `principal.assignment.get` on the principal.
+
+**Request** (`ListAccessRequest`)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `project_name` | string | Required. |
+| `principal_id` | string | Required. |
+| `permission` | string | Required. One permission name. |
+| `under_uri` | string | Required. Only resources at or below this URI are considered. A `_` segment here is literal. |
+| `pagination` | [PaginationRequest](pagination.md) | Optional. |
+
+**Response** (`ListAccessResponse`)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `covers_all` | bool | `true` if the principal holds the permission on `under_uri` itself, and so on everything below it. |
+| `scopes` | AccessScope[] | The places at or below `under_uri` where the principal holds the permission, ordered by `uri`. |
+| `pagination` | PaginationResponse | `next_cursor` for the next page. |
+
+**AccessScope**
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `uri` | string | A resource URI (`SUBTREE`, `EXACT`) or a URI pattern with `_` segments (`PATTERN`). For a grant below `under_uri`, it is the URI the grant was made on, which may have `_` segments in the part that matches `under_uri`. |
+| `scope` | AccessScopeKind | Which resources `uri` stands for. |
+
+**AccessScopeKind**
+
+| Value | Meaning |
+| --- | --- |
+| `ACCESS_SCOPE_KIND_SUBTREE` | The resource `uri` and every resource below it. |
+| `ACCESS_SCOPE_KIND_PATTERN` | Every resource whose leading segments match `uri`, where each `_` segment matches exactly one segment, and every resource below those. |
+| `ACCESS_SCOPE_KIND_EXACT` | Exactly the resource `uri`. Reserved: grants are always inherited, so it isn't returned today. |
+
+To filter a database by a `SUBTREE` scope `p`, match `path = p` **or** `path` starting with `p/`. A bare prefix
+match on `p` would also match siblings such as `/documents/12` for `/documents/1`.
+
+**Errors:** `INVALID_ARGUMENT` for a malformed request or an invalid cursor; `PERMISSION_DENIED` if the API key lacks
+either permission; `NOT_FOUND` if `principal_id` is `group:<slug>` and that group doesn't exist.
+
+=== "TypeScript"
+
+    ```ts
+    const access = await permio.listAccess({
+      principal: "alice",
+      permission: "document.read",
+      under: "/documents",
+    });
+    access.coversAll;    // false
+    access.toPrefixes(); // ["/documents/4", "/documents/7"]
+    ```
+
+    Available from SDK 0.2.0. It follows every page. See [`listAccess`](../sdk/typescript.md#listaccess).
+
+=== "cURL"
+
+    ```bash
+    curl "$PERMIO_API/permissions-service/v1/access?project_name=default&principal_id=alice&permission=document.read&under_uri=/documents" \
+      -H "Authorization: Bearer $PERMIO_API_KEY"
+    ```
+
+    ```json
+    {"scopes": [
+      {"uri": "/documents/4", "scope": "ACCESS_SCOPE_KIND_SUBTREE"},
+      {"uri": "/documents/7", "scope": "ACCESS_SCOPE_KIND_SUBTREE"}
+    ]}
+    ```
+
+=== "Go"
+
+    ```go
+    res, err := client.ListAccess(ctx, &permissionsv1.ListAccessRequest{
+        ProjectName: "default",
+        PrincipalId: "alice",
+        Permission:  "document.read",
+        UnderUri:    "/documents",
+    })
+    // handle err
+    if res.GetCoversAll() {
+        // no filter needed
+    }
+    for _, s := range res.GetScopes() {
+        if s.GetScope() == permissionsv1.AccessScopeKind_ACCESS_SCOPE_KIND_SUBTREE {
+            fmt.Println(s.GetUri())
+        }
+    }
+    ```
+
+=== "Python"
+
+    ```python
+    res = client.ListAccess(
+        permissions_pb2.ListAccessRequest(
+            project_name="default",
+            principal_id="alice",
+            permission="document.read",
+            under_uri="/documents",
+        ),
+        metadata=[("authorization", f"Bearer {api_key}")],
+    )
+    for s in res.scopes:
+        if s.scope == permissions_pb2.ACCESS_SCOPE_KIND_SUBTREE:
+            print(s.uri)
+    ```
+
+### ListPrincipalsWithAccess
+
+`GET /permissions-service/v1/access/principals?project_name=…&resource_uri=…`
+
+Answers "who has access to `resource_uri`?". It lists the principals with a grant on the resource, on an ancestor
+of it, or on a stored `_` wildcard URI that matches it, with the grants that give the access.
+
+- With `permission` set, only grants that confer that permission count, so a principal is listed exactly when a
+  Check for it passes through its own grants. Without it, every grant with at least one permission or role counts.
+- Groups are listed as principals, with `is_group` set. With `expand_groups`, each group's members are listed too,
+  once per group, with `via_group` set.
+- Entries are ordered by `principal_id`, then `via_group`, and paginated.
+
+**Needs:** `principal.list` and `principal.assignment.list` on the project.
+
+**Request** (`ListPrincipalsWithAccessRequest`)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `project_name` | string | Required. |
+| `resource_uri` | string | Required. The resource to look at. A `_` segment here is literal. |
+| `permission` | string | Optional. Only count grants that confer this permission. |
+| `expand_groups` | bool | Optional. Also list the members of every listed group. |
+| `pagination` | [PaginationRequest](pagination.md) | Optional. |
+
+**Response** (`ListPrincipalsWithAccessResponse`): `principals` (PrincipalAccess[]) and `pagination`.
+
+**PrincipalAccess**
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `principal_id` | string | The principal. A group appears as `group:<slug>`. |
+| `is_group` | bool | `true` if `principal_id` is a group. |
+| `via_group` | string | For entries added by `expand_groups`: the slug of the group through which the principal holds the grants in `via`. Empty for grants made to the principal itself. |
+| `via` | AccessGrant[] | The grants that give the access, most specific first. |
+
+**AccessGrant**
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `resource_uri` | string | The URI the grant was made on: the resource itself, an ancestor, or a URI with `_` segments that matches it. |
+| `inherited` | bool | `true` unless the grant was made on exactly the resource. |
+| `match` | AccessGrantMatch | `ACCESS_GRANT_MATCH_EXACT` (on the resource), `ACCESS_GRANT_MATCH_ANCESTOR` (on an ancestor, possibly with `_` segments) or `ACCESS_GRANT_MATCH_WILDCARD` (same depth, with `_` segments). |
+| `role` | AccessGrantRole | Set when the access comes through a role: its `id` and `name`. |
+| `direct` | AccessGrantDirect | Set (as an empty message) when the access comes from directly granted permissions. |
+
+`role` and `direct` are a `oneof` called `source`: exactly one is set.
+
+**Errors:** `INVALID_ARGUMENT` for a malformed request or an invalid cursor; `PERMISSION_DENIED` if the API key lacks
+either permission.
+
+=== "TypeScript"
+
+    ```ts
+    const entries = await permio.whoHasAccess({
+      resource: "/documents/42",
+      permission: "document.read",
+      expandGroups: true,
+    });
+    ```
+
+    Available from SDK 0.2.0. It follows every page. See [`whoHasAccess`](../sdk/typescript.md#whohasaccess).
+
+=== "cURL"
+
+    ```bash
+    curl "$PERMIO_API/permissions-service/v1/access/principals?project_name=default&resource_uri=/documents/42&permission=document.read&expand_groups=true" \
+      -H "Authorization: Bearer $PERMIO_API_KEY"
+    ```
+
+    ```json
+    {"principals": [
+      {"principalId": "alice",
+       "via": [{"resourceUri": "/documents", "inherited": true, "match": "ACCESS_GRANT_MATCH_ANCESTOR",
+                "role": {"id": "ROLE_ID", "name": "viewer"}}]},
+      {"principalId": "bob", "viaGroup": "editors",
+       "via": [{"resourceUri": "/documents", "inherited": true, "match": "ACCESS_GRANT_MATCH_ANCESTOR", "direct": {}}]},
+      {"principalId": "group:editors", "isGroup": true,
+       "via": [{"resourceUri": "/documents", "inherited": true, "match": "ACCESS_GRANT_MATCH_ANCESTOR", "direct": {}}]}
+    ]}
+    ```
+
+---
+
+## Groups
+
+A [group](../concepts/groups.md) is a named set of principals in a project. Grant to its principal ID,
+`group:<slug>`, with [GrantUserPermissionsAndRolesOnResource](#grantuserpermissionsandrolesonresource), and every
+member holds the grant. Groups can't contain groups.
+
+In the paths below, `{name}` is the group's slug: 1–64 characters, lowercase letters, digits and `-`.
+
+**Group**
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `id` | string | Unique ID. |
+| `organisation_id` | string | Owning organisation. |
+| `project_name` | string | Owning project. |
+| `name` | string | The slug, unique within the project. It can't be changed. |
+| `description` | string | Free text, up to 1024 characters. |
+| `principal_id` | string | The principal ID grants to the group are made to: `group:<name>`. |
+| `created_at`, `updated_at` | Timestamp | |
+
+**GroupMember**: `principal_id` (string) and `created_at` (Timestamp, when the principal was added).
+
+### CreateGroup
+
+`POST /permissions-service/v1/groups`
+
+Creates a group and returns the `Group`. Returns `ALREADY_EXISTS` if the project already has a group with this name.
+
+**Needs:** `group.create` on the project.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `project_name` | string | Required. |
+| `name` | string | Required. The slug. |
+| `description` | string | Optional. Up to 1024 characters. |
+
+=== "TypeScript"
+
+    ```ts
+    const g = await permio.groups.create("editors", { description: "Can edit every document" });
+    g.principalId; // "group:editors"
+    ```
+
+=== "cURL"
+
+    ```bash
+    curl -X POST "$PERMIO_API/permissions-service/v1/groups" \
+      -H "Authorization: Bearer $PERMIO_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{"project_name": "default", "name": "editors", "description": "Can edit every document"}'
+    ```
+
+=== "Go"
+
+    ```go
+    g, err := client.CreateGroup(ctx, &permissionsv1.CreateGroupRequest{
+        ProjectName: "default",
+        Name:        "editors",
+        Description: "Can edit every document",
+    })
+    ```
+
+=== "Python"
+
+    ```python
+    g = client.CreateGroup(
+        permissions_pb2.CreateGroupRequest(project_name="default", name="editors", description="Can edit every document"),
+        metadata=[("authorization", f"Bearer {api_key}")],
+    )
+    ```
+
+### GetGroup
+
+`GET /permissions-service/v1/groups/{name}?project_name=…`
+
+Returns a `Group`, or `NOT_FOUND`.
+
+**Needs:** `group.get` on the group.
+
+=== "TypeScript"
+
+    ```ts
+    const g = await permio.groups.get("editors");
+    ```
+
+=== "cURL"
+
+    ```bash
+    curl "$PERMIO_API/permissions-service/v1/groups/editors?project_name=default" \
+      -H "Authorization: Bearer $PERMIO_API_KEY"
+    ```
+
+### UpdateGroup
+
+`PUT /permissions-service/v1/groups/{name}`
+
+Replaces a group's description and returns the updated `Group`, or `NOT_FOUND`. The name can't be changed, because
+`group:<name>` is the principal ID its grants are stored under.
+
+**Needs:** `group.update` on the group.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `project_name` | string | Required. |
+| `name` | string | Required (path). |
+| `description` | string | The new description. Up to 1024 characters. |
+
+=== "TypeScript"
+
+    ```ts
+    await permio.groups.update("editors", { description: "Edits documents and comments" });
+    ```
+
+=== "cURL"
+
+    ```bash
+    curl -X PUT "$PERMIO_API/permissions-service/v1/groups/editors" \
+      -H "Authorization: Bearer $PERMIO_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{"project_name": "default", "description": "Edits documents and comments"}'
+    ```
+
+### DeleteGroup
+
+`DELETE /permissions-service/v1/groups/{name}?project_name=…`
+
+Deletes a group together with its memberships and every grant made to it, in one transaction. This call is
+idempotent: it succeeds whether or not the group existed.
+
+**Needs:** `group.delete` on the group, and `principal.assignment.delete` on the project, because it revokes the
+group's grants.
+
+=== "TypeScript"
+
+    ```ts
+    await permio.groups.delete("editors");
+    ```
+
+=== "cURL"
+
+    ```bash
+    curl -X DELETE "$PERMIO_API/permissions-service/v1/groups/editors?project_name=default" \
+      -H "Authorization: Bearer $PERMIO_API_KEY"
+    ```
+
+### ListGroups
+
+`GET /permissions-service/v1/groups?project_name=…`
+
+Lists the groups in a project, ordered by name. The response has `groups` (Group[]) and `pagination`. It takes
+`pagination` and `search` (filters by name, up to 128 characters).
+
+**Needs:** `group.list` on the project.
+
+=== "TypeScript"
+
+    ```ts
+    for await (const g of permio.groups.list({ search: "edit" })) console.log(g.name);
+    ```
+
+=== "cURL"
+
+    ```bash
+    curl "$PERMIO_API/permissions-service/v1/groups?project_name=default&search=edit" \
+      -H "Authorization: Bearer $PERMIO_API_KEY"
+    ```
+
+### AddGroupMembers
+
+`POST /permissions-service/v1/groups/{name}/members/add`
+
+Adds up to 100 principals to a group. Principals that are already members are reported, not added again. A
+principal that is new to your organisation counts towards its unique principals, exactly as if it had been granted
+something, and goes through the same billing check.
+
+**Needs:** `group.member.add` on the group **and** `principal.assignment.create` on the project. A member gets the
+group's grants anywhere in the project, so only a caller who could grant that access directly may add members.
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `project_name` | string | Required. |
+| `name` | string | Required (path). |
+| `principal_ids` | string[] | Required. 1–100 unique principal IDs. They may not start with `group:`. |
+
+**Response** (`AddGroupMembersResponse`)
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `added_principal_ids` | string[] | The principals that were added, in request order. |
+| `existing_principal_ids` | string[] | The principals that were already members, in request order. |
+
+**Errors:** `INVALID_ARGUMENT` if a principal ID starts with `group:` (groups can't be nested); `NOT_FOUND` if the
+group doesn't exist; `PERMISSION_DENIED` if the caller lacks either permission, or if the organisation may not add
+new principals.
+
+=== "TypeScript"
+
+    ```ts
+    const { added, existing } = await permio.groups.addMembers("editors", ["alice", "bob"]);
+    ```
+
+=== "cURL"
+
+    ```bash
+    curl -X POST "$PERMIO_API/permissions-service/v1/groups/editors/members/add" \
+      -H "Authorization: Bearer $PERMIO_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{"project_name": "default", "principal_ids": ["alice", "bob"]}'
+    ```
+
+    ```json
+    {"addedPrincipalIds": ["alice", "bob"]}
+    ```
+
+=== "Go"
+
+    ```go
+    res, err := client.AddGroupMembers(ctx, &permissionsv1.AddGroupMembersRequest{
+        ProjectName:  "default",
+        Name:         "editors",
+        PrincipalIds: []string{"alice", "bob"},
+    })
+    ```
+
+=== "Python"
+
+    ```python
+    res = client.AddGroupMembers(
+        permissions_pb2.AddGroupMembersRequest(project_name="default", name="editors", principal_ids=["alice", "bob"]),
+        metadata=[("authorization", f"Bearer {api_key}")],
+    )
+    ```
+
+### RemoveGroupMembers
+
+`POST /permissions-service/v1/groups/{name}/members/remove`
+
+Removes up to 100 principals from a group. Principals that aren't members are reported. It takes the same fields as
+AddGroupMembers.
+
+**Needs:** `group.member.remove` on the group **and** `principal.assignment.create` on the project.
+
+**Response** (`RemoveGroupMembersResponse`): `removed_principal_ids` and `not_member_principal_ids` (string[], in
+request order).
+
+=== "TypeScript"
+
+    ```ts
+    const { removed, notMembers } = await permio.groups.removeMembers("editors", ["bob"]);
+    ```
+
+=== "cURL"
+
+    ```bash
+    curl -X POST "$PERMIO_API/permissions-service/v1/groups/editors/members/remove" \
+      -H "Authorization: Bearer $PERMIO_API_KEY" \
+      -H "Content-Type: application/json" \
+      -d '{"project_name": "default", "principal_ids": ["bob"]}'
+    ```
+
+### ListGroupMembers
+
+`GET /permissions-service/v1/groups/{name}/members?project_name=…`
+
+Lists a group's members, ordered by principal ID. The response has `members` (GroupMember[]) and `pagination`. It
+takes `pagination`.
+
+**Needs:** `group.member.list` on the group.
+
+=== "TypeScript"
+
+    ```ts
+    for await (const m of permio.groups.listMembers("editors")) console.log(m.principalId);
+    ```
+
+=== "cURL"
+
+    ```bash
+    curl "$PERMIO_API/permissions-service/v1/groups/editors/members?project_name=default" \
+      -H "Authorization: Bearer $PERMIO_API_KEY"
+    ```
+
+### ListGroupsForPrincipal
+
+`GET /permissions-service/v1/group-memberships/{principal_id=**}?project_name=…`
+
+Lists the groups a principal is a member of in the project, ordered by name. The response has `groups` (Group[]) and
+`pagination`. It takes `pagination`. Principal IDs may contain slashes.
+
+**Needs:** `group.list` on the project, and `principal.assignment.list` on the principal.
+
+=== "TypeScript"
+
+    ```ts
+    for await (const g of permio.groups.listForPrincipal("alice")) console.log(g.name);
+    ```
+
+=== "cURL"
+
+    ```bash
+    curl "$PERMIO_API/permissions-service/v1/group-memberships/alice?project_name=default" \
       -H "Authorization: Bearer $PERMIO_API_KEY"
     ```

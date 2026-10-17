@@ -36,7 +36,7 @@ API keys are still accepted.
 
 A key acts within its own **project**. Your organisation is worked out from the key, so permission requests don't
 include an organisation ID. A key gets its own grants on its project: by default **check** access, which allows
-`Check` and the read-only calls. See [Access levels](../concepts/api-keys.md#access-levels).
+`Check`, the access queries and the read-only calls. See [Access levels](../concepts/api-keys.md#access-levels).
 
 ## Errors
 
@@ -48,7 +48,8 @@ A **denied check is not an error**. `Check` returns success with `passed: false`
 | `INVALID_ARGUMENT` (3) | 400 | Malformed input: an invalid resource URI, an empty permissions list, a bad project name, more than 100 items in a check, and so on. |
 | `UNAUTHENTICATED` (16) | 401 | The API key is missing, malformed, unknown or invalidated. |
 | `PERMISSION_DENIED` (7) | 403 | The **API key** isn't allowed to make this call. For example, a key without `permission.check` calling `Check`, or a check-only key creating a role. The message lists what is missing. |
-| `NOT_FOUND` (5) | 404 | The permission, role or other entity doesn't exist. |
+| `NOT_FOUND` (5) | 404 | The permission, role, group or other entity doesn't exist. Also returned when a `group:<slug>` principal names a group that doesn't exist. |
+| `ALREADY_EXISTS` (6) | 409 | A group with this name already exists in the project. |
 | `INTERNAL` (13) | 500 | Something went wrong on our side. |
 | `UNAVAILABLE` (14) | 503 | The service is temporarily unavailable. Safe to retry for reads. |
 
@@ -64,7 +65,7 @@ Over gRPC and gRPC-web, the code arrives as `grpc-status` and the text as `grpc-
 
 === "TypeScript"
 
-    The [TypeScript SDK](../sdk/typescript.md) (`npm install permio`, pre-release) is the recommended client.
+    The [TypeScript SDK](../sdk/typescript.md) (`npm install permio`) is the recommended client.
     Besides the check helpers, it exposes every RPC on this page through `permio.permissions` and
     `permio.organisations`.
 

@@ -1,0 +1,39 @@
+# Permio
+
+> Permio (perms.io) is permissions as a service: resource-level role-based access control (RBAC) behind a REST/JSON, gRPC and gRPC-web API. You define permissions (such as `document.read`) and roles, and grant them to principals and groups on hierarchical resource URIs such as `/documents/42`. A grant applies to its URI and everything beneath it, and a `_` segment in a grant matches any single segment. Your backend asks `check` (may a principal do X on a resource?), `batchCheck` (answer each resource in a list separately), `listAccess` (where may a principal use a permission?, for filtering lists in your database) and `whoHasAccess` (who can access a resource?, for share dialogs). Permio only does authorisation: bring your own authentication, and use the user IDs your app already has as principal IDs.
+
+Key facts:
+
+- Production API host: `https://temp-api.perms.io` (moving to `https://api.perms.io`). Development: `https://dev-api.perms.io`.
+- Authenticate with an API key (`perms_...`, 44 characters) sent as `Authorization: Bearer <key>`. Keep keys on the server.
+- Every Permissions API request names a project (`project_name`); every organisation starts with a `default` project.
+- A denied check is a normal response (`passed: false` plus the missing permissions), not an error.
+- Groups: grant to the principal ID `group:<slug>` and every member holds the grant; checks include a principal's groups.
+- The TypeScript SDK is the npm package `permio` (`npm install permio`); batch checks, groups and access queries need 0.2.0 or later. There is no Java SDK. A generated Rust client is open source on GitHub (not on crates.io), and the generated Go and Python clients are not publicly available yet.
+- Manage projects, permissions, roles, grants, groups and API keys in the dashboard at https://app.perms.io.
+
+## Docs
+
+- [Home](https://docs.perms.io/): What Permio is and its key features: resource-level RBAC, hierarchical inheritance, groups, bring your own authentication.
+- [Quickstart](https://docs.perms.io/quickstart/): From sign-up to a passing permission check: create a permission, a role, a grant and an API key, then check with TypeScript or cURL.
+- [How it works](https://docs.perms.io/how-it-works/): The building blocks (organisations, projects, permissions, roles, principals, groups, resources, grants), how checks work and common patterns such as multi-tenancy.
+- [Resources and inheritance](https://docs.perms.io/concepts/resources/): Resource URI rules, how grants apply to everything beneath them, the `_` wildcard segment and how a check is decided.
+- [Groups](https://docs.perms.io/concepts/groups/): Named sets of principals; granting to `group:<slug>`, members, how checks use groups, deleting groups and the permissions needed to manage them.
+- [API keys](https://docs.perms.io/concepts/api-keys/): Key format and checksum, sending keys, check vs full access levels, and invalidating keys.
+- [Filtering lists and building share dialogs](https://docs.perms.io/guides/filtering-and-sharing/): Using `listAccess` scopes to filter rows in PostgreSQL, Prisma or MongoDB, `batchCheck` for loaded rows, and `whoHasAccess` for share dialogs.
+
+## API reference
+
+- [API overview](https://docs.perms.io/api-reference/): Services, hosts, REST/JSON vs gRPC vs gRPC-web, authentication, error codes and the available clients.
+- [Permissions & Roles](https://docs.perms.io/api-reference/permissions/): `PermissionsService`: Check, BatchCheck, permissions, roles, grants, ListAccess, ListPrincipalsWithAccess and groups, with REST paths, fields and examples.
+- [Organisations & Projects](https://docs.perms.io/api-reference/organizations/): `OrganisationService`: organisations, projects, API keys, team members and usage; mostly used by the dashboard.
+- [Pagination](https://docs.perms.io/api-reference/pagination/): Cursor-based pagination (`limit`, `cursor`, `next_cursor`) and which endpoints are paginated.
+
+## SDKs
+
+- [TypeScript SDK](https://docs.perms.io/sdk/typescript/): The `permio` package on npm: client options, `check`, `checkDetailed`, `assert`, `checkAny`, `batchCheck`, groups, `listAccess`, `whoHasAccess`, `resource()`, typed errors, retries, iterators, raw clients, and Express and Next.js examples.
+
+## Optional
+
+- [IAM fundamentals](https://docs.perms.io/iam-basics/): General background on identity and access management: authentication vs authorisation, RBAC, ABAC, inheritance and best practices.
+- [Full documentation text](https://docs.perms.io/llms-full.txt): The essential pages above in one Markdown file, for loading into an LLM's context.

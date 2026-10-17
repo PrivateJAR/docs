@@ -68,10 +68,6 @@ Ask whether `alice` may read document 42:
     npm install permio
     ```
 
-    !!! warning "Pre-release"
-
-        The `permio` package isn't on npm yet. Use the cURL tab until the first release is published.
-
     ```ts
     import { Permio, resource } from "permio";
 
@@ -155,5 +151,6 @@ to check. See [Errors](api-reference/index.md#errors).
 ## Next steps
 
 - [Resources and inheritance](concepts/resources.md): design your resource URIs, and use the `_` wildcard.
+- [Groups](concepts/groups.md): grant to a team once instead of to each user.
 - [TypeScript SDK](sdk/typescript.md): `assert`, `checkAny`, error handling, and Express and Next.js examples.
 - [API reference](api-reference/index.md): every endpoint, for cURL, gRPC and the generated clients.

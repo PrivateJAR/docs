@@ -22,6 +22,10 @@ Grant access to individual objects, such as `/projects/42` or `/documents/42/com
 A grant on `/documents` applies to `/documents/42` and everything beneath it, including resources created later.
 The `_` wildcard segment lets one grant cover a whole level. See [Resources and inheritance](concepts/resources.md).
 
+### Groups
+
+Grant to a group such as `group:editors` once, and every member holds the grant. See [Groups](concepts/groups.md).
+
 ### Bring your own authentication
 
 perms.io only does authorisation. Principals are whatever IDs your app already uses, so it works with any login
@@ -41,6 +45,25 @@ system.
 - **[How it works](how-it-works.md)**: permissions, roles, principals and grants.
 - **[API keys](concepts/api-keys.md)**: key format, access levels and invalidation.
 - **[IAM fundamentals](iam-basics.md)**: background on access control in general.
+
+---
+
+## For AI assistants
+
+If you use a coding assistant or an LLM, point it at these files:
+
+- [`llms.txt`](llms.txt) (`https://docs.perms.io/llms.txt`): an index of every page on this site, with a one-line
+  description of each.
+- [`llms-full.txt`](llms-full.txt) (`https://docs.perms.io/llms-full.txt`): the concepts, quickstart, TypeScript SDK
+  and API reference in one Markdown file, to load straight into the model's context.
+
+For example, give your assistant this prompt:
+
+```text
+Add Permio permissions to this app using the `permio` npm package. Docs: https://docs.perms.io/llms.txt
+```
+
+Install it with `npm install permio`. See the [TypeScript SDK](sdk/typescript.md).
 
 ---
 
