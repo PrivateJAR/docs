@@ -258,6 +258,12 @@ Create roles specific to your application's needs:
 ```
 
 
+!!! note "In Permio"
+
+    Permio uses grants rather than policy documents: a principal, a resource URI, and permissions and/or roles. It
+    has no deny effect and no conditions such as time of day or source IP. If you need conditions, apply them in your
+    application before or after the permission check.
+
 ## IAM Models
 
 ### 1. Discretionary Access Control (DAC)
@@ -356,9 +362,13 @@ Resources often exist in hierarchical relationships where permissions granted at
 
 ### Inheritance Rules
 
-1. **Explicit permissions** override inherited permissions
-2. **More specific** permissions override general permissions
-3. **Closest parent** permissions take precedence
+Systems differ in how they combine inherited and explicit grants. Some support explicit denies or "closest parent
+wins" rules.
+
+!!! note "In Permio"
+
+    Grants are purely additive: there are no deny rules. A principal holds a permission on a resource if any grant on
+    that resource or on one of its ancestors gives it. See [Resources and inheritance](concepts/resources.md).
 
 ### Inheritance Example
 
@@ -379,8 +389,8 @@ Given these permission assignments:
 ```
 
 Alice's effective permissions:
-- `/organization/acme/*`: **read** (inherited)
-- `/organization/acme/project/web/*`: **read + write** (inherited + explicit)
+- `/organization/acme` and everything beneath it: **read**
+- `/organization/acme/project/web` and everything beneath it: **read + write** (inherited + explicit)
 
 ## Best Practices
 
@@ -500,4 +510,4 @@ Effective IAM is critical for application security and requires careful planning
 - **Monitor continuously**: Track access patterns and audit permissions regularly
 - **Choose the right tools**: Select IAM solutions that fit your architecture and scale
 
-Ready to implement robust access control? Permio provides a modern, scalable IAM platform that simplifies permission management while providing enterprise-grade security. Check out our [Quick Start Guide](./quickstart.md) to begin implementing fine-grained access control in your applications.
+Ready to try it? The [Quickstart](quickstart.md) takes you from sign-up to a working permission check.

@@ -1,68 +1,49 @@
 <div style="text-align: center;">
-    <img src="./assets/transparentLogoSquare.png" alt="My Image" width="400" height="400">
+    <img src="./assets/transparentLogoSquare.png" alt="perms.io logo" width="400" height="400">
 </div>
 
-Permio is a **Resource-Specific Role-Based Access Control (RBAC)** system designed for modern applications that require **fine-grained and scalable permission management**. With an **API-First approach**, **authentication-agnostic design**, and a built-in **UI Dashboard**, Permio empowers developers and admins to define and enforce permissions at the most granular level.
+Permio (perms.io) is permissions as a service. It gives you **resource-level role-based access control (RBAC)**: you
+define permissions and roles, grant them to your users on **resource URIs**, and ask one question from your code:
 
-Manage your organization visually via the dashboard at [app.perms.io](https://app.perms.io) or programmatically via the API.
+> May principal **alice** do **document.read** on **/documents/42**?
 
----
-
-## 🔧 Key Features
-
-### ✅ Resource-Level RBAC
-Permio enables access control at the *individual object level*. You can define access rules for *specific instances* of data (e.g., /project/42, /user/1234), enabling secure and flexible permissioning for complex apps.
-
-### 🏗️ Hierarchical Inheritance
-Define roles and permissions at higher levels (e.g., /user) and let them *automatically propagate* to nested resources (e.g., /user/1234, /user/1234/documents/5678).
-
-### 🔌 API-First Design
-- **REST API** for web applications
-- **gRPC API** for backend services
-- **Authentication-agnostic** - works with any auth provider
-- **gRPC clients** for Go, Rust, Python, Java, TypeScript
+Manage everything in the dashboard at [app.perms.io](https://app.perms.io), and check permissions through the API.
 
 ---
 
-## 🚀 Quick Start
+## Key features
 
-Ready to get started? Follow our comprehensive guide:
+### Resource-level RBAC
 
-**[📖 Quick Start Guide →](./quickstart.md)**
+Grant access to individual objects, such as `/projects/42` or `/documents/42/comments/7`, not just to whole types.
 
-Learn the fundamentals of access control:
+### Hierarchical inheritance
 
-**[🔐 IAM Fundamentals →](./iam-basics.md)**
+A grant on `/documents` applies to `/documents/42` and everything beneath it, including resources created later.
+The `_` wildcard segment lets one grant cover a whole level. See [Resources and inheritance](concepts/resources.md).
 
-Understand how Permio works:
+### Bring your own authentication
 
-**[⚙️ How It Works →](./how-it-works.md)**
+perms.io only does authorisation. Principals are whatever IDs your app already uses, so it works with any login
+system.
 
----
+### API first
 
-## 📚 Documentation
-
-### Core Concepts
-- **[How It Works](./how-it-works.md)** - Understanding resource-specific RBAC
-- **[IAM Fundamentals](./iam-basics.md)** - Identity and access management fundamentals
-
-### API Reference
-- **[Organizations & Projects](./api-reference/organizations.md)** - Manage your organization structure
-- **[Permissions](./api-reference/permissions.md)** - Create and manage permissions
-- **[Pagination](./api-reference/pagination.md)** - Handle large result sets efficiently
-
-### Integration Examples
-- **Multi-tenant Applications** - Isolate tenant data securely
-- **Document Management Systems** - File-level access control
-- **Project-based Access** - Team and environment permissions
+- One **REST/JSON**, **gRPC** and **gRPC-web** API. See the [API reference](api-reference/index.md).
+- A **[TypeScript SDK](sdk/typescript.md)** with check helpers, typed errors, retries and iterators.
+- A dashboard for managing projects, permissions, roles, grants and API keys.
 
 ---
 
-## 💬 Support
+## Get started
 
-Need help getting started or have questions?
+- **[Quickstart](quickstart.md)**: from sign-up to a passing check in five minutes.
+- **[How it works](how-it-works.md)**: permissions, roles, principals and grants.
+- **[API keys](concepts/api-keys.md)**: key format, access levels and invalidation.
+- **[IAM fundamentals](iam-basics.md)**: background on access control in general.
 
-- **📧 Email**: [support@perms.io](mailto:support@perms.io)
-- **💬 Discord**: [Join our community](https://discord.gg/permio)
-- **📖 Documentation**: Browse these docs for detailed guides
-- **🐛 Issues**: [Report bugs or request features](https://github.com/permio/permio/issues)
+---
+
+## Support
+
+Questions or problems? Email [hello@perms.io](mailto:hello@perms.io).
