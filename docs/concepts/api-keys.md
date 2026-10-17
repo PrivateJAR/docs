@@ -54,16 +54,32 @@ decides which calls the key may make.
 
 | Access | Role | Allows |
 | --- | --- | --- |
-| **Check** (default) | `apikey.checker` | `Check`. Reading permissions, roles, principals and assignments (`permission.check`, `permission.get`, `permission.list`, `role.get`, `role.list`, `principal.list`, `principal.assignment.get`, `principal.assignment.list`). |
-| **Full access** | `apikey.manager` | Everything above, plus creating, updating and deleting permissions and roles, and granting and revoking (`permission.create/update/delete`, `role.create/update/delete`, `principal.assignment.create/delete`). |
+| **Check** (default) | `apikey.checker` | `Check`, `BatchCheck`, `ListAccess` and `ListPrincipalsWithAccess`. Reading permissions, roles, principals, assignments, groups and group members (`permission.check`, `permission.get`, `permission.list`, `role.get`, `role.list`, `principal.list`, `principal.assignment.get`, `principal.assignment.list`, `group.get`, `group.list`, `group.member.list`). |
+| **Full access** | `apikey.manager` | Everything above, plus creating, updating and deleting permissions, roles and groups, granting and revoking, and adding and removing group members (`permission.create/update/delete`, `role.create/update/delete`, `principal.assignment.create/delete`, `group.create/update/delete`, `group.member.add/remove`). |
 
-!!! note "Full access is on its way"
+Each RPC's level is listed in the [API reference](../api-reference/permissions.md).
 
-    The API defines both levels. The dashboard does not offer a choice yet, so keys created there get **check**
-    access. Choosing **full access** in the dashboard is coming. Until then, manage permissions, roles and grants
-    in the dashboard and use keys for checks.
+### Choosing the level
 
-To create a key with a given level, you must hold every permission that level grants on the project.
+The level is set when the key is created, with the `access` field of
+[`CreateAPIKey`](../api-reference/organizations.md#api-keys):
+
+| `access` | Level |
+| --- | --- |
+| `API_KEY_ACCESS_CHECK` | Check. |
+| `API_KEY_ACCESS_FULL` | Full access. |
+| `API_KEY_ACCESS_UNSPECIFIED` (or left out) | Check. |
+
+The key's `access` field reports its level when you list keys. A key's level can't be changed later: create a new
+key with the level you need and invalidate the old one.
+
+To create a key with a given level, you must hold every permission that level grants on the project, so nobody can
+create a key with more access than they have. Otherwise the call fails with `PERMISSION_DENIED`. Choosing the level
+when creating a key in the dashboard is being added. Until it is available there, keys created in the dashboard get
+**check** access.
+
+Give a key the least access it needs. A service that only checks permissions, filters lists or shows who has
+access needs only check access. Use full access for services that manage permissions, roles, grants or groups.
 
 A call the key isn't allowed to make is rejected with `PermissionDenied` (HTTP 403). This is about the key's rights,
 not the principal you are checking. For `Check`, the key needs `permission.check` on the checked resources and on

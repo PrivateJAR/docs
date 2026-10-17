@@ -51,7 +51,7 @@ See [API keys](../concepts/api-keys.md) for the key format and access levels.
 
 | RPC | REST | Notes |
 | --- | --- | --- |
-| `CreateAPIKey` | `POST /organisation-service/v1/organisation/{organisation_id}/api-key` | Body: `project_name`, `name`, `access`. Returns `api_key`, whose `key` is the only time the secret is returned. |
+| `CreateAPIKey` | `POST /organisation-service/v1/organisation/{organisation_id}/api-key` | Body: `project_name`, `name`, `access` (`API_KEY_ACCESS_CHECK` or `API_KEY_ACCESS_FULL`; left out means check). Returns `api_key`, whose `key` is the only time the secret is returned. Needs `apiKey.create` on the project, and every permission of the chosen [access level](../concepts/api-keys.md#choosing-the-level). |
 | `ListAPIKeys` | `GET /organisation-service/v1/organisation/{organisation_id}/api-key` | Query: `project_name`, `pagination.*`, `search`. Returns `api_keys` and `pagination`. Needs `apiKeys.list`. |
 | `InvalidateAPIKey` | `DELETE /organisation-service/v1/organisation/{organisation_id}/api-key/{id}` | Query: `project_name`. The key stops working immediately. |
 
@@ -68,8 +68,9 @@ See [API keys](../concepts/api-keys.md) for the key format and access levels.
 
 !!! note
 
-    The `access` field is part of the API, but choosing full access is still being rolled out. For now, new keys
-    get check access.
+    `CreateAPIKey` with `access: API_KEY_ACCESS_FULL` is refused with `PERMISSION_DENIED` unless the caller holds
+    every permission that level grants on the project. Choosing the level in the dashboard is being added; until
+    then, keys created there get check access.
 
 ## Team members
 

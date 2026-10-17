@@ -10,8 +10,9 @@ and async iterators over list endpoints. The full generated API is there too, as
 
 !!! warning "Pre-release"
 
-    The package has not been published to npm yet. The install command below will work once the first version
-    (`0.1.0`) is released.
+    The package has not been published to npm yet. The install command below will work once the first version is
+    released. [Batch checks](#batch-checks), [groups](#groups) and [access queries](#access-queries) are available
+    from **0.2.0**, which needs the current perms.io API.
 
 ## Install
 
@@ -138,6 +139,225 @@ await permio.checkAny({
 
 An alias of `check`: every permission on every resource.
 
+## Batch checks
+
+!!! info "Available from 0.2.0"
+
+`check` gives one answer for all its resources together. `batchCheck` answers **each resource separately**, which is
+what you need to filter a list or decide which rows get an "edit" button.
+
+### `batchCheck`
+
+Resolves to a `Map<string, boolean>` from resource URI to allowed, with one entry per distinct resource, in request
+order:
+
+```ts
+import { resource } from "permio";
+
+const uris = docs.map((d) => resource("documents", d.id));
+const allowed: Map<string, boolean> = await permio.batchCheck({
+  principal: "alice",
+  resources: uris,
+  permission: "document.read",
+});
+const visible = docs.filter((d) => allowed.get(resource("documents", d.id)));
+```
+
+### `batchCheckDetailed`
+
+Same question, but resolves to a `BatchCheckEntry[]` in request order:
+
+```ts
+const entries = await permio.batchCheckDetailed({
+  principal: "alice",
+  resources: ["/documents/1", "/documents/2"],
+  permissions: ["document.read", "document.write"],
+});
+// [
+//   { resource: "/documents/1", allowed: true, missing: [] },
+//   { resource: "/documents/2", allowed: false, missing: ["document.write"] },
+// ]
+```
+
+`BatchCheckParams`:
+
+| Parameter | Description |
+| --- | --- |
+| `principal` | Required. The principal being checked. |
+| `resources` | Required. Resource URIs, each answered separately. Duplicates are sent once. More than 100 are split into several calls, sent in parallel. |
+| `permission` / `permissions` | One or several permission names, up to 100. A resource is allowed only with **all** of them. |
+| `project`, `signal`, `timeoutMs`, `headers` | As for `check`. |
+
+The SDK fails closed: if the API's answer doesn't have exactly one result for each requested resource, it throws a
+`PermioError` instead of guessing.
+
+## Groups
+
+!!! info "Available from 0.2.0"
+
+A [group](../concepts/groups.md) is a named set of principals in a project. Grant to the group's principal ID,
+`group:<slug>`, and every member holds the grant. Checks include the principal's groups automatically.
+
+### `group(slug)`
+
+Returns the group's principal ID. It throws `PermioValidationError` unless the slug is 1–64 lower-case letters,
+digits and hyphens.
+
+```ts
+import { group } from "permio";
+
+group("editors"); // "group:editors"
+
+await permio.groups.create("editors", { description: "Can edit every document" });
+await permio.groups.addMembers("editors", ["alice", "bob"]);
+
+await permio.permissions.grantUserPermissionsAndRolesOnResource({
+  projectName: "default",
+  userId: group("editors"),
+  resourceUri: "/documents",
+  permissions: ["document.write"],
+});
+
+await permio.check({ principal: "alice", resource: "/documents/42", permission: "document.write" }); // true
+```
+
+### `permio.groups`
+
+Every method that takes a group accepts its slug (`"editors"`) or its principal ID (`"group:editors"`).
+
+| Method | Resolves to |
+| --- | --- |
+| `create(name, { description? })` | `Group`. Throws a `PermioError` with code `Code.AlreadyExists` if the project already has a group with this name. |
+| `get(name)` | `Group`. Throws `PermioNotFoundError` if it doesn't exist. |
+| `update(name, { description })` | `Group`. Replaces the description; a group can't be renamed. Throws `PermioNotFoundError` if it doesn't exist. |
+| `delete(name)` | `void`. Deletes the group, its memberships and every grant made to it. Resolves whether or not it existed. |
+| `list({ search? })` | Async iterator of `Group`, ordered by name. |
+| `addMembers(name, principals)` | `AddMembersResult`: `{ added: string[]; existing: string[] }`, in request order. |
+| `removeMembers(name, principals)` | `RemoveMembersResult`: `{ removed: string[]; notMembers: string[] }`, in request order. |
+| `listMembers(name)` | Async iterator of `GroupMember` (`principalId`, `createdAt`), ordered by principal ID. |
+| `listForPrincipal(principal)` | Async iterator of the `Group`s the principal is a member of, ordered by name. |
+
+- `addMembers` and `removeMembers` take 1–100 principals; duplicates are removed. `addMembers` rejects `group:` IDs
+  with `PermioValidationError`, because groups can't contain groups.
+- Every method also takes `project`, `signal`, `timeoutMs` and `headers`. The list methods take `pageSize` too, and
+  their `timeoutMs` and `headers` apply to each page.
+- `Group` has `id`, `organisationId`, `projectName`, `name`, `description`, `principalId` (`"group:<name>"`),
+  `createdAt` and `updatedAt`.
+
+```ts
+const { added, existing } = await permio.groups.addMembers("group:editors", ["alice", "carol"]);
+
+for await (const m of permio.groups.listMembers("editors")) console.log(m.principalId);
+for await (const g of permio.groups.listForPrincipal("alice")) console.log(g.name);
+```
+
+Reading groups works with a check-access API key. Creating, updating and deleting groups and changing members needs
+a key with full access, and changing members also needs the right to grant across the project. See
+[Permissions you need](../concepts/groups.md#permissions-you-need).
+
+## Access queries
+
+!!! info "Available from 0.2.0"
+
+These answer "where?" and "who?" rather than "may they?". The
+[Filtering lists and building share dialogs](../guides/filtering-and-sharing.md) guide shows them in context.
+
+### `listAccess`
+
+Answers "where may this principal use this permission, at or below `under`?". It follows every page and resolves to
+an `AccessScopes` object:
+
+```ts
+import { type AccessScopes } from "permio";
+
+const access: AccessScopes = await permio.listAccess({
+  principal: "alice",
+  permission: "document.read",
+  under: "/documents",
+});
+
+if (access.coversAll) {
+  // alice may read everything under /documents
+} else {
+  console.log(access.toPrefixes()); // e.g. ["/documents/4", "/documents/7"]
+}
+```
+
+`ListAccessParams`:
+
+| Parameter | Description |
+| --- | --- |
+| `principal` | Required. Access through roles and groups counts. |
+| `permission` | Required. One permission name. |
+| `under` | Required. Only resources at or below this URI are considered. A `_` segment here is literal. |
+| `project`, `pageSize`, `signal`, `timeoutMs`, `headers` | As for the list helpers: `timeoutMs` and `headers` apply to each page. |
+
+`AccessScopes`:
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `under` | `string` | The URI that was asked about. |
+| `coversAll` | `boolean` | The principal holds the permission on `under` itself, so on everything below it. `scopes` is then a single subtree scope for `under`. |
+| `scopes` | `readonly AccessScopeInfo[]` | `{ uri, kind }`, ordered by URI. `kind` is `"subtree"`, `"pattern"`, `"exact"` (reserved, not returned today) or `"unknown"` (a kind this SDK version doesn't know; it never matches). |
+| `isEmpty` | `boolean` | No access anywhere under `under`. |
+| `allows(uri)` | `boolean` | Whether `uri` is covered. Matches per segment: `/a/b` covers `/a/b/c` but not `/a/bc`. Malformed URIs are never allowed. |
+| `toPrefixes()` | `string[]` | The subtree URIs, for prefix filters. Prefixes covered by a shorter one are dropped. Pattern scopes aren't included. |
+| `patterns()` | `string[]` | The pattern URIs, with `_` segments. |
+| `hasPatterns` | `boolean` | Some scope is a pattern, so `toPrefixes()` alone doesn't cover everything. |
+| `exact()` | `string[]` | The exact URIs. Empty today. |
+| `toRegExp()` | `RegExp` | One anchored regular expression matching exactly what `allows()` accepts. Usable in MongoDB `$regex` and, via `.source`, PostgreSQL `~`. Matches nothing when there are no scopes. |
+
+!!! warning
+
+    A prefix `p` from `toPrefixes()` means `p` **and everything below it**. Filter with
+    `path = p OR path starts with p + "/"`, never a bare "starts with `p`", which would let `/documents/1` match
+    `/documents/12`. In SQL, use `starts_with(path, p || '/')` rather than `LIKE`, where `_` is a wildcard.
+
+For a URI outside `under`, `allows()` returning `false` means "not asked", not "denied". The API key needs
+`permission.check` on `under` and `principal.assignment.get` on the principal.
+
+### `whoHasAccess`
+
+Answers "who has access to this resource?". It follows every page and resolves to an `AccessEntry[]`, ordered by
+principal ID:
+
+```ts
+import { type AccessEntry } from "permio";
+
+const entries: AccessEntry[] = await permio.whoHasAccess({
+  resource: "/documents/42",
+  permission: "document.read",
+  expandGroups: true,
+});
+// [
+//   { principal: "alice", isGroup: false, viaGroup: undefined,
+//     via: [{ resource: "/documents", inherited: true, match: "ancestor",
+//             source: { type: "role", id: "ROLE_ID", name: "viewer" } }] },
+//   { principal: "bob", isGroup: false, viaGroup: "editors", via: [...] },
+//   { principal: "group:editors", isGroup: true, viaGroup: undefined, via: [...] },
+// ]
+```
+
+`WhoHasAccessParams`:
+
+| Parameter | Description |
+| --- | --- |
+| `resource` | Required. The resource to look at. A `_` segment here is literal. |
+| `permission` | Optional. Only count grants that confer this permission, so a principal is listed exactly when `check()` passes for it through its own grants (or, for entries with `viaGroup`, through that group). Unset, any grant counts. |
+| `expandGroups` | Optional. Also list every member of each listed group, once per group, with `viaGroup` set. |
+| `project`, `pageSize`, `signal`, `timeoutMs`, `headers` | As for the list helpers: `timeoutMs` and `headers` apply to each page. |
+
+`AccessEntry` has `principal`, `isGroup`, `viaGroup` (a group slug, or `undefined`) and `via`, the grants that give
+the access, most specific first. Each grant (`AccessGrantInfo`) has:
+
+- `resource`: the URI the grant was made on (the resource, an ancestor, or a `_` wildcard URI that matches it);
+- `inherited`: `true` unless the grant was made on exactly the resource;
+- `match`: `"exact"`, `"ancestor"`, `"wildcard"` or `"unknown"`;
+- `source`: `{ type: "role", id, name }`, `{ type: "direct" }` for directly granted permissions, or
+  `{ type: "unknown" }`.
+
+The API key needs `principal.list` and `principal.assignment.list` on the project.
+
 ## Resource URIs
 
 Resource URIs are paths such as `/projects/p1/documents/42`. A grant on a URI also covers every URI beneath it. See
@@ -230,10 +450,12 @@ if you build your own transport or client.
 
 ## Retries and timeouts
 
-- **Retries:** idempotent reads (`Check`, and every `Get*` and `List*` RPC) are retried on `Unavailable` and
+- **Retries:** idempotent reads (`Check`, `BatchCheck`, and every `Get*` and `List*` RPC, including
+  `ListAccess`, `ListPrincipalsWithAccess` and the group reads) are retried on `Unavailable` and
   `DeadlineExceeded`. They are retried twice by default, with exponential backoff and jitter. Network failures
   count as `Unavailable`.
-- **Writes** (every Create, Update, Delete, Grant, Revoke, Invite and so on) are never retried.
+- **Writes** (every Create, Update, Delete, Grant, Revoke, Invite, adding and removing group members, and so on)
+  are never retried.
 - **Timeouts:**
   - The client's `timeoutMs` applies to each attempt (default 10 s).
   - A call's `timeoutMs` is an overall deadline across all attempts.
@@ -276,6 +498,9 @@ for await (const a of permio.listAssignments({ principal: "alice" })) console.lo
 | `listRoles(params?)` | `Role` (with its `permissions`) |
 | `listPrincipals(params?)` | `string` principal IDs that have grants in the project |
 | `listAssignments({ principal, ... })` | `Assignment` (`resourceUri`, `permissions`, `roles`) |
+| `groups.list(params?)` | `Group` (from 0.2.0; see [Groups](#groups)) |
+| `groups.listMembers(name, params?)` | `GroupMember` (from 0.2.0) |
+| `groups.listForPrincipal(principal, params?)` | `Group` (from 0.2.0) |
 
 Each method takes these parameters:
 
@@ -340,9 +565,10 @@ console.log(res.passed, res.missingPermissions);
 
 !!! note "What a key can call"
 
-    By default an API key has **check** access: it can run checks and read permissions, roles, principals and
-    assignments. Creating, updating or deleting permissions and roles, and granting or revoking, needs a key with
-    full access. See [API keys](../concepts/api-keys.md#access-levels).
+    By default an API key has **check** access: it can run checks and access queries, and read permissions, roles,
+    principals, assignments and groups. Creating, updating or deleting permissions, roles and groups, granting or
+    revoking, and changing group members needs a key with full access. See
+    [API keys](../concepts/api-keys.md#access-levels).
 
 The generated messages are exported as the namespaces `permissionsv1`, `organisationv1` and `paginationv1`. The
 service descriptors are exported as `PermissionsService` and `OrganisationService`:
