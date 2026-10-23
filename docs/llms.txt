@@ -4,7 +4,7 @@
 
 Key facts:
 
-- Production API host: `https://temp-api.perms.io` (moving to `https://api.perms.io`). Development: `https://dev-api.perms.io`.
+- Production API host: `https://api.perms.io`. Development: `https://dev-api.perms.io`.
 - Authenticate with an API key (`perms_...`, 44 characters) sent as `Authorization: Bearer <key>`. Keep keys on the server.
 - Every Permissions API request names a project (`project_name`); every organisation starts with a `default` project.
 - A denied check is a normal response (`passed: false` plus the missing permissions), not an error.

@@ -143,14 +143,14 @@ Ask whether `alice` may read document 42:
 
 | Environment | Base URL |
 | --- | --- |
-| Production | `https://temp-api.perms.io` |
+| Production | `https://api.perms.io` |
 | Development | `https://dev-api.perms.io` |
 
-Production will move to `https://api.perms.io`. The examples on this site read the host from a
-`PERMIO_API` shell variable, so you only need to change it in one place:
+The examples on this site read the host from a `PERMIO_API` shell variable, so you only need to
+change it in one place:
 
 ```bash
-export PERMIO_API=https://temp-api.perms.io
+export PERMIO_API=https://api.perms.io
 export PERMIO_API_KEY=perms_...   # your API key
 ```
 
@@ -1011,15 +1011,15 @@ perms.io from your backend, route handlers or middleware.
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `apiKey` | `string` | required | A `perms_…` key from the dashboard, or a legacy JWT key. |
-| `baseUrl` | `string` | `https://temp-api.perms.io` | API host. `DEV_BASE_URL` (`https://dev-api.perms.io`) is exported for the development API. |
+| `baseUrl` | `string` | `https://api.perms.io` | API host. `DEV_BASE_URL` (`https://dev-api.perms.io`) is exported for the development API. |
 | `project` | `string` | none | Default project name for `check*` and `list*` helpers. Each call can override it. |
 | `timeoutMs` | `number` | `10000` | Timeout for each attempt, in ms. `0` disables it. |
 | `retries` | `number \| RetryOptions` | `2` | Retries for idempotent reads. A number sets `maxRetries`; see [Retries and timeouts](https://docs.perms.io/sdk/typescript/#retries-and-timeouts). |
 | `fetch` | `typeof fetch` | `globalThis.fetch` | Custom `fetch`, for example to add an agent, or for tests. |
 | `transport` | `Transport` | gRPC-web | Advanced: a Connect transport to use instead, for example `createRouterTransport` in tests. `baseUrl` and `fetch` are then ignored. |
 
-The production default is `https://temp-api.perms.io`, which will move to `https://api.perms.io`. The SDK's
-default will follow in a future release.
+The production default is `https://api.perms.io`. Versions 0.2.1 and earlier default to
+`https://temp-api.perms.io`, which is being retired: upgrade, or set `baseUrl`.
 
 ```ts
 import { Permio, DEV_BASE_URL } from "permio";
@@ -1674,7 +1674,7 @@ Both are defined in Permio's protobuf definitions. The same host serves them as 
 | Protocol | How to call it |
 | --- | --- |
 | **REST/JSON** | The HTTP method and path listed for each RPC in this reference, for example `POST $PERMIO_API/permissions-service/v1/permissions/check`. Request bodies accept the proto field names (`project_name`). Responses use camelCase JSON names (`missingPermissions`) and leave out fields that have default values. |
-| **gRPC** | Connect to the host on port 443 with TLS, for example `temp-api.perms.io:443`, and send the key as `authorization` metadata. |
+| **gRPC** | Connect to the host on port 443 with TLS, for example `api.perms.io:443`, and send the key as `authorization` metadata. |
 | **gRPC-web** | The protocol the [TypeScript SDK](https://docs.perms.io/sdk/typescript/) uses. It works from servers, edge runtimes and browsers. |
 
 For `GET` and `DELETE` requests over REST, fields that aren't in the path go in the query string. Nested fields use
@@ -1750,7 +1750,7 @@ import (
     "google.golang.org/grpc/metadata"
 )
 
-conn, err := grpc.NewClient("temp-api.perms.io:443",
+conn, err := grpc.NewClient("api.perms.io:443",
     grpc.WithTransportCredentials(credentials.NewTLS(nil)))
 // handle err
 client := permissionsv1.NewPermissionsServiceClient(conn)
@@ -1775,7 +1775,7 @@ Generated gRPC stubs. They aren't publicly available yet.
 import grpc
 from permio.permissions.v1 import permissions_pb2, permissions_pb2_grpc
 
-channel = grpc.secure_channel("temp-api.perms.io:443", grpc.ssl_channel_credentials())
+channel = grpc.secure_channel("api.perms.io:443", grpc.ssl_channel_credentials())
 client = permissions_pb2_grpc.PermissionsServiceStub(channel)
 
 res = client.Check(

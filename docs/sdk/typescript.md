@@ -43,15 +43,15 @@ The constructor checks the API key's format and checksum straight away. A mistyp
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `apiKey` | `string` | required | A `perms_…` key from the dashboard, or a legacy JWT key. |
-| `baseUrl` | `string` | `https://temp-api.perms.io` | API host. `DEV_BASE_URL` (`https://dev-api.perms.io`) is exported for the development API. |
+| `baseUrl` | `string` | `https://api.perms.io` | API host. `DEV_BASE_URL` (`https://dev-api.perms.io`) is exported for the development API. |
 | `project` | `string` | none | Default project name for `check*` and `list*` helpers. Each call can override it. |
 | `timeoutMs` | `number` | `10000` | Timeout for each attempt, in ms. `0` disables it. |
 | `retries` | `number \| RetryOptions` | `2` | Retries for idempotent reads. A number sets `maxRetries`; see [Retries and timeouts](#retries-and-timeouts). |
 | `fetch` | `typeof fetch` | `globalThis.fetch` | Custom `fetch`, for example to add an agent, or for tests. |
 | `transport` | `Transport` | gRPC-web | Advanced: a Connect transport to use instead, for example `createRouterTransport` in tests. `baseUrl` and `fetch` are then ignored. |
 
-The production default is `https://temp-api.perms.io`, which will move to `https://api.perms.io`. The SDK's
-default will follow in a future release.
+The production default is `https://api.perms.io`. Versions 0.2.1 and earlier default to
+`https://temp-api.perms.io`, which is being retired: upgrade, or set `baseUrl`.
 
 ```ts
 import { Permio, DEV_BASE_URL } from "permio";
