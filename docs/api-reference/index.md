@@ -16,7 +16,7 @@ Both are defined in Permio's protobuf definitions. The same host serves them as 
 | Protocol | How to call it |
 | --- | --- |
 | **REST/JSON** | The HTTP method and path listed for each RPC in this reference, for example `POST $PERMIO_API/permissions-service/v1/permissions/check`. Request bodies accept the proto field names (`project_name`). Responses use camelCase JSON names (`missingPermissions`) and leave out fields that have default values. |
-| **gRPC** | Connect to the host on port 443 with TLS, for example `temp-api.perms.io:443`, and send the key as `authorization` metadata. |
+| **gRPC** | Connect to the host on port 443 with TLS, for example `api.perms.io:443`, and send the key as `authorization` metadata. |
 | **gRPC-web** | The protocol the [TypeScript SDK](../sdk/typescript.md) uses. It works from servers, edge runtimes and browsers. |
 
 For `GET` and `DELETE` requests over REST, fields that aren't in the path go in the query string. Nested fields use
@@ -92,7 +92,7 @@ Over gRPC and gRPC-web, the code arrives as `grpc-status` and the text as `grpc-
         "google.golang.org/grpc/metadata"
     )
 
-    conn, err := grpc.NewClient("temp-api.perms.io:443",
+    conn, err := grpc.NewClient("api.perms.io:443",
         grpc.WithTransportCredentials(credentials.NewTLS(nil)))
     // handle err
     client := permissionsv1.NewPermissionsServiceClient(conn)
@@ -117,7 +117,7 @@ Over gRPC and gRPC-web, the code arrives as `grpc-status` and the text as `grpc-
     import grpc
     from permio.permissions.v1 import permissions_pb2, permissions_pb2_grpc
 
-    channel = grpc.secure_channel("temp-api.perms.io:443", grpc.ssl_channel_credentials())
+    channel = grpc.secure_channel("api.perms.io:443", grpc.ssl_channel_credentials())
     client = permissions_pb2_grpc.PermissionsServiceStub(channel)
 
     res = client.Check(

@@ -32,7 +32,7 @@ nav:
     - Pagination: api-reference/pagination.md
 
 # Files pulled into pages with --8<--. snippets/hosts.md holds the API hosts, so
-# a host change (e.g. production moving to api.perms.io) is a one-file edit.
+# a host change is a one-file edit.
 watch:
   - snippets
 
