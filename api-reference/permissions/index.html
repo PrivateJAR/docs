@@ -1,0 +1,3509 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, TypeScript SDK and API reference.">
+      
+      
+      
+        <link rel="canonical" href="https://docs.perms.io/api-reference/permissions/">
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../organizations/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Permissions & Roles - Permio docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#permissions-roles" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Permio docs" class="md-header__button md-logo" aria-label="Permio docs" data-md-component="logo">
+      
+  <img src="../../assets/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Permio docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Permissions & Roles
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Permio docs" class="md-nav__button md-logo" aria-label="Permio docs" data-md-component="logo">
+      
+  <img src="../../assets/favicon.png" alt="logo">
+
+    </a>
+    Permio docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-it-works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources and inheritance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/groups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iam-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IAM fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/filtering-and-sharing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filtering lists and share dialogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sdk/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TypeScript SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions & Roles
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions & Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-field-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common field rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Messages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#batchcheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BatchCheck
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permissions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#createpermission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreatePermission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getpermission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPermission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatepermission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdatePermission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deletepermission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeletePermission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listpermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListPermissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#createrole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateRole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getrole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetRole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updaterole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdateRole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleterole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteRole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listroles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListRoles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grantuserpermissionsandrolesonresource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GrantUserPermissionsAndRolesOnResource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revokeuserpermissionsandrolesonresource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RevokeUserPermissionsAndRolesOnResource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getuserpermissionsandrolesonresource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetUserPermissionsAndRolesOnResource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listprincipals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListPrincipals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getallassignmentsforprincipal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllAssignmentsForPrincipal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access queries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListAccess
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listprincipalswithaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListPrincipalsWithAccess
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Groups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creategroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateGroup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getgroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetGroup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updategroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdateGroup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deletegroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteGroup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgroups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGroups
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addgroupmembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddGroupMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removegroupmembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RemoveGroupMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgroupmembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGroupMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgroupsforprincipal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGroupsForPrincipal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../organizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organisations & Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pagination/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pagination
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#common-field-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common field rules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#messages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Messages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#batchcheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BatchCheck
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permissions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#createpermission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreatePermission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getpermission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetPermission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updatepermission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdatePermission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deletepermission" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeletePermission
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listpermissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListPermissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Roles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Roles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#createrole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateRole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getrole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetRole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updaterole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdateRole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deleterole" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteRole
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listroles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListRoles
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grants" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grants
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Grants">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#grantuserpermissionsandrolesonresource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GrantUserPermissionsAndRolesOnResource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#revokeuserpermissionsandrolesonresource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RevokeUserPermissionsAndRolesOnResource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getuserpermissionsandrolesonresource" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetUserPermissionsAndRolesOnResource
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listprincipals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListPrincipals
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getallassignmentsforprincipal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetAllAssignmentsForPrincipal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access queries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListAccess
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listprincipalswithaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListPrincipalsWithAccess
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Groups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creategroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CreateGroup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getgroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GetGroup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#updategroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UpdateGroup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deletegroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DeleteGroup
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgroups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGroups
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#addgroupmembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AddGroupMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#removegroupmembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        RemoveGroupMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgroupmembers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGroupMembers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listgroupsforprincipal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ListGroupsForPrincipal
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="permissions-roles">Permissions &amp; Roles<a class="headerlink" href="#permissions-roles" title="Permanent link">&para;</a></h1>
+<p><code>permio.permissions.v1.PermissionsService</code> stores permissions, roles and grants, and answers checks. Every request
+names a <code>project_name</code>. Your organisation comes from the API key.</p>
+<div class="admonition info">
+<p class="admonition-title">API hosts</p>
+<table>
+<thead>
+<tr>
+<th>Environment</th>
+<th>Base URL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Production</td>
+<td><code>https://api.perms.io</code></td>
+</tr>
+<tr>
+<td>Development</td>
+<td><code>https://dev-api.perms.io</code></td>
+</tr>
+</tbody>
+</table>
+<p>The examples on this site read the host from a <code>PERMIO_API</code> shell variable, so you only need to
+change it in one place:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PERMIO_API</span><span class="o">=</span>https://api.perms.io
+<span class="nb">export</span><span class="w"> </span><span class="nv">PERMIO_API_KEY</span><span class="o">=</span>perms_...<span class="w">   </span><span class="c1"># your API key</span>
+</code></pre></div>
+</div>
+<p>In the tables below, <strong>Key access</strong> is the <a href="../../concepts/api-keys/#access-levels">API key access level</a> needed to
+make the call. <strong>Check</strong> is the default for new keys, and <strong>Full</strong> is the level that also allows writes.</p>
+<table>
+<thead>
+<tr>
+<th>RPC</th>
+<th>REST</th>
+<th>Key access</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#check">Check</a></td>
+<td><code>POST /permissions-service/v1/permissions/check</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#batchcheck">BatchCheck</a></td>
+<td><code>POST /permissions-service/v1/permissions/check/batch</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#createpermission">CreatePermission</a></td>
+<td><code>POST /permissions-service/v1/permissions</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#getpermission">GetPermission</a></td>
+<td><code>GET /permissions-service/v1/permissions/{name}</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#updatepermission">UpdatePermission</a></td>
+<td><code>PUT /permissions-service/v1/permissions/{name}</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#deletepermission">DeletePermission</a></td>
+<td><code>DELETE /permissions-service/v1/permissions/{name}</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#listpermissions">ListPermissions</a></td>
+<td><code>GET /permissions-service/v1/permissions</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#createrole">CreateRole</a></td>
+<td><code>POST /permissions-service/v1/roles</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#getrole">GetRole</a></td>
+<td><code>GET /permissions-service/v1/roles/{id}</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#updaterole">UpdateRole</a></td>
+<td><code>PUT /permissions-service/v1/roles/{id}</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#deleterole">DeleteRole</a></td>
+<td><code>DELETE /permissions-service/v1/roles/{id}</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#listroles">ListRoles</a></td>
+<td><code>GET /permissions-service/v1/roles</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#grantuserpermissionsandrolesonresource">GrantUserPermissionsAndRolesOnResource</a></td>
+<td><code>POST /permissions-service/v1/permissions/assign</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#revokeuserpermissionsandrolesonresource">RevokeUserPermissionsAndRolesOnResource</a></td>
+<td><code>POST /permissions-service/v1/permissions/revoke</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#getuserpermissionsandrolesonresource">GetUserPermissionsAndRolesOnResource</a></td>
+<td><code>GET /permissions-service/v1/permissions/user/{user_id}/resource/{resource_uri=**}</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#listprincipals">ListPrincipals</a></td>
+<td><code>GET /permissions-service/v1/permissions/principals</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#getallassignmentsforprincipal">GetAllAssignmentsForPrincipal</a></td>
+<td><code>GET /permissions-service/v1/permissions/assignments/principal/{principal_id=**}</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#listaccess">ListAccess</a></td>
+<td><code>GET /permissions-service/v1/access</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#listprincipalswithaccess">ListPrincipalsWithAccess</a></td>
+<td><code>GET /permissions-service/v1/access/principals</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#creategroup">CreateGroup</a></td>
+<td><code>POST /permissions-service/v1/groups</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#getgroup">GetGroup</a></td>
+<td><code>GET /permissions-service/v1/groups/{name}</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#updategroup">UpdateGroup</a></td>
+<td><code>PUT /permissions-service/v1/groups/{name}</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#deletegroup">DeleteGroup</a></td>
+<td><code>DELETE /permissions-service/v1/groups/{name}</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#listgroups">ListGroups</a></td>
+<td><code>GET /permissions-service/v1/groups</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#addgroupmembers">AddGroupMembers</a></td>
+<td><code>POST /permissions-service/v1/groups/{name}/members/add</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#removegroupmembers">RemoveGroupMembers</a></td>
+<td><code>POST /permissions-service/v1/groups/{name}/members/remove</code></td>
+<td>Full</td>
+</tr>
+<tr>
+<td><a href="#listgroupmembers">ListGroupMembers</a></td>
+<td><code>GET /permissions-service/v1/groups/{name}/members</code></td>
+<td>Check</td>
+</tr>
+<tr>
+<td><a href="#listgroupsforprincipal">ListGroupsForPrincipal</a></td>
+<td><code>GET /permissions-service/v1/group-memberships/{principal_id=**}</code></td>
+<td>Check</td>
+</tr>
+</tbody>
+</table>
+<p><code>GetTotalRolesAndPermissionsForOrganisation</code> (<code>GET /permissions-service/v1/permissions/organisation/{organisation_id}/totals</code>)
+is also part of the service. It needs an organisation-level permission that API keys don't have, and the dashboard
+uses it.</p>
+<h2 id="common-field-rules">Common field rules<a class="headerlink" href="#common-field-rules" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>1–32 characters: lowercase letters, digits and <code>-</code>.</td>
+</tr>
+<tr>
+<td>Permission <code>name</code></td>
+<td>1–128 characters: <code>a-z A-Z 0-9 . _ -</code>.</td>
+</tr>
+<tr>
+<td>Role <code>name</code></td>
+<td>1–128 characters, no control characters.</td>
+</tr>
+<tr>
+<td>Role <code>id</code></td>
+<td>1–128 characters: <code>a-z A-Z 0-9 . _ -</code>.</td>
+</tr>
+<tr>
+<td>Group <code>name</code></td>
+<td>1–64 characters: lowercase letters, digits and <code>-</code>. Its principal ID is <code>group:&lt;name&gt;</code>.</td>
+</tr>
+<tr>
+<td>Principal IDs</td>
+<td>Any non-empty string. IDs starting with <code>group:</code> are reserved for <a href="../../concepts/groups/">groups</a>: such an ID must name a group that exists in the project, or the call fails with <code>NOT_FOUND</code> (<code>INVALID_ARGUMENT</code> if it isn't a valid group name). Revoking is the exception.</td>
+</tr>
+<tr>
+<td>Resource URIs</td>
+<td>See <a href="../../concepts/resources/#rules-for-uris">Resources and inheritance</a>.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="messages">Messages<a class="headerlink" href="#messages" title="Permanent link">&para;</a></h2>
+<p><strong>Permission</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Unique ID.</td>
+</tr>
+<tr>
+<td><code>organisation_id</code></td>
+<td>string</td>
+<td>Owning organisation.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>The name your code checks, e.g. <code>document.read</code>.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Free text.</td>
+</tr>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Owning project.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Role</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Unique ID. Use it when granting and in the role endpoints.</td>
+</tr>
+<tr>
+<td><code>organisation_id</code></td>
+<td>string</td>
+<td>Owning organisation.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Display name.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Free text.</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td>Permission[]</td>
+<td>The permissions in the role.</td>
+</tr>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Owning project.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Assignment</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>resource_uri</code></td>
+<td>string</td>
+<td>The resource the grant is on.</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td>Permission[]</td>
+<td>Permissions granted directly.</td>
+</tr>
+<tr>
+<td><code>roles</code></td>
+<td>Role[]</td>
+<td>Roles granted.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="check">Check<a class="headerlink" href="#check" title="Permanent link">&para;</a></h2>
+<p><code>POST /permissions-service/v1/permissions/check</code></p>
+<p>Checks whether a principal holds <strong>every</strong> listed permission on <strong>every</strong> listed resource. Grants on ancestors of a
+resource count, and so do grants to the <a href="../../concepts/groups/">groups</a> the principal is a member of. See
+<a href="../../concepts/resources/#how-a-check-is-decided">how a check is decided</a>. To get one answer per resource, use
+<a href="#batchcheck">BatchCheck</a>.</p>
+<p><strong>Request</strong> (<code>CheckPermissionRequest</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required. Project to check in.</td>
+</tr>
+<tr>
+<td><code>principal_id</code></td>
+<td>string</td>
+<td>Required. The principal being checked.</td>
+</tr>
+<tr>
+<td><code>resource_uris</code></td>
+<td>string[]</td>
+<td>Required. 1–100 unique resource URIs.</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td>string[]</td>
+<td>Required. 1–100 unique permission names.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response</strong> (<code>CheckPermissionResponse</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>passed</code></td>
+<td>bool</td>
+<td><code>true</code> if every permission is held on every resource.</td>
+</tr>
+<tr>
+<td><code>missing_permissions</code></td>
+<td>MissingPermissions[]</td>
+<td>For each resource that failed: <code>resource_uri</code> and the <code>missing_permissions</code> not held there.</td>
+</tr>
+</tbody>
+</table>
+<p>A failed check is a successful response with <code>passed: false</code>. <code>PERMISSION_DENIED</code> means the <strong>API key</strong> lacks
+<code>permission.check</code> on the resources or on the principal, not that the principal was denied.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">TypeScript</label><label for="__tabbed_1_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">allowed</span><span class="p">,</span><span class="w"> </span><span class="nx">missing</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">checkDetailed</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resources</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/documents/42"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/invoices/1"</span><span class="p">],</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/check"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "project_name": "default",</span>
+<span class="s1">    "principal_id": "alice",</span>
+<span class="s1">    "resource_uris": ["/documents/42", "/invoices/1"],</span>
+<span class="s1">    "permissions": ["document.read"]</span>
+<span class="s1">  }'</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">"missingPermissions"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"resourceUri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/invoices/1"</span><span class="p">,</span><span class="w"> </span><span class="nt">"missingPermissions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.read"</span><span class="p">]}]}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="batchcheck">BatchCheck<a class="headerlink" href="#batchcheck" title="Permanent link">&para;</a></h2>
+<p><code>POST /permissions-service/v1/permissions/check/batch</code></p>
+<p>Checks a principal's permissions on each resource <strong>separately</strong> and returns one result per resource, in request
+order. It is evaluated exactly like <a href="#check">Check</a>: inheritance, stored <code>_</code> wildcards, roles and the principal's
+<a href="../../concepts/groups/">groups</a> all count, and it fails closed. A resource is allowed only if the principal holds
+<strong>every</strong> requested permission on it.</p>
+<p><strong>Needs:</strong> the same as Check: <code>permission.check</code> on every resource and on the principal.</p>
+<p><strong>Request</strong> (<code>BatchCheckRequest</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required. Project to check in.</td>
+</tr>
+<tr>
+<td><code>principal_id</code></td>
+<td>string</td>
+<td>Required. The principal being checked.</td>
+</tr>
+<tr>
+<td><code>resource_uris</code></td>
+<td>string[]</td>
+<td>Required. 1–100 unique resource URIs, with the same rules as Check.</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td>string[]</td>
+<td>Required. 1–100 unique permission names.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response</strong> (<code>BatchCheckResponse</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>results</code></td>
+<td>BatchCheckResult[]</td>
+<td>One per requested resource, in request order.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>BatchCheckResult</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>resource_uri</code></td>
+<td>string</td>
+<td>The resource.</td>
+</tr>
+<tr>
+<td><code>allowed</code></td>
+<td>bool</td>
+<td><code>true</code> if the principal holds every requested permission on it.</td>
+</tr>
+<tr>
+<td><code>missing_permissions</code></td>
+<td>string[]</td>
+<td>The requested permissions not held on it, in request order.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Errors:</strong> <code>INVALID_ARGUMENT</code> for a malformed request; <code>PERMISSION_DENIED</code> if the API key lacks <code>permission.check</code>;
+<code>NOT_FOUND</code> if <code>principal_id</code> is <code>group:&lt;slug&gt;</code> and that group doesn't exist.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:5"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><input id="__tabbed_2_5" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">TypeScript</label><label for="__tabbed_2_2">cURL</label><label for="__tabbed_2_3">Go</label><label for="__tabbed_2_4">Python</label><label for="__tabbed_2_5">Rust</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">batchCheck</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resources</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/documents/42"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/invoices/1"</span><span class="p">],</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="p">});</span>
+<span class="nx">allowed</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"/documents/42"</span><span class="p">);</span><span class="w"> </span><span class="c1">// true</span>
+</code></pre></div>
+<p>Available from SDK 0.2.0. <code>batchCheckDetailed</code> returns the missing permissions too. See
+<a href="../../sdk/typescript/#batch-checks">Batch checks</a>.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/check/batch"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "project_name": "default",</span>
+<span class="s1">    "principal_id": "alice",</span>
+<span class="s1">    "resource_uris": ["/documents/42", "/invoices/1"],</span>
+<span class="s1">    "permissions": ["document.read"]</span>
+<span class="s1">  }'</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">"results"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"resourceUri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/documents/42"</span><span class="p">,</span><span class="w"> </span><span class="nt">"allowed"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"resourceUri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/invoices/1"</span><span class="p">,</span><span class="w"> </span><span class="nt">"missingPermissions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.read"</span><span class="p">]}</span>
+<span class="p">]}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">BatchCheck</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">BatchCheckRequest</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w">  </span><span class="s">"default"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">PrincipalId</span><span class="p">:</span><span class="w">  </span><span class="s">"alice"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">ResourceUris</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"/documents/42"</span><span class="p">,</span><span class="w"> </span><span class="s">"/invoices/1"</span><span class="p">},</span>
+<span class="w">    </span><span class="nx">Permissions</span><span class="p">:</span><span class="w">  </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"document.read"</span><span class="p">},</span>
+<span class="p">})</span>
+<span class="c1">// handle err</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">r</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">GetResults</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">r</span><span class="p">.</span><span class="nx">GetResourceUri</span><span class="p">(),</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">GetAllowed</span><span class="p">())</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">BatchCheck</span><span class="p">(</span>
+    <span class="n">permissions_pb2</span><span class="o">.</span><span class="n">BatchCheckRequest</span><span class="p">(</span>
+        <span class="n">project_name</span><span class="o">=</span><span class="s2">"default"</span><span class="p">,</span>
+        <span class="n">principal_id</span><span class="o">=</span><span class="s2">"alice"</span><span class="p">,</span>
+        <span class="n">resource_uris</span><span class="o">=</span><span class="p">[</span><span class="s2">"/documents/42"</span><span class="p">,</span> <span class="s2">"/invoices/1"</span><span class="p">],</span>
+        <span class="n">permissions</span><span class="o">=</span><span class="p">[</span><span class="s2">"document.read"</span><span class="p">],</span>
+    <span class="p">),</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="p">[(</span><span class="s2">"authorization"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">api_key</span><span class="si">}</span><span class="s2">"</span><span class="p">)],</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">results</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">resource_uri</span><span class="p">,</span> <span class="n">r</span><span class="o">.</span><span class="n">allowed</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">use</span><span class="w"> </span><span class="n">permio_rust</span><span class="p">::</span><span class="n">permissions</span><span class="p">::</span><span class="n">v1</span><span class="p">::</span><span class="n">BatchCheckRequest</span><span class="p">;</span>
+
+<span class="kd">let</span><span class="w"> </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span>
+<span class="w">    </span><span class="p">.</span><span class="n">batch_check</span><span class="p">(</span><span class="n">BatchCheckRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">project_name</span><span class="p">:</span><span class="w"> </span><span class="s">"default"</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">principal_id</span><span class="p">:</span><span class="w"> </span><span class="s">"alice"</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span>
+<span class="w">        </span><span class="n">resource_uris</span><span class="p">:</span><span class="w"> </span><span class="nc">vec</span><span class="o">!</span><span class="p">[</span><span class="s">"/documents/42"</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="s">"/invoices/1"</span><span class="p">.</span><span class="n">into</span><span class="p">()],</span>
+<span class="w">        </span><span class="n">permissions</span><span class="p">:</span><span class="w"> </span><span class="nc">vec</span><span class="o">!</span><span class="p">[</span><span class="s">"document.read"</span><span class="p">.</span><span class="n">into</span><span class="p">()],</span>
+<span class="w">    </span><span class="p">})</span>
+<span class="w">    </span><span class="p">.</span><span class="k">await</span><span class="o">?</span>
+<span class="w">    </span><span class="p">.</span><span class="n">into_inner</span><span class="p">();</span>
+<span class="k">for</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">res</span><span class="p">.</span><span class="n">results</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">"{} {}"</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">resource_uri</span><span class="p">,</span><span class="w"> </span><span class="n">r</span><span class="p">.</span><span class="n">allowed</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>The Go, Python and Rust examples use a client set up as in <a href="../#clients">Clients</a>.</p>
+<hr />
+<h2 id="permissions">Permissions<a class="headerlink" href="#permissions" title="Permanent link">&para;</a></h2>
+<h3 id="createpermission">CreatePermission<a class="headerlink" href="#createpermission" title="Permanent link">&para;</a></h3>
+<p><code>POST /permissions-service/v1/permissions</code></p>
+<p>Creates a permission. This call is idempotent: if the permission already exists, it is updated. Returns the
+<code>Permission</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Optional.</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">TypeScript</label><label for="__tabbed_3_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">perm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">createPermission</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">"Read documents"</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "name": "document.read", "description": "Read documents"}'</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="getpermission">GetPermission<a class="headerlink" href="#getpermission" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/permissions/{name}?project_name=…</code></p>
+<p>Returns a <code>Permission</code> by name, or <code>NOT_FOUND</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">TypeScript</label><label for="__tabbed_4_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">perm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">getPermission</span><span class="p">({</span><span class="w"> </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/document.read?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="updatepermission">UpdatePermission<a class="headerlink" href="#updatepermission" title="Permanent link">&para;</a></h3>
+<p><code>PUT /permissions-service/v1/permissions/{name}</code></p>
+<p>Updates a permission, or returns <code>NOT_FOUND</code> if it doesn't exist. Returns the updated <code>Permission</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Required (path). The current name.</td>
+</tr>
+<tr>
+<td><code>new_name</code></td>
+<td>string</td>
+<td>Optional. A new name; if omitted, the name stays the same.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>The new description.</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">TypeScript</label><label for="__tabbed_5_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">updatePermission</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">"Read any document"</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/document.read"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "description": "Read any document"}'</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="deletepermission">DeletePermission<a class="headerlink" href="#deletepermission" title="Permanent link">&para;</a></h3>
+<p><code>DELETE /permissions-service/v1/permissions/{name}?project_name=…</code></p>
+<p>Deletes a permission. This call is idempotent: it succeeds whether or not the permission existed.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="6:2"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">TypeScript</label><label for="__tabbed_6_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">deletePermission</span><span class="p">({</span><span class="w"> </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/document.read?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="listpermissions">ListPermissions<a class="headerlink" href="#listpermissions" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/permissions?project_name=…</code></p>
+<p>Lists permissions in a project. The response has <code>permissions</code> (Permission[]) and <code>pagination</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>pagination</code></td>
+<td><a href="../pagination/">PaginationRequest</a></td>
+<td>Optional. <code>limit</code> (1–100) and <code>cursor</code>.</td>
+</tr>
+<tr>
+<td><code>search</code></td>
+<td>string</td>
+<td>Optional. Filters by name.</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="7:2"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">TypeScript</label><label for="__tabbed_7_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listPermissions</span><span class="p">({</span><span class="w"> </span><span class="nx">search</span><span class="o">:</span><span class="w"> </span><span class="s2">"document."</span><span class="w"> </span><span class="p">}))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions?project_name=default&amp;search=document.&amp;pagination.limit=50"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="roles">Roles<a class="headerlink" href="#roles" title="Permanent link">&para;</a></h2>
+<h3 id="createrole">CreateRole<a class="headerlink" href="#createrole" title="Permanent link">&para;</a></h3>
+<p><code>POST /permissions-service/v1/roles</code></p>
+<p>Creates a role from existing permissions. This call is idempotent: if the role already exists, it is updated.
+Returns the <code>Role</code>, including its <code>id</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td>string[]</td>
+<td>Permission <strong>names</strong>, e.g. <code>["document.read"]</code>.</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="8:2"><input checked="checked" id="__tabbed_8_1" name="__tabbed_8" type="radio" /><input id="__tabbed_8_2" name="__tabbed_8" type="radio" /><div class="tabbed-labels"><label for="__tabbed_8_1">TypeScript</label><label for="__tabbed_8_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">role</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">createRole</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"viewer"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">"Can read documents"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permissions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.read"</span><span class="p">],</span>
+<span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">role</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/roles"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "name": "viewer", "description": "Can read documents", "permissions": ["document.read"]}'</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="getrole">GetRole<a class="headerlink" href="#getrole" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/roles/{id}?project_name=…</code></p>
+<p>Returns a <code>Role</code> by ID.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="9:2"><input checked="checked" id="__tabbed_9_1" name="__tabbed_9" type="radio" /><input id="__tabbed_9_2" name="__tabbed_9" type="radio" /><div class="tabbed-labels"><label for="__tabbed_9_1">TypeScript</label><label for="__tabbed_9_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">role</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">getRole</span><span class="p">({</span><span class="w"> </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">roleId</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/roles/ROLE_ID?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="updaterole">UpdateRole<a class="headerlink" href="#updaterole" title="Permanent link">&para;</a></h3>
+<p><code>PUT /permissions-service/v1/roles/{id}</code></p>
+<p>Replaces a role's name, description and permissions, or returns <code>NOT_FOUND</code>. Returns the updated <code>Role</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Required (path).</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Optional.</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td>string[]</td>
+<td>Permission names.</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="10:2"><input checked="checked" id="__tabbed_10_1" name="__tabbed_10" type="radio" /><input id="__tabbed_10_2" name="__tabbed_10" type="radio" /><div class="tabbed-labels"><label for="__tabbed_10_1">TypeScript</label><label for="__tabbed_10_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">updateRole</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">roleId</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"editor"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permissions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"document.write"</span><span class="p">],</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/roles/ROLE_ID"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "name": "editor", "permissions": ["document.read", "document.write"]}'</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="deleterole">DeleteRole<a class="headerlink" href="#deleterole" title="Permanent link">&para;</a></h3>
+<p><code>DELETE /permissions-service/v1/roles/{id}?project_name=…</code></p>
+<p>Deletes a role. This call is idempotent.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="11:2"><input checked="checked" id="__tabbed_11_1" name="__tabbed_11" type="radio" /><input id="__tabbed_11_2" name="__tabbed_11" type="radio" /><div class="tabbed-labels"><label for="__tabbed_11_1">TypeScript</label><label for="__tabbed_11_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">deleteRole</span><span class="p">({</span><span class="w"> </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">roleId</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/roles/ROLE_ID?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="listroles">ListRoles<a class="headerlink" href="#listroles" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/roles?project_name=…</code></p>
+<p>Lists roles in a project. The response has <code>roles</code> (Role[]) and <code>pagination</code>. It takes the same <code>pagination</code> and
+<code>search</code> fields as <a href="#listpermissions">ListPermissions</a>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="12:2"><input checked="checked" id="__tabbed_12_1" name="__tabbed_12" type="radio" /><input id="__tabbed_12_2" name="__tabbed_12" type="radio" /><div class="tabbed-labels"><label for="__tabbed_12_1">TypeScript</label><label for="__tabbed_12_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">role</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listRoles</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">role</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="w"> </span><span class="nx">role</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/roles?project_name=default&amp;pagination.limit=50"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="grants">Grants<a class="headerlink" href="#grants" title="Permanent link">&para;</a></h2>
+<h3 id="grantuserpermissionsandrolesonresource">GrantUserPermissionsAndRolesOnResource<a class="headerlink" href="#grantuserpermissionsandrolesonresource" title="Permanent link">&para;</a></h3>
+<p><code>POST /permissions-service/v1/permissions/assign</code></p>
+<p>Grants permissions and/or roles to a principal on a resource. Grants are additive: existing grants are kept. The
+grant also applies to every resource beneath <code>resource_uri</code>. Unknown permissions or roles are rejected with
+<code>INVALID_ARGUMENT</code>.</p>
+<p>To grant to a <a href="../../concepts/groups/">group</a>, set <code>user_id</code> to <code>group:&lt;slug&gt;</code>. The group must exist in the project,
+or the call fails with <code>NOT_FOUND</code>. Every member of the group then holds the grant. Grants to groups don't count
+towards your unique principals.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>user_id</code></td>
+<td>string</td>
+<td>Required. The principal ID, the same value you pass as <code>principal_id</code> to Check.</td>
+</tr>
+<tr>
+<td><code>resource_uri</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>permissions</code></td>
+<td>string[]</td>
+<td>Permission <strong>names</strong>.</td>
+</tr>
+<tr>
+<td><code>roles</code></td>
+<td>string[]</td>
+<td>Role <strong>IDs</strong>.</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="13:2"><input checked="checked" id="__tabbed_13_1" name="__tabbed_13" type="radio" /><input id="__tabbed_13_2" name="__tabbed_13" type="radio" /><div class="tabbed-labels"><label for="__tabbed_13_1">TypeScript</label><label for="__tabbed_13_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">grantUserPermissionsAndRolesOnResource</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resourceUri</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">roles</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">roleId</span><span class="p">],</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/assign"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "user_id": "alice", "resource_uri": "/documents", "roles": ["ROLE_ID"]}'</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="revokeuserpermissionsandrolesonresource">RevokeUserPermissionsAndRolesOnResource<a class="headerlink" href="#revokeuserpermissionsandrolesonresource" title="Permanent link">&para;</a></h3>
+<p><code>POST /permissions-service/v1/permissions/revoke</code></p>
+<p>Removes permissions and/or roles from a principal on a resource. It takes the same fields as Grant. Revoking from a
+<code>group:&lt;slug&gt;</code> principal works even if the group no longer exists, so stray grants can be cleaned up.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="14:2"><input checked="checked" id="__tabbed_14_1" name="__tabbed_14" type="radio" /><input id="__tabbed_14_2" name="__tabbed_14" type="radio" /><div class="tabbed-labels"><label for="__tabbed_14_1">TypeScript</label><label for="__tabbed_14_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">revokeUserPermissionsAndRolesOnResource</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resourceUri</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">roles</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">roleId</span><span class="p">],</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/revoke"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "user_id": "alice", "resource_uri": "/documents", "roles": ["ROLE_ID"]}'</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="getuserpermissionsandrolesonresource">GetUserPermissionsAndRolesOnResource<a class="headerlink" href="#getuserpermissionsandrolesonresource" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/permissions/user/{user_id}/resource/{resource_uri=**}?project_name=…</code><br>
+<code>GET /permissions-service/v1/permissions/user/{user_id}/resource?resource_uri=…&amp;project_name=…</code></p>
+<p>Returns the permissions and roles assigned to a principal on one resource. The response has <code>project_name</code>,
+<code>user_id</code>, <code>resource_uri</code>, <code>permissions</code> (names) and <code>roles</code> (IDs).</p>
+<p>In the first form, send the resource URI <strong>without</strong> its leading slash. The second form passes the URI exactly as a
+query parameter.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="15:2"><input checked="checked" id="__tabbed_15_1" name="__tabbed_15" type="radio" /><input id="__tabbed_15_2" name="__tabbed_15" type="radio" /><div class="tabbed-labels"><label for="__tabbed_15_1">TypeScript</label><label for="__tabbed_15_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">getUserPermissionsAndRolesOnResource</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resourceUri</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/user/alice/resource?resource_uri=/documents&amp;project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="listprincipals">ListPrincipals<a class="headerlink" href="#listprincipals" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/permissions/principals?project_name=…</code></p>
+<p>Lists the IDs of principals with grants in the project. The response has <code>principals</code> (string[]) and <code>pagination</code>.
+It takes <code>pagination</code> and <code>search</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="16:2"><input checked="checked" id="__tabbed_16_1" name="__tabbed_16" type="radio" /><input id="__tabbed_16_2" name="__tabbed_16" type="radio" /><div class="tabbed-labels"><label for="__tabbed_16_1">TypeScript</label><label for="__tabbed_16_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listPrincipals</span><span class="p">())</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/principals?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="getallassignmentsforprincipal">GetAllAssignmentsForPrincipal<a class="headerlink" href="#getallassignmentsforprincipal" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/permissions/assignments/principal/{principal_id=**}?project_name=…</code></p>
+<p>Lists every grant a principal has in the project. The response has <code>assignments</code> (Assignment[]) and <code>pagination</code>.
+Principal IDs may contain slashes.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="17:2"><input checked="checked" id="__tabbed_17_1" name="__tabbed_17" type="radio" /><input id="__tabbed_17_2" name="__tabbed_17" type="radio" /><div class="tabbed-labels"><label for="__tabbed_17_1">TypeScript</label><label for="__tabbed_17_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listAssignments</span><span class="p">({</span><span class="w"> </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="w"> </span><span class="p">}))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">resourceUri</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">name</span><span class="p">),</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">roles</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">r</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">r</span><span class="p">.</span><span class="nx">name</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/permissions/assignments/principal/alice?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="access-queries">Access queries<a class="headerlink" href="#access-queries" title="Permanent link">&para;</a></h2>
+<p>These answer "where?" and "who?" instead of "may they?", with the same rules as Check. The guide
+<a href="../../guides/filtering-and-sharing/">Filtering lists and building share dialogs</a> shows how to use them.</p>
+<h3 id="listaccess">ListAccess<a class="headerlink" href="#listaccess" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/access?project_name=…&amp;principal_id=…&amp;permission=…&amp;under_uri=…</code></p>
+<p>Answers "where can this principal use this permission, at or below <code>under_uri</code>?". It counts grants made to the
+principal directly, through roles, and through the groups it is a member of. perms.io doesn't know your records, so
+the answer is a list of <strong>scopes</strong> in your URI tree, not a list of objects:</p>
+<ul>
+<li>If the principal holds the permission on <code>under_uri</code> itself (through a grant on it, on an ancestor, or on a stored
+  <code>_</code> wildcard URI that matches it), <code>covers_all</code> is <code>true</code> and <code>scopes</code> is a single <code>SUBTREE</code> scope for
+  <code>under_uri</code>. There are no further pages.</li>
+<li>Otherwise <code>scopes</code> lists the URIs of the grants below <code>under_uri</code> that confer the permission. A concrete URI is a
+  <code>SUBTREE</code> scope, because a grant applies to its URI and everything below it. A URI with <code>_</code> wildcard segments is a
+  <code>PATTERN</code> scope. Scopes are ordered by <code>uri</code> and paginated.</li>
+</ul>
+<p><strong>Needs:</strong> <code>permission.check</code> on <code>under_uri</code>, and <code>principal.assignment.get</code> on the principal.</p>
+<p><strong>Request</strong> (<code>ListAccessRequest</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>principal_id</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>permission</code></td>
+<td>string</td>
+<td>Required. One permission name.</td>
+</tr>
+<tr>
+<td><code>under_uri</code></td>
+<td>string</td>
+<td>Required. Only resources at or below this URI are considered. A <code>_</code> segment here is literal.</td>
+</tr>
+<tr>
+<td><code>pagination</code></td>
+<td><a href="../pagination/">PaginationRequest</a></td>
+<td>Optional.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response</strong> (<code>ListAccessResponse</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>covers_all</code></td>
+<td>bool</td>
+<td><code>true</code> if the principal holds the permission on <code>under_uri</code> itself, and so on everything below it.</td>
+</tr>
+<tr>
+<td><code>scopes</code></td>
+<td>AccessScope[]</td>
+<td>The places at or below <code>under_uri</code> where the principal holds the permission, ordered by <code>uri</code>.</td>
+</tr>
+<tr>
+<td><code>pagination</code></td>
+<td>PaginationResponse</td>
+<td><code>next_cursor</code> for the next page.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AccessScope</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uri</code></td>
+<td>string</td>
+<td>A resource URI (<code>SUBTREE</code>, <code>EXACT</code>) or a URI pattern with <code>_</code> segments (<code>PATTERN</code>). For a grant below <code>under_uri</code>, it is the URI the grant was made on, which may have <code>_</code> segments in the part that matches <code>under_uri</code>.</td>
+</tr>
+<tr>
+<td><code>scope</code></td>
+<td>AccessScopeKind</td>
+<td>Which resources <code>uri</code> stands for.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AccessScopeKind</strong></p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ACCESS_SCOPE_KIND_SUBTREE</code></td>
+<td>The resource <code>uri</code> and every resource below it.</td>
+</tr>
+<tr>
+<td><code>ACCESS_SCOPE_KIND_PATTERN</code></td>
+<td>Every resource whose leading segments match <code>uri</code>, where each <code>_</code> segment matches exactly one segment, and every resource below those.</td>
+</tr>
+<tr>
+<td><code>ACCESS_SCOPE_KIND_EXACT</code></td>
+<td>Exactly the resource <code>uri</code>. Reserved: grants are always inherited, so it isn't returned today.</td>
+</tr>
+</tbody>
+</table>
+<p>To filter a database by a <code>SUBTREE</code> scope <code>p</code>, match <code>path = p</code> <strong>or</strong> <code>path</code> starting with <code>p/</code>. A bare prefix
+match on <code>p</code> would also match siblings such as <code>/documents/12</code> for <code>/documents/1</code>.</p>
+<p><strong>Errors:</strong> <code>INVALID_ARGUMENT</code> for a malformed request or an invalid cursor; <code>PERMISSION_DENIED</code> if the API key lacks
+either permission; <code>NOT_FOUND</code> if <code>principal_id</code> is <code>group:&lt;slug&gt;</code> and that group doesn't exist.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="18:4"><input checked="checked" id="__tabbed_18_1" name="__tabbed_18" type="radio" /><input id="__tabbed_18_2" name="__tabbed_18" type="radio" /><input id="__tabbed_18_3" name="__tabbed_18" type="radio" /><input id="__tabbed_18_4" name="__tabbed_18" type="radio" /><div class="tabbed-labels"><label for="__tabbed_18_1">TypeScript</label><label for="__tabbed_18_2">cURL</label><label for="__tabbed_18_3">Go</label><label for="__tabbed_18_4">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">access</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listAccess</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">under</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span>
+<span class="p">});</span>
+<span class="nx">access</span><span class="p">.</span><span class="nx">coversAll</span><span class="p">;</span><span class="w">    </span><span class="c1">// false</span>
+<span class="nx">access</span><span class="p">.</span><span class="nx">toPrefixes</span><span class="p">();</span><span class="w"> </span><span class="c1">// ["/documents/4", "/documents/7"]</span>
+</code></pre></div>
+<p>Available from SDK 0.2.0. It follows every page. See <a href="../../sdk/typescript/#listaccess"><code>listAccess</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/access?project_name=default&amp;principal_id=alice&amp;permission=document.read&amp;under_uri=/documents"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">"scopes"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/documents/4"</span><span class="p">,</span><span class="w"> </span><span class="nt">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACCESS_SCOPE_KIND_SUBTREE"</span><span class="p">},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/documents/7"</span><span class="p">,</span><span class="w"> </span><span class="nt">"scope"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACCESS_SCOPE_KIND_SUBTREE"</span><span class="p">}</span>
+<span class="p">]}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">ListAccess</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">ListAccessRequest</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w"> </span><span class="s">"default"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">PrincipalId</span><span class="p">:</span><span class="w"> </span><span class="s">"alice"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Permission</span><span class="p">:</span><span class="w">  </span><span class="s">"document.read"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">UnderUri</span><span class="p">:</span><span class="w">    </span><span class="s">"/documents"</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="c1">// handle err</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">GetCoversAll</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// no filter needed</span>
+<span class="p">}</span>
+<span class="k">for</span><span class="w"> </span><span class="nx">_</span><span class="p">,</span><span class="w"> </span><span class="nx">s</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="k">range</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">GetScopes</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">s</span><span class="p">.</span><span class="nx">GetScope</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">AccessScopeKind_ACCESS_SCOPE_KIND_SUBTREE</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">s</span><span class="p">.</span><span class="nx">GetUri</span><span class="p">())</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">ListAccess</span><span class="p">(</span>
+    <span class="n">permissions_pb2</span><span class="o">.</span><span class="n">ListAccessRequest</span><span class="p">(</span>
+        <span class="n">project_name</span><span class="o">=</span><span class="s2">"default"</span><span class="p">,</span>
+        <span class="n">principal_id</span><span class="o">=</span><span class="s2">"alice"</span><span class="p">,</span>
+        <span class="n">permission</span><span class="o">=</span><span class="s2">"document.read"</span><span class="p">,</span>
+        <span class="n">under_uri</span><span class="o">=</span><span class="s2">"/documents"</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="p">[(</span><span class="s2">"authorization"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">api_key</span><span class="si">}</span><span class="s2">"</span><span class="p">)],</span>
+<span class="p">)</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">scopes</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">scope</span> <span class="o">==</span> <span class="n">permissions_pb2</span><span class="o">.</span><span class="n">ACCESS_SCOPE_KIND_SUBTREE</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="listprincipalswithaccess">ListPrincipalsWithAccess<a class="headerlink" href="#listprincipalswithaccess" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/access/principals?project_name=…&amp;resource_uri=…</code></p>
+<p>Answers "who has access to <code>resource_uri</code>?". It lists the principals with a grant on the resource, on an ancestor
+of it, or on a stored <code>_</code> wildcard URI that matches it, with the grants that give the access.</p>
+<ul>
+<li>With <code>permission</code> set, only grants that confer that permission count, so a principal is listed exactly when a
+  Check for it passes through its own grants. Without it, every grant with at least one permission or role counts.</li>
+<li>Groups are listed as principals, with <code>is_group</code> set. With <code>expand_groups</code>, each group's members are listed too,
+  once per group, with <code>via_group</code> set.</li>
+<li>Entries are ordered by <code>principal_id</code>, then <code>via_group</code>, and paginated.</li>
+</ul>
+<p><strong>Needs:</strong> <code>principal.list</code> and <code>principal.assignment.list</code> on the project.</p>
+<p><strong>Request</strong> (<code>ListPrincipalsWithAccessRequest</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>resource_uri</code></td>
+<td>string</td>
+<td>Required. The resource to look at. A <code>_</code> segment here is literal.</td>
+</tr>
+<tr>
+<td><code>permission</code></td>
+<td>string</td>
+<td>Optional. Only count grants that confer this permission.</td>
+</tr>
+<tr>
+<td><code>expand_groups</code></td>
+<td>bool</td>
+<td>Optional. Also list the members of every listed group.</td>
+</tr>
+<tr>
+<td><code>pagination</code></td>
+<td><a href="../pagination/">PaginationRequest</a></td>
+<td>Optional.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response</strong> (<code>ListPrincipalsWithAccessResponse</code>): <code>principals</code> (PrincipalAccess[]) and <code>pagination</code>.</p>
+<p><strong>PrincipalAccess</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>principal_id</code></td>
+<td>string</td>
+<td>The principal. A group appears as <code>group:&lt;slug&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>is_group</code></td>
+<td>bool</td>
+<td><code>true</code> if <code>principal_id</code> is a group.</td>
+</tr>
+<tr>
+<td><code>via_group</code></td>
+<td>string</td>
+<td>For entries added by <code>expand_groups</code>: the slug of the group through which the principal holds the grants in <code>via</code>. Empty for grants made to the principal itself.</td>
+</tr>
+<tr>
+<td><code>via</code></td>
+<td>AccessGrant[]</td>
+<td>The grants that give the access, most specific first.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>AccessGrant</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>resource_uri</code></td>
+<td>string</td>
+<td>The URI the grant was made on: the resource itself, an ancestor, or a URI with <code>_</code> segments that matches it.</td>
+</tr>
+<tr>
+<td><code>inherited</code></td>
+<td>bool</td>
+<td><code>true</code> unless the grant was made on exactly the resource.</td>
+</tr>
+<tr>
+<td><code>match</code></td>
+<td>AccessGrantMatch</td>
+<td><code>ACCESS_GRANT_MATCH_EXACT</code> (on the resource), <code>ACCESS_GRANT_MATCH_ANCESTOR</code> (on an ancestor, possibly with <code>_</code> segments) or <code>ACCESS_GRANT_MATCH_WILDCARD</code> (same depth, with <code>_</code> segments).</td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>AccessGrantRole</td>
+<td>Set when the access comes through a role: its <code>id</code> and <code>name</code>.</td>
+</tr>
+<tr>
+<td><code>direct</code></td>
+<td>AccessGrantDirect</td>
+<td>Set (as an empty message) when the access comes from directly granted permissions.</td>
+</tr>
+</tbody>
+</table>
+<p><code>role</code> and <code>direct</code> are a <code>oneof</code> called <code>source</code>: exactly one is set.</p>
+<p><strong>Errors:</strong> <code>INVALID_ARGUMENT</code> for a malformed request or an invalid cursor; <code>PERMISSION_DENIED</code> if the API key lacks
+either permission.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="19:2"><input checked="checked" id="__tabbed_19_1" name="__tabbed_19" type="radio" /><input id="__tabbed_19_2" name="__tabbed_19" type="radio" /><div class="tabbed-labels"><label for="__tabbed_19_1">TypeScript</label><label for="__tabbed_19_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">entries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">whoHasAccess</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents/42"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">expandGroups</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>Available from SDK 0.2.0. It follows every page. See <a href="../../sdk/typescript/#whohasaccess"><code>whoHasAccess</code></a>.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/access/principals?project_name=default&amp;resource_uri=/documents/42&amp;permission=document.read&amp;expand_groups=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">"principals"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"principalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"via"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"resourceUri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span><span class="w"> </span><span class="nt">"inherited"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"match"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACCESS_GRANT_MATCH_ANCESTOR"</span><span class="p">,</span>
+<span class="w">            </span><span class="nt">"role"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ROLE_ID"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"viewer"</span><span class="p">}}]},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"principalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">,</span><span class="w"> </span><span class="nt">"viaGroup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"editors"</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"via"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"resourceUri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span><span class="w"> </span><span class="nt">"inherited"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"match"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACCESS_GRANT_MATCH_ANCESTOR"</span><span class="p">,</span><span class="w"> </span><span class="nt">"direct"</span><span class="p">:</span><span class="w"> </span><span class="p">{}}]},</span>
+<span class="w">  </span><span class="p">{</span><span class="nt">"principalId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"group:editors"</span><span class="p">,</span><span class="w"> </span><span class="nt">"isGroup"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="w">   </span><span class="nt">"via"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="nt">"resourceUri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span><span class="w"> </span><span class="nt">"inherited"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"> </span><span class="nt">"match"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ACCESS_GRANT_MATCH_ANCESTOR"</span><span class="p">,</span><span class="w"> </span><span class="nt">"direct"</span><span class="p">:</span><span class="w"> </span><span class="p">{}}]}</span>
+<span class="p">]}</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<hr />
+<h2 id="groups">Groups<a class="headerlink" href="#groups" title="Permanent link">&para;</a></h2>
+<p>A <a href="../../concepts/groups/">group</a> is a named set of principals in a project. Grant to its principal ID,
+<code>group:&lt;slug&gt;</code>, with <a href="#grantuserpermissionsandrolesonresource">GrantUserPermissionsAndRolesOnResource</a>, and every
+member holds the grant. Groups can't contain groups.</p>
+<p>In the paths below, <code>{name}</code> is the group's slug: 1–64 characters, lowercase letters, digits and <code>-</code>.</p>
+<p><strong>Group</strong></p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>Unique ID.</td>
+</tr>
+<tr>
+<td><code>organisation_id</code></td>
+<td>string</td>
+<td>Owning organisation.</td>
+</tr>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Owning project.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>The slug, unique within the project. It can't be changed.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Free text, up to 1024 characters.</td>
+</tr>
+<tr>
+<td><code>principal_id</code></td>
+<td>string</td>
+<td>The principal ID grants to the group are made to: <code>group:&lt;name&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>created_at</code>, <code>updated_at</code></td>
+<td>Timestamp</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>GroupMember</strong>: <code>principal_id</code> (string) and <code>created_at</code> (Timestamp, when the principal was added).</p>
+<h3 id="creategroup">CreateGroup<a class="headerlink" href="#creategroup" title="Permanent link">&para;</a></h3>
+<p><code>POST /permissions-service/v1/groups</code></p>
+<p>Creates a group and returns the <code>Group</code>. Returns <code>ALREADY_EXISTS</code> if the project already has a group with this name.</p>
+<p><strong>Needs:</strong> <code>group.create</code> on the project.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Required. The slug.</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>Optional. Up to 1024 characters.</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="20:4"><input checked="checked" id="__tabbed_20_1" name="__tabbed_20" type="radio" /><input id="__tabbed_20_2" name="__tabbed_20" type="radio" /><input id="__tabbed_20_3" name="__tabbed_20" type="radio" /><input id="__tabbed_20_4" name="__tabbed_20" type="radio" /><div class="tabbed-labels"><label for="__tabbed_20_1">TypeScript</label><label for="__tabbed_20_2">cURL</label><label for="__tabbed_20_3">Go</label><label for="__tabbed_20_4">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">"Can edit every document"</span><span class="w"> </span><span class="p">});</span>
+<span class="nx">g</span><span class="p">.</span><span class="nx">principalId</span><span class="p">;</span><span class="w"> </span><span class="c1">// "group:editors"</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/groups"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "name": "editors", "description": "Can edit every document"}'</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nx">g</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">CreateGroup</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">CreateGroupRequest</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w"> </span><span class="s">"default"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Name</span><span class="p">:</span><span class="w">        </span><span class="s">"editors"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Description</span><span class="p">:</span><span class="w"> </span><span class="s">"Can edit every document"</span><span class="p">,</span>
+<span class="p">})</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">g</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">CreateGroup</span><span class="p">(</span>
+    <span class="n">permissions_pb2</span><span class="o">.</span><span class="n">CreateGroupRequest</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">"default"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"editors"</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Can edit every document"</span><span class="p">),</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="p">[(</span><span class="s2">"authorization"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">api_key</span><span class="si">}</span><span class="s2">"</span><span class="p">)],</span>
+<span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="getgroup">GetGroup<a class="headerlink" href="#getgroup" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/groups/{name}?project_name=…</code></p>
+<p>Returns a <code>Group</code>, or <code>NOT_FOUND</code>.</p>
+<p><strong>Needs:</strong> <code>group.get</code> on the group.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="21:2"><input checked="checked" id="__tabbed_21_1" name="__tabbed_21" type="radio" /><input id="__tabbed_21_2" name="__tabbed_21" type="radio" /><div class="tabbed-labels"><label for="__tabbed_21_1">TypeScript</label><label for="__tabbed_21_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">g</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/groups/editors?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="updategroup">UpdateGroup<a class="headerlink" href="#updategroup" title="Permanent link">&para;</a></h3>
+<p><code>PUT /permissions-service/v1/groups/{name}</code></p>
+<p>Replaces a group's description and returns the updated <code>Group</code>, or <code>NOT_FOUND</code>. The name can't be changed, because
+<code>group:&lt;name&gt;</code> is the principal ID its grants are stored under.</p>
+<p><strong>Needs:</strong> <code>group.update</code> on the group.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Required (path).</td>
+</tr>
+<tr>
+<td><code>description</code></td>
+<td>string</td>
+<td>The new description. Up to 1024 characters.</td>
+</tr>
+</tbody>
+</table>
+<div class="tabbed-set tabbed-alternate" data-tabs="22:2"><input checked="checked" id="__tabbed_22_1" name="__tabbed_22" type="radio" /><input id="__tabbed_22_2" name="__tabbed_22" type="radio" /><div class="tabbed-labels"><label for="__tabbed_22_1">TypeScript</label><label for="__tabbed_22_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">"Edits documents and comments"</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>PUT<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/groups/editors"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "description": "Edits documents and comments"}'</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="deletegroup">DeleteGroup<a class="headerlink" href="#deletegroup" title="Permanent link">&para;</a></h3>
+<p><code>DELETE /permissions-service/v1/groups/{name}?project_name=…</code></p>
+<p>Deletes a group together with its memberships and every grant made to it, in one transaction. This call is
+idempotent: it succeeds whether or not the group existed.</p>
+<p><strong>Needs:</strong> <code>group.delete</code> on the group, and <code>principal.assignment.delete</code> on the project, because it revokes the
+group's grants.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="23:2"><input checked="checked" id="__tabbed_23_1" name="__tabbed_23" type="radio" /><input id="__tabbed_23_2" name="__tabbed_23" type="radio" /><div class="tabbed-labels"><label for="__tabbed_23_1">TypeScript</label><label for="__tabbed_23_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="ow">delete</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>DELETE<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/groups/editors?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="listgroups">ListGroups<a class="headerlink" href="#listgroups" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/groups?project_name=…</code></p>
+<p>Lists the groups in a project, ordered by name. The response has <code>groups</code> (Group[]) and <code>pagination</code>. It takes
+<code>pagination</code> and <code>search</code> (filters by name, up to 128 characters).</p>
+<p><strong>Needs:</strong> <code>group.list</code> on the project.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="24:2"><input checked="checked" id="__tabbed_24_1" name="__tabbed_24" type="radio" /><input id="__tabbed_24_2" name="__tabbed_24" type="radio" /><div class="tabbed-labels"><label for="__tabbed_24_1">TypeScript</label><label for="__tabbed_24_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">g</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">list</span><span class="p">({</span><span class="w"> </span><span class="nx">search</span><span class="o">:</span><span class="w"> </span><span class="s2">"edit"</span><span class="w"> </span><span class="p">}))</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">g</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/groups?project_name=default&amp;search=edit"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="addgroupmembers">AddGroupMembers<a class="headerlink" href="#addgroupmembers" title="Permanent link">&para;</a></h3>
+<p><code>POST /permissions-service/v1/groups/{name}/members/add</code></p>
+<p>Adds up to 100 principals to a group. Principals that are already members are reported, not added again. A
+principal that is new to your organisation counts towards its unique principals, exactly as if it had been granted
+something, and goes through the same billing check.</p>
+<p><strong>Needs:</strong> <code>group.member.add</code> on the group <strong>and</strong> <code>principal.assignment.create</code> on the project. A member gets the
+group's grants anywhere in the project, so only a caller who could grant that access directly may add members.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>project_name</code></td>
+<td>string</td>
+<td>Required.</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>Required (path).</td>
+</tr>
+<tr>
+<td><code>principal_ids</code></td>
+<td>string[]</td>
+<td>Required. 1–100 unique principal IDs. They may not start with <code>group:</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Response</strong> (<code>AddGroupMembersResponse</code>)</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>added_principal_ids</code></td>
+<td>string[]</td>
+<td>The principals that were added, in request order.</td>
+</tr>
+<tr>
+<td><code>existing_principal_ids</code></td>
+<td>string[]</td>
+<td>The principals that were already members, in request order.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Errors:</strong> <code>INVALID_ARGUMENT</code> if a principal ID starts with <code>group:</code> (groups can't be nested); <code>NOT_FOUND</code> if the
+group doesn't exist; <code>PERMISSION_DENIED</code> if the caller lacks either permission, or if the organisation may not add
+new principals.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="25:4"><input checked="checked" id="__tabbed_25_1" name="__tabbed_25" type="radio" /><input id="__tabbed_25_2" name="__tabbed_25" type="radio" /><input id="__tabbed_25_3" name="__tabbed_25" type="radio" /><input id="__tabbed_25_4" name="__tabbed_25" type="radio" /><div class="tabbed-labels"><label for="__tabbed_25_1">TypeScript</label><label for="__tabbed_25_2">cURL</label><label for="__tabbed_25_3">Go</label><label for="__tabbed_25_4">Python</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">added</span><span class="p">,</span><span class="w"> </span><span class="nx">existing</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">addMembers</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">]);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/groups/editors/members/add"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "principal_ids": ["alice", "bob"]}'</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="nt">"addedPrincipalIds"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">]}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">client</span><span class="p">.</span><span class="nx">AddGroupMembers</span><span class="p">(</span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">AddGroupMembersRequest</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ProjectName</span><span class="p">:</span><span class="w">  </span><span class="s">"default"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">Name</span><span class="p">:</span><span class="w">         </span><span class="s">"editors"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">PrincipalIds</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span><span class="s">"alice"</span><span class="p">,</span><span class="w"> </span><span class="s">"bob"</span><span class="p">},</span>
+<span class="p">})</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="n">res</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">AddGroupMembers</span><span class="p">(</span>
+    <span class="n">permissions_pb2</span><span class="o">.</span><span class="n">AddGroupMembersRequest</span><span class="p">(</span><span class="n">project_name</span><span class="o">=</span><span class="s2">"default"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"editors"</span><span class="p">,</span> <span class="n">principal_ids</span><span class="o">=</span><span class="p">[</span><span class="s2">"alice"</span><span class="p">,</span> <span class="s2">"bob"</span><span class="p">]),</span>
+    <span class="n">metadata</span><span class="o">=</span><span class="p">[(</span><span class="s2">"authorization"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Bearer </span><span class="si">{</span><span class="n">api_key</span><span class="si">}</span><span class="s2">"</span><span class="p">)],</span>
+<span class="p">)</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="removegroupmembers">RemoveGroupMembers<a class="headerlink" href="#removegroupmembers" title="Permanent link">&para;</a></h3>
+<p><code>POST /permissions-service/v1/groups/{name}/members/remove</code></p>
+<p>Removes up to 100 principals from a group. Principals that aren't members are reported. It takes the same fields as
+AddGroupMembers.</p>
+<p><strong>Needs:</strong> <code>group.member.remove</code> on the group <strong>and</strong> <code>principal.assignment.create</code> on the project.</p>
+<p><strong>Response</strong> (<code>RemoveGroupMembersResponse</code>): <code>removed_principal_ids</code> and <code>not_member_principal_ids</code> (string[], in
+request order).</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="26:2"><input checked="checked" id="__tabbed_26_1" name="__tabbed_26" type="radio" /><input id="__tabbed_26_2" name="__tabbed_26" type="radio" /><div class="tabbed-labels"><label for="__tabbed_26_1">TypeScript</label><label for="__tabbed_26_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">removed</span><span class="p">,</span><span class="w"> </span><span class="nx">notMembers</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">removeMembers</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"bob"</span><span class="p">]);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/groups/editors/members/remove"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Content-Type: application/json"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-d<span class="w"> </span><span class="s1">'{"project_name": "default", "principal_ids": ["bob"]}'</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="listgroupmembers">ListGroupMembers<a class="headerlink" href="#listgroupmembers" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/groups/{name}/members?project_name=…</code></p>
+<p>Lists a group's members, ordered by principal ID. The response has <code>members</code> (GroupMember[]) and <code>pagination</code>. It
+takes <code>pagination</code>.</p>
+<p><strong>Needs:</strong> <code>group.member.list</code> on the group.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="27:2"><input checked="checked" id="__tabbed_27_1" name="__tabbed_27" type="radio" /><input id="__tabbed_27_2" name="__tabbed_27" type="radio" /><div class="tabbed-labels"><label for="__tabbed_27_1">TypeScript</label><label for="__tabbed_27_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">listMembers</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">))</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">principalId</span><span class="p">);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/groups/editors/members?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<h3 id="listgroupsforprincipal">ListGroupsForPrincipal<a class="headerlink" href="#listgroupsforprincipal" title="Permanent link">&para;</a></h3>
+<p><code>GET /permissions-service/v1/group-memberships/{principal_id=**}?project_name=…</code></p>
+<p>Lists the groups a principal is a member of in the project, ordered by name. The response has <code>groups</code> (Group[]) and
+<code>pagination</code>. It takes <code>pagination</code>. Principal IDs may contain slashes.</p>
+<p><strong>Needs:</strong> <code>group.list</code> on the project, and <code>principal.assignment.list</code> on the principal.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="28:2"><input checked="checked" id="__tabbed_28_1" name="__tabbed_28" type="radio" /><input id="__tabbed_28_2" name="__tabbed_28" type="radio" /><div class="tabbed-labels"><label for="__tabbed_28_1">TypeScript</label><label for="__tabbed_28_2">cURL</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">g</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">listForPrincipal</span><span class="p">(</span><span class="s2">"alice"</span><span class="p">))</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">g</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span><span class="s2">"</span><span class="nv">$PERMIO_API</span><span class="s2">/permissions-service/v1/group-memberships/alice?project_name=default"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="nv">$PERMIO_API_KEY</span><span class="s2">"</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      <a href="https://perms.io">Permio</a>, permissions as a service
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", {"content.code.highlight": false}, "content.tabs.link", "navigation.sections"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

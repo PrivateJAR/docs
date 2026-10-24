@@ -1,0 +1,2527 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, TypeScript SDK and API reference.">
+      
+      
+      
+        <link rel="canonical" href="https://docs.perms.io/sdk/typescript/">
+      
+      
+        <link rel="prev" href="../../guides/filtering-and-sharing/">
+      
+      
+        <link rel="next" href="../../api-reference/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>TypeScript SDK - Permio docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#typescript-sdk" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Permio docs" class="md-header__button md-logo" aria-label="Permio docs" data-md-component="logo">
+      
+  <img src="../../assets/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Permio docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              TypeScript SDK
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Permio docs" class="md-nav__button md-logo" aria-label="Permio docs" data-md-component="logo">
+      
+  <img src="../../assets/favicon.png" alt="logo">
+
+    </a>
+    Permio docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-it-works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources and inheritance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/groups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iam-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IAM fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../guides/filtering-and-sharing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filtering lists and share dialogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TypeScript SDK
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TypeScript SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a client
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create a client">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checking permissions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Checking permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkdetailed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        checkDetailed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        assert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkany" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        checkAny
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        checkAll
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#batch-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch checks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Batch checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#batchcheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        batchCheck
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batchcheckdetailed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        batchCheckDetailed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Groups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#groupslug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        group(slug)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permiogroups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        permio.groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access queries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        listAccess
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whohasaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        whoHasAccess
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-uris" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource URIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resource URIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resourcesegments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resource(...segments)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retries-and-timeouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retries and timeouts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-with-iterators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listing with iterators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raw-clients-full-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Raw clients (full API)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-key-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API key helpers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#express" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Express
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nextjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next.js
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next.js">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#route-handler-app-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Route handler (App Router)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Middleware
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-talks-to-the-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it talks to the API
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions & Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/organizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organisations & Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/pagination/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pagination
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-client" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a client
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Create a client">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#checking-permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Checking permissions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Checking permissions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#check" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        check
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkdetailed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        checkDetailed
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        assert
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkany" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        checkAny
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#checkall" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        checkAll
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#batch-checks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch checks
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Batch checks">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#batchcheck" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        batchCheck
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batchcheckdetailed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        batchCheckDetailed
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#groups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Groups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Groups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#groupslug" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        group(slug)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#permiogroups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        permio.groups
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#access-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Access queries
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Access queries">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#listaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        listAccess
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#whohasaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        whoHasAccess
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource-uris" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource URIs
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Resource URIs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resourcesegments" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        resource(...segments)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#other-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#retries-and-timeouts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retries and timeouts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#listing-with-iterators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listing with iterators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#raw-clients-full-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Raw clients (full API)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-key-helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API key helpers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#express" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Express
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nextjs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next.js
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Next.js">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#route-handler-app-router" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Route handler (App Router)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#middleware" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Middleware
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-talks-to-the-api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it talks to the API
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="typescript-sdk">TypeScript SDK<a class="headerlink" href="#typescript-sdk" title="Permanent link">&para;</a></h1>
+<p><code>permio</code> is the official TypeScript/JavaScript client for the perms.io API. It wraps the API in a few calls for
+asking "may this principal do X on this resource?". It also gives you typed errors, retries for idempotent reads
+and async iterators over list endpoints. The full generated API is there too, as an escape hatch.</p>
+<ul>
+<li>Runs on Node 18+, edge runtimes and browsers. It talks gRPC-web over <code>fetch</code>.</li>
+<li>Ships ESM and CommonJS builds with bundled type definitions.</li>
+<li>Has three runtime dependencies: <code>@bufbuild/protobuf</code>, <code>@connectrpc/connect</code> and <code>@connectrpc/connect-web</code>.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Versions</p>
+<p><a href="#batch-checks">Batch checks</a>, <a href="#groups">groups</a> and <a href="#access-queries">access queries</a> are available from <strong>0.2.0</strong>
+(<a href="https://www.npmjs.com/package/permio">npm</a>).</p>
+</div>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>npm<span class="w"> </span>install<span class="w"> </span>permio
+</code></pre></div>
+<h2 id="create-a-client">Create a client<a class="headerlink" href="#create-a-client" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Permio</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">permio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Permio</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.PERMIO_API_KEY</span><span class="o">!</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">project</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span><span class="w"> </span><span class="c1">// default project for the helpers below</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>The constructor checks the API key's format and checksum straight away. A mistyped or truncated key throws
+<code>PermioConfigError</code> before any request is sent. See <a href="../../concepts/api-keys/">API keys</a> for the format.</p>
+<div class="admonition danger">
+<p class="admonition-title">Keep API keys on the server</p>
+<p>The SDK works in browsers, but an API key in a browser bundle is visible to anyone who loads the page. Call
+perms.io from your backend, route handlers or middleware.</p>
+</div>
+<h3 id="options">Options<a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>apiKey</code></td>
+<td><code>string</code></td>
+<td>required</td>
+<td>A <code>perms_…</code> key from the dashboard, or a legacy JWT key.</td>
+</tr>
+<tr>
+<td><code>baseUrl</code></td>
+<td><code>string</code></td>
+<td><code>https://api.perms.io</code></td>
+<td>API host. <code>DEV_BASE_URL</code> (<code>https://dev-api.perms.io</code>) is exported for the development API.</td>
+</tr>
+<tr>
+<td><code>project</code></td>
+<td><code>string</code></td>
+<td>none</td>
+<td>Default project name for <code>check*</code> and <code>list*</code> helpers. Each call can override it.</td>
+</tr>
+<tr>
+<td><code>timeoutMs</code></td>
+<td><code>number</code></td>
+<td><code>10000</code></td>
+<td>Timeout for each attempt, in ms. <code>0</code> disables it.</td>
+</tr>
+<tr>
+<td><code>retries</code></td>
+<td><code>number \| RetryOptions</code></td>
+<td><code>2</code></td>
+<td>Retries for idempotent reads. A number sets <code>maxRetries</code>; see <a href="#retries-and-timeouts">Retries and timeouts</a>.</td>
+</tr>
+<tr>
+<td><code>fetch</code></td>
+<td><code>typeof fetch</code></td>
+<td><code>globalThis.fetch</code></td>
+<td>Custom <code>fetch</code>, for example to add an agent, or for tests.</td>
+</tr>
+<tr>
+<td><code>transport</code></td>
+<td><code>Transport</code></td>
+<td>gRPC-web</td>
+<td>Advanced: a Connect transport to use instead, for example <code>createRouterTransport</code> in tests. <code>baseUrl</code> and <code>fetch</code> are then ignored.</td>
+</tr>
+</tbody>
+</table>
+<p>The production default is <code>https://api.perms.io</code>. Versions 0.2.1 and earlier default to
+<code>https://temp-api.perms.io</code>, which is being retired: upgrade, or set <code>baseUrl</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Permio</span><span class="p">,</span><span class="w"> </span><span class="nx">DEV_BASE_URL</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">devClient</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Permio</span><span class="p">({</span><span class="w"> </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.PERMIO_API_KEY</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="nx">baseUrl</span><span class="o">:</span><span class="w"> </span><span class="kt">DEV_BASE_URL</span><span class="p">,</span><span class="w"> </span><span class="nx">project</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<p>The client also exposes <code>permio.project</code>, <code>permio.baseUrl</code> and <code>permio.apiKeyKind</code> (<code>"opaque"</code> or <code>"jwt"</code>).</p>
+<h2 id="checking-permissions">Checking permissions<a class="headerlink" href="#checking-permissions" title="Permanent link">&para;</a></h2>
+<p>All the check helpers take the same parameters (<code>CheckParams</code>):</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>principal</code></td>
+<td>Required. The ID of the user, service or other principal being checked.</td>
+</tr>
+<tr>
+<td><code>resource</code> / <code>resources</code></td>
+<td>One resource URI, or several. Every resource is checked.</td>
+</tr>
+<tr>
+<td><code>permission</code> / <code>permissions</code></td>
+<td>One permission name, or several.</td>
+</tr>
+<tr>
+<td><code>project</code></td>
+<td>Project to check in. Defaults to the client's <code>project</code>.</td>
+</tr>
+<tr>
+<td><code>signal</code></td>
+<td>An <code>AbortSignal</code> that cancels the call.</td>
+</tr>
+<tr>
+<td><code>timeoutMs</code></td>
+<td>Overall deadline for this call in ms, across retries.</td>
+</tr>
+<tr>
+<td><code>headers</code></td>
+<td>Extra request headers.</td>
+</tr>
+</tbody>
+</table>
+<p>You can pass both the singular and the plural form; they are merged. Duplicates are removed before sending. A
+single check accepts up to 100 resources and 100 permissions.</p>
+<h3 id="check"><code>check</code><a class="headerlink" href="#check" title="Permanent link">&para;</a></h3>
+<p>Resolves to <code>true</code> when the principal holds <strong>every</strong> permission on <strong>every</strong> resource:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">resource</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">check</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="kt">resource</span><span class="p">(</span><span class="s2">"documents"</span><span class="p">,</span><span class="w"> </span><span class="mf">42</span><span class="p">),</span><span class="w"> </span><span class="c1">// "/documents/42"</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div>
+<p>A principal that lacks the permission is a normal answer: <code>check</code> resolves to <code>false</code>. It only throws when the call
+itself fails, for example because of a bad key, malformed input or network trouble.</p>
+<h3 id="checkdetailed"><code>checkDetailed</code><a class="headerlink" href="#checkdetailed" title="Permanent link">&para;</a></h3>
+<p>Same question, but it also tells you what is missing, per resource and in request order:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">allowed</span><span class="p">,</span><span class="w"> </span><span class="nx">missing</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">checkDetailed</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resources</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/documents/1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/documents/2"</span><span class="p">],</span>
+<span class="w">  </span><span class="nx">permissions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"document.write"</span><span class="p">],</span>
+<span class="p">});</span>
+<span class="c1">// allowed: false</span>
+<span class="c1">// missing: [{ resource: "/documents/2", permissions: ["document.write"] }]</span>
+</code></pre></div>
+<p><code>missing</code> is an array of <code>{ resource: string; permissions: string[] }</code> (<code>MissingPermission</code>), and is empty when
+<code>allowed</code> is <code>true</code>.</p>
+<h3 id="assert"><code>assert</code><a class="headerlink" href="#assert" title="Permanent link">&para;</a></h3>
+<p>Resolves when the principal is allowed and throws <code>PermioDeniedError</code> when it is not. The error carries
+<code>principal</code> and <code>missing</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">assert</span><span class="p">({</span><span class="w"> </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents/1"</span><span class="p">,</span><span class="w"> </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.write"</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<h3 id="checkany"><code>checkAny</code><a class="headerlink" href="#checkany" title="Permanent link">&para;</a></h3>
+<p>Resolves to <code>true</code> when, <strong>on every resource</strong>, the principal holds <strong>at least one</strong> of the permissions. It is
+still a single API call:</p>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">checkAny</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents/1"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permissions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.admin"</span><span class="p">,</span><span class="w"> </span><span class="s2">"document.write"</span><span class="p">],</span>
+<span class="p">});</span>
+</code></pre></div>
+<h3 id="checkall"><code>checkAll</code><a class="headerlink" href="#checkall" title="Permanent link">&para;</a></h3>
+<p>An alias of <code>check</code>: every permission on every resource.</p>
+<h2 id="batch-checks">Batch checks<a class="headerlink" href="#batch-checks" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Available from 0.2.0</p>
+</div>
+<p><code>check</code> gives one answer for all its resources together. <code>batchCheck</code> answers <strong>each resource separately</strong>, which is
+what you need to filter a list or decide which rows get an "edit" button.</p>
+<h3 id="batchcheck"><code>batchCheck</code><a class="headerlink" href="#batchcheck" title="Permanent link">&para;</a></h3>
+<p>Resolves to a <code>Map&lt;string, boolean&gt;</code> from resource URI to allowed, with one entry per distinct resource, in request
+order:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">resource</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">uris</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">docs</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">d</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">resource</span><span class="p">(</span><span class="s2">"documents"</span><span class="p">,</span><span class="w"> </span><span class="nx">d</span><span class="p">.</span><span class="nx">id</span><span class="p">));</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">allowed</span><span class="o">:</span><span class="w"> </span><span class="kt">Map</span><span class="o">&lt;</span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">batchCheck</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resources</span><span class="o">:</span><span class="w"> </span><span class="kt">uris</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="p">});</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">docs</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">d</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">allowed</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">resource</span><span class="p">(</span><span class="s2">"documents"</span><span class="p">,</span><span class="w"> </span><span class="nx">d</span><span class="p">.</span><span class="nx">id</span><span class="p">)));</span>
+</code></pre></div>
+<h3 id="batchcheckdetailed"><code>batchCheckDetailed</code><a class="headerlink" href="#batchcheckdetailed" title="Permanent link">&para;</a></h3>
+<p>Same question, but resolves to a <code>BatchCheckEntry[]</code> in request order:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">entries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">batchCheckDetailed</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resources</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/documents/1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"/documents/2"</span><span class="p">],</span>
+<span class="w">  </span><span class="nx">permissions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.read"</span><span class="p">,</span><span class="w"> </span><span class="s2">"document.write"</span><span class="p">],</span>
+<span class="p">});</span>
+<span class="c1">// [</span>
+<span class="c1">//   { resource: "/documents/1", allowed: true, missing: [] },</span>
+<span class="c1">//   { resource: "/documents/2", allowed: false, missing: ["document.write"] },</span>
+<span class="c1">// ]</span>
+</code></pre></div>
+<p><code>BatchCheckParams</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>principal</code></td>
+<td>Required. The principal being checked.</td>
+</tr>
+<tr>
+<td><code>resources</code></td>
+<td>Required. Resource URIs, each answered separately. Duplicates are sent once. More than 100 are split into several calls, sent in parallel.</td>
+</tr>
+<tr>
+<td><code>permission</code> / <code>permissions</code></td>
+<td>One or several permission names, up to 100. A resource is allowed only with <strong>all</strong> of them.</td>
+</tr>
+<tr>
+<td><code>project</code>, <code>signal</code>, <code>timeoutMs</code>, <code>headers</code></td>
+<td>As for <code>check</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>The SDK fails closed: if the API's answer doesn't have exactly one result for each requested resource, it throws a
+<code>PermioError</code> instead of guessing.</p>
+<h2 id="groups">Groups<a class="headerlink" href="#groups" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Available from 0.2.0</p>
+</div>
+<p>A <a href="../../concepts/groups/">group</a> is a named set of principals in a project. Grant to the group's principal ID,
+<code>group:&lt;slug&gt;</code>, and every member holds the grant. Checks include the principal's groups automatically.</p>
+<h3 id="groupslug"><code>group(slug)</code><a class="headerlink" href="#groupslug" title="Permanent link">&para;</a></h3>
+<p>Returns the group's principal ID. It throws <code>PermioValidationError</code> unless the slug is 1–64 lower-case letters,
+digits and hyphens.</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">group</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="nx">group</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">);</span><span class="w"> </span><span class="c1">// "group:editors"</span>
+
+<span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">create</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">"Can edit every document"</span><span class="w"> </span><span class="p">});</span>
+<span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">addMembers</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="s2">"bob"</span><span class="p">]);</span>
+
+<span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">grantUserPermissionsAndRolesOnResource</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="kt">group</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">),</span>
+<span class="w">  </span><span class="nx">resourceUri</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permissions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.write"</span><span class="p">],</span>
+<span class="p">});</span>
+
+<span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">check</span><span class="p">({</span><span class="w"> </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents/42"</span><span class="p">,</span><span class="w"> </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.write"</span><span class="w"> </span><span class="p">});</span><span class="w"> </span><span class="c1">// true</span>
+</code></pre></div>
+<h3 id="permiogroups"><code>permio.groups</code><a class="headerlink" href="#permiogroups" title="Permanent link">&para;</a></h3>
+<p>Every method that takes a group accepts its slug (<code>"editors"</code>) or its principal ID (<code>"group:editors"</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Resolves to</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>create(name, { description? })</code></td>
+<td><code>Group</code>. Throws a <code>PermioError</code> with code <code>Code.AlreadyExists</code> if the project already has a group with this name.</td>
+</tr>
+<tr>
+<td><code>get(name)</code></td>
+<td><code>Group</code>. Throws <code>PermioNotFoundError</code> if it doesn't exist.</td>
+</tr>
+<tr>
+<td><code>update(name, { description })</code></td>
+<td><code>Group</code>. Replaces the description; a group can't be renamed. Throws <code>PermioNotFoundError</code> if it doesn't exist.</td>
+</tr>
+<tr>
+<td><code>delete(name)</code></td>
+<td><code>void</code>. Deletes the group, its memberships and every grant made to it. Resolves whether or not it existed.</td>
+</tr>
+<tr>
+<td><code>list({ search? })</code></td>
+<td>Async iterator of <code>Group</code>, ordered by name.</td>
+</tr>
+<tr>
+<td><code>addMembers(name, principals)</code></td>
+<td><code>AddMembersResult</code>: <code>{ added: string[]; existing: string[] }</code>, in request order.</td>
+</tr>
+<tr>
+<td><code>removeMembers(name, principals)</code></td>
+<td><code>RemoveMembersResult</code>: <code>{ removed: string[]; notMembers: string[] }</code>, in request order.</td>
+</tr>
+<tr>
+<td><code>listMembers(name)</code></td>
+<td>Async iterator of <code>GroupMember</code> (<code>principalId</code>, <code>createdAt</code>), ordered by principal ID.</td>
+</tr>
+<tr>
+<td><code>listForPrincipal(principal)</code></td>
+<td>Async iterator of the <code>Group</code>s the principal is a member of, ordered by name.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>addMembers</code> and <code>removeMembers</code> take 1–100 principals; duplicates are removed. <code>addMembers</code> rejects <code>group:</code> IDs
+  with <code>PermioValidationError</code>, because groups can't contain groups.</li>
+<li>Every method also takes <code>project</code>, <code>signal</code>, <code>timeoutMs</code> and <code>headers</code>. The list methods take <code>pageSize</code> too, and
+  their <code>timeoutMs</code> and <code>headers</code> apply to each page.</li>
+<li><code>Group</code> has <code>id</code>, <code>organisationId</code>, <code>projectName</code>, <code>name</code>, <code>description</code>, <code>principalId</code> (<code>"group:&lt;name&gt;"</code>),
+  <code>createdAt</code> and <code>updatedAt</code>.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">added</span><span class="p">,</span><span class="w"> </span><span class="nx">existing</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">addMembers</span><span class="p">(</span><span class="s2">"group:editors"</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="s2">"carol"</span><span class="p">]);</span>
+
+<span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">m</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">listMembers</span><span class="p">(</span><span class="s2">"editors"</span><span class="p">))</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">m</span><span class="p">.</span><span class="nx">principalId</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">g</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">groups</span><span class="p">.</span><span class="nx">listForPrincipal</span><span class="p">(</span><span class="s2">"alice"</span><span class="p">))</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">g</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+</code></pre></div>
+<p>Reading groups works with a check-access API key. Creating, updating and deleting groups and changing members needs
+a key with full access, and changing members also needs the right to grant across the project. See
+<a href="../../concepts/groups/#permissions-you-need">Permissions you need</a>.</p>
+<h2 id="access-queries">Access queries<a class="headerlink" href="#access-queries" title="Permanent link">&para;</a></h2>
+<div class="admonition info">
+<p class="admonition-title">Available from 0.2.0</p>
+</div>
+<p>These answer "where?" and "who?" rather than "may they?". The
+<a href="../../guides/filtering-and-sharing/">Filtering lists and building share dialogs</a> guide shows them in context.</p>
+<h3 id="listaccess"><code>listAccess</code><a class="headerlink" href="#listaccess" title="Permanent link">&para;</a></h3>
+<p>Answers "where may this principal use this permission, at or below <code>under</code>?". It follows every page and resolves to
+an <code>AccessScopes</code> object:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="w"> </span><span class="nx">AccessScopes</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">access</span><span class="o">:</span><span class="w"> </span><span class="kt">AccessScopes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listAccess</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">under</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span>
+<span class="p">});</span>
+
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">access</span><span class="p">.</span><span class="nx">coversAll</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// alice may read everything under /documents</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">access</span><span class="p">.</span><span class="nx">toPrefixes</span><span class="p">());</span><span class="w"> </span><span class="c1">// e.g. ["/documents/4", "/documents/7"]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>ListAccessParams</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>principal</code></td>
+<td>Required. Access through roles and groups counts.</td>
+</tr>
+<tr>
+<td><code>permission</code></td>
+<td>Required. One permission name.</td>
+</tr>
+<tr>
+<td><code>under</code></td>
+<td>Required. Only resources at or below this URI are considered. A <code>_</code> segment here is literal.</td>
+</tr>
+<tr>
+<td><code>project</code>, <code>pageSize</code>, <code>signal</code>, <code>timeoutMs</code>, <code>headers</code></td>
+<td>As for the list helpers: <code>timeoutMs</code> and <code>headers</code> apply to each page.</td>
+</tr>
+</tbody>
+</table>
+<p><code>AccessScopes</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>under</code></td>
+<td><code>string</code></td>
+<td>The URI that was asked about.</td>
+</tr>
+<tr>
+<td><code>coversAll</code></td>
+<td><code>boolean</code></td>
+<td>The principal holds the permission on <code>under</code> itself, so on everything below it. <code>scopes</code> is then a single subtree scope for <code>under</code>.</td>
+</tr>
+<tr>
+<td><code>scopes</code></td>
+<td><code>readonly AccessScopeInfo[]</code></td>
+<td><code>{ uri, kind }</code>, ordered by URI. <code>kind</code> is <code>"subtree"</code>, <code>"pattern"</code>, <code>"exact"</code> (reserved, not returned today) or <code>"unknown"</code> (a kind this SDK version doesn't know; it never matches).</td>
+</tr>
+<tr>
+<td><code>isEmpty</code></td>
+<td><code>boolean</code></td>
+<td>No access anywhere under <code>under</code>.</td>
+</tr>
+<tr>
+<td><code>allows(uri)</code></td>
+<td><code>boolean</code></td>
+<td>Whether <code>uri</code> is covered. Matches per segment: <code>/a/b</code> covers <code>/a/b/c</code> but not <code>/a/bc</code>. Malformed URIs are never allowed.</td>
+</tr>
+<tr>
+<td><code>toPrefixes()</code></td>
+<td><code>string[]</code></td>
+<td>The subtree URIs, for prefix filters. Prefixes covered by a shorter one are dropped. Pattern scopes aren't included.</td>
+</tr>
+<tr>
+<td><code>patterns()</code></td>
+<td><code>string[]</code></td>
+<td>The pattern URIs, with <code>_</code> segments.</td>
+</tr>
+<tr>
+<td><code>hasPatterns</code></td>
+<td><code>boolean</code></td>
+<td>Some scope is a pattern, so <code>toPrefixes()</code> alone doesn't cover everything.</td>
+</tr>
+<tr>
+<td><code>exact()</code></td>
+<td><code>string[]</code></td>
+<td>The exact URIs. Empty today.</td>
+</tr>
+<tr>
+<td><code>toRegExp()</code></td>
+<td><code>RegExp</code></td>
+<td>One anchored regular expression matching exactly what <code>allows()</code> accepts. Usable in MongoDB <code>$regex</code> and, via <code>.source</code>, PostgreSQL <code>~</code>. Matches nothing when there are no scopes.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A prefix <code>p</code> from <code>toPrefixes()</code> means <code>p</code> <strong>and everything below it</strong>. Filter with
+<code>path = p OR path starts with p + "/"</code>, never a bare "starts with <code>p</code>", which would let <code>/documents/1</code> match
+<code>/documents/12</code>. In SQL, use <code>starts_with(path, p || '/')</code> rather than <code>LIKE</code>, where <code>_</code> is a wildcard.</p>
+</div>
+<p>For a URI outside <code>under</code>, <code>allows()</code> returning <code>false</code> means "not asked", not "denied". The API key needs
+<code>permission.check</code> on <code>under</code> and <code>principal.assignment.get</code> on the principal.</p>
+<h3 id="whohasaccess"><code>whoHasAccess</code><a class="headerlink" href="#whohasaccess" title="Permanent link">&para;</a></h3>
+<p>Answers "who has access to this resource?". It follows every page and resolves to an <code>AccessEntry[]</code>, ordered by
+principal ID:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="w"> </span><span class="nx">AccessEntry</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">entries</span><span class="o">:</span><span class="w"> </span><span class="kt">AccessEntry</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">whoHasAccess</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents/42"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">expandGroups</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span>
+<span class="p">});</span>
+<span class="c1">// [</span>
+<span class="c1">//   { principal: "alice", isGroup: false, viaGroup: undefined,</span>
+<span class="c1">//     via: [{ resource: "/documents", inherited: true, match: "ancestor",</span>
+<span class="c1">//             source: { type: "role", id: "ROLE_ID", name: "viewer" } }] },</span>
+<span class="c1">//   { principal: "bob", isGroup: false, viaGroup: "editors", via: [...] },</span>
+<span class="c1">//   { principal: "group:editors", isGroup: true, viaGroup: undefined, via: [...] },</span>
+<span class="c1">// ]</span>
+</code></pre></div>
+<p><code>WhoHasAccessParams</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>resource</code></td>
+<td>Required. The resource to look at. A <code>_</code> segment here is literal.</td>
+</tr>
+<tr>
+<td><code>permission</code></td>
+<td>Optional. Only count grants that confer this permission, so a principal is listed exactly when <code>check()</code> passes for it through its own grants (or, for entries with <code>viaGroup</code>, through that group). Unset, any grant counts.</td>
+</tr>
+<tr>
+<td><code>expandGroups</code></td>
+<td>Optional. Also list every member of each listed group, once per group, with <code>viaGroup</code> set.</td>
+</tr>
+<tr>
+<td><code>project</code>, <code>pageSize</code>, <code>signal</code>, <code>timeoutMs</code>, <code>headers</code></td>
+<td>As for the list helpers: <code>timeoutMs</code> and <code>headers</code> apply to each page.</td>
+</tr>
+</tbody>
+</table>
+<p><code>AccessEntry</code> has <code>principal</code>, <code>isGroup</code>, <code>viaGroup</code> (a group slug, or <code>undefined</code>) and <code>via</code>, the grants that give
+the access, most specific first. Each grant (<code>AccessGrantInfo</code>) has:</p>
+<ul>
+<li><code>resource</code>: the URI the grant was made on (the resource, an ancestor, or a <code>_</code> wildcard URI that matches it);</li>
+<li><code>inherited</code>: <code>true</code> unless the grant was made on exactly the resource;</li>
+<li><code>match</code>: <code>"exact"</code>, <code>"ancestor"</code>, <code>"wildcard"</code> or <code>"unknown"</code>;</li>
+<li><code>source</code>: <code>{ type: "role", id, name }</code>, <code>{ type: "direct" }</code> for directly granted permissions, or
+  <code>{ type: "unknown" }</code>.</li>
+</ul>
+<p>The API key needs <code>principal.list</code> and <code>principal.assignment.list</code> on the project.</p>
+<h2 id="resource-uris">Resource URIs<a class="headerlink" href="#resource-uris" title="Permanent link">&para;</a></h2>
+<p>Resource URIs are paths such as <code>/projects/p1/documents/42</code>. A grant on a URI also covers every URI beneath it. See
+<a href="../../concepts/resources/">Resources and inheritance</a> for the full rules.</p>
+<h3 id="resourcesegments"><code>resource(...segments)</code><a class="headerlink" href="#resourcesegments" title="Permanent link">&para;</a></h3>
+<p>Builds a URI from raw segments. It adds the leading <code>/</code> and percent-encodes each segment, so an ID that contains
+<code>/</code>, spaces or other reserved characters stays a single segment:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">resource</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="nx">resource</span><span class="p">(</span><span class="s2">"projects"</span><span class="p">,</span><span class="w"> </span><span class="s2">"p1"</span><span class="p">,</span><span class="w"> </span><span class="s2">"documents"</span><span class="p">,</span><span class="w"> </span><span class="mf">42</span><span class="p">);</span><span class="w"> </span><span class="c1">// "/projects/p1/documents/42"</span>
+<span class="nx">resource</span><span class="p">(</span><span class="s2">"files"</span><span class="p">,</span><span class="w"> </span><span class="s2">"reports/2026.pdf"</span><span class="p">);</span><span class="w">       </span><span class="c1">// "/files/reports%2F2026.pdf"</span>
+</code></pre></div>
+<p>On top of <code>encodeURIComponent</code>, it also encodes <code>! ' ( ) *</code>, because the API rejects <code>( ) *</code> in segments. Empty
+segments throw <code>PermioValidationError</code>.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>Build URIs the same way when you grant and when you check, or they will not match.</p>
+</div>
+<h3 id="other-helpers">Other helpers<a class="headerlink" href="#other-helpers" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>encodeSegment(segment)</code></td>
+<td>Encodes one segment the way <code>resource()</code> does.</td>
+</tr>
+<tr>
+<td><code>assertResourceUri(uri)</code></td>
+<td>Throws <code>PermioValidationError</code> unless <code>uri</code> has the basic shape the API accepts: a leading <code>/</code>, no empty segments, no whitespace or control characters, and at most 2048 bytes.</td>
+</tr>
+<tr>
+<td><code>MAX_RESOURCE_URI_LENGTH</code></td>
+<td><code>2048</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Every check runs <code>assertResourceUri</code> on its URIs before sending. The API enforces the remaining rules, such as no
+<code>( ) [ ] { } * + ? | ^ $ \</code> in segments, and answers with <code>InvalidArgument</code>, which the SDK raises as
+<code>PermioValidationError</code>.</p>
+<h2 id="errors">Errors<a class="headerlink" href="#errors" title="Permanent link">&para;</a></h2>
+<p>Every error the SDK throws extends <code>PermioError</code>. It has these properties:</p>
+<ul>
+<li><code>code</code>: the gRPC status <code>Code</code>. <code>Code</code> is re-exported from <code>permio</code>.</li>
+<li><code>codeName</code>: the code's name in lower case, for example <code>"permission_denied"</code>.</li>
+<li><code>metadata</code>: the response headers and trailers.</li>
+<li><code>cause</code>: the original error, usually a <code>ConnectError</code>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Class</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PermioConfigError</code></td>
+<td>Bad client setup: a malformed API key, no <code>project</code>, an invalid <code>baseUrl</code> or no <code>fetch</code>.</td>
+</tr>
+<tr>
+<td><code>PermioAuthError</code></td>
+<td><code>Unauthenticated</code>: the key is missing, unknown or invalidated.</td>
+</tr>
+<tr>
+<td><code>PermioPermissionError</code></td>
+<td><code>PermissionDenied</code>: the <strong>API key</strong> lacks the rights for this call. <code>missing</code> lists what it lacks when the API says.</td>
+</tr>
+<tr>
+<td><code>PermioValidationError</code></td>
+<td><code>InvalidArgument</code>, or the SDK's own input checks (for example a URI without a leading <code>/</code>).</td>
+</tr>
+<tr>
+<td><code>PermioNotFoundError</code></td>
+<td><code>NotFound</code>, for example <code>getPermission</code> for a name that does not exist.</td>
+</tr>
+<tr>
+<td><code>PermioUnavailableError</code></td>
+<td><code>Unavailable</code>, including network failures.</td>
+</tr>
+<tr>
+<td><code>PermioTimeoutError</code></td>
+<td><code>DeadlineExceeded</code>, including the SDK's own timeouts.</td>
+</tr>
+<tr>
+<td><code>PermioDeniedError</code></td>
+<td>Thrown only by <code>assert()</code>, when the <strong>principal</strong> is not allowed. Has <code>principal</code> and <code>missing</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Any other status is a plain <code>PermioError</code> with the matching <code>code</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Denied is not an error</p>
+<p><code>PermioPermissionError</code> is about the <em>caller</em>. It means your API key is not allowed to make the call: for
+<code>Check</code>, the key needs <code>permission.check</code> on the checked resources and on the principal. A principal failing a
+check is a normal result: <code>check()</code> returns <code>false</code> and <code>assert()</code> throws <code>PermioDeniedError</code>.</p>
+</div>
+<p><code>PermioPermissionError.missing</code> uses the API's fully qualified URIs (<code>/organisation/{org}/project/{project}/...</code>),
+not the URIs you sent.</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">PermioAuthError</span><span class="p">,</span><span class="w"> </span><span class="nx">PermioDeniedError</span><span class="p">,</span><span class="w"> </span><span class="nx">PermioError</span><span class="p">,</span><span class="w"> </span><span class="nx">PermioPermissionError</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">assert</span><span class="p">({</span><span class="w"> </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents/1"</span><span class="p">,</span><span class="w"> </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.write"</span><span class="w"> </span><span class="p">});</span>
+<span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="ow">instanceof</span><span class="w"> </span><span class="nx">PermioDeniedError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// the principal may not do this: respond with 403</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="ow">instanceof</span><span class="w"> </span><span class="nx">PermioPermissionError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// the API key may not run this check (it needs permission.check)</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">missing</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="ow">instanceof</span><span class="w"> </span><span class="nx">PermioAuthError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// the API key is missing, unknown or invalidated</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="ow">instanceof</span><span class="w"> </span><span class="nx">PermioError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">codeName</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">message</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>toPermioError(error)</code> converts any thrown value into the matching <code>PermioError</code> subclass.
+<code>parseMissingPermissions(message)</code> extracts the missing list from a <code>PermissionDenied</code> message. You only need these
+if you build your own transport or client.</p>
+<h2 id="retries-and-timeouts">Retries and timeouts<a class="headerlink" href="#retries-and-timeouts" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Retries:</strong> idempotent reads (<code>Check</code>, <code>BatchCheck</code>, and every <code>Get*</code> and <code>List*</code> RPC, including
+  <code>ListAccess</code>, <code>ListPrincipalsWithAccess</code> and the group reads) are retried on <code>Unavailable</code> and
+  <code>DeadlineExceeded</code>. They are retried twice by default, with exponential backoff and jitter. Network failures
+  count as <code>Unavailable</code>.</li>
+<li><strong>Writes</strong> (every Create, Update, Delete, Grant, Revoke, Invite, adding and removing group members, and so on)
+  are never retried.</li>
+<li><strong>Timeouts:</strong></li>
+<li>The client's <code>timeoutMs</code> applies to each attempt (default 10 s).</li>
+<li>A call's <code>timeoutMs</code> is an overall deadline across all attempts.</li>
+<li>Aborting <code>signal</code> cancels the call and any pending retry.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">permio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Permio</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.PERMIO_API_KEY</span><span class="o">!</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">project</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">timeoutMs</span><span class="o">:</span><span class="w"> </span><span class="kt">5_000</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">retries</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">maxRetries</span><span class="o">:</span><span class="w"> </span><span class="kt">3</span><span class="p">,</span><span class="w"> </span><span class="nx">baseDelayMs</span><span class="o">:</span><span class="w"> </span><span class="kt">100</span><span class="p">,</span><span class="w"> </span><span class="nx">maxDelayMs</span><span class="o">:</span><span class="w"> </span><span class="kt">2_000</span><span class="w"> </span><span class="p">},</span>
+<span class="p">});</span>
+
+<span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">check</span><span class="p">({</span><span class="w"> </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span><span class="w"> </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents/1"</span><span class="p">,</span><span class="w"> </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span><span class="w"> </span><span class="nx">timeoutMs</span><span class="o">:</span><span class="w"> </span><span class="kt">8_000</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<p><code>RetryOptions</code> has these fields:</p>
+<ul>
+<li><code>maxRetries</code>: retries after the first attempt. Default 2.</li>
+<li><code>baseDelayMs</code>: the first delay, which doubles each time. Default 100.</li>
+<li><code>maxDelayMs</code>: the cap on a single delay. Default 2000.</li>
+</ul>
+<p><code>isIdempotentMethod("permio.permissions.v1.PermissionsService.Check")</code> tells you whether the SDK retries a given RPC.</p>
+<h2 id="listing-with-iterators">Listing with iterators<a class="headerlink" href="#listing-with-iterators" title="Permanent link">&para;</a></h2>
+<p>List RPCs are paginated with a cursor (see <a href="../../api-reference/pagination/">Pagination</a>). The helpers return async
+iterators that fetch pages as you go:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">p</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listPermissions</span><span class="p">({</span><span class="w"> </span><span class="nx">search</span><span class="o">:</span><span class="w"> </span><span class="s2">"document."</span><span class="w"> </span><span class="p">}))</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">role</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listRoles</span><span class="p">())</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">role</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="nx">role</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listPrincipals</span><span class="p">())</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">id</span><span class="p">);</span>
+<span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listAssignments</span><span class="p">({</span><span class="w"> </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="w"> </span><span class="p">}))</span><span class="w"> </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">resourceUri</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="p">.</span><span class="nx">roles</span><span class="p">);</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Yields</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>listPermissions(params?)</code></td>
+<td><code>Permission</code></td>
+</tr>
+<tr>
+<td><code>listRoles(params?)</code></td>
+<td><code>Role</code> (with its <code>permissions</code>)</td>
+</tr>
+<tr>
+<td><code>listPrincipals(params?)</code></td>
+<td><code>string</code> principal IDs that have grants in the project</td>
+</tr>
+<tr>
+<td><code>listAssignments({ principal, ... })</code></td>
+<td><code>Assignment</code> (<code>resourceUri</code>, <code>permissions</code>, <code>roles</code>)</td>
+</tr>
+<tr>
+<td><code>groups.list(params?)</code></td>
+<td><code>Group</code> (from 0.2.0; see <a href="#groups">Groups</a>)</td>
+</tr>
+<tr>
+<td><code>groups.listMembers(name, params?)</code></td>
+<td><code>GroupMember</code> (from 0.2.0)</td>
+</tr>
+<tr>
+<td><code>groups.listForPrincipal(principal, params?)</code></td>
+<td><code>Group</code> (from 0.2.0)</td>
+</tr>
+</tbody>
+</table>
+<p>Each method takes these parameters:</p>
+<ul>
+<li><code>project</code></li>
+<li><code>pageSize</code>: 1–100, default 100</li>
+<li><code>signal</code>: stops iteration and any in-flight request</li>
+<li><code>timeoutMs</code>: per page</li>
+<li><code>headers</code></li>
+</ul>
+<p><code>listPermissions</code>, <code>listRoles</code> and <code>listPrincipals</code> also take <code>search</code>, which filters by name.</p>
+<p>For any other list RPC, use <code>paginate</code>, which follows <code>next_cursor</code> until the API returns an empty one:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">paginate</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="k">for</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">paginate</span><span class="p">(</span>
+<span class="w">  </span><span class="p">(</span><span class="nx">pagination</span><span class="p">,</span><span class="w"> </span><span class="nx">signal</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span>
+<span class="w">    </span><span class="nx">permio</span><span class="p">.</span><span class="nx">organisations</span><span class="p">.</span><span class="nx">listAPIKeys</span><span class="p">({</span><span class="w"> </span><span class="nx">organisationId</span><span class="o">:</span><span class="w"> </span><span class="s2">"your-org-id"</span><span class="p">,</span><span class="w"> </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span><span class="w"> </span><span class="nx">pagination</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">signal</span><span class="w"> </span><span class="p">}),</span>
+<span class="w">  </span><span class="p">(</span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">apiKeys</span><span class="p">,</span>
+<span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">key</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<h2 id="raw-clients-full-api">Raw clients (full API)<a class="headerlink" href="#raw-clients-full-api" title="Permanent link">&para;</a></h2>
+<p><code>permio.permissions</code> and <code>permio.organisations</code> are the generated <a href="https://connectrpc.com/docs/web/using-clients">Connect</a>
+clients for <code>permio.permissions.v1.PermissionsService</code> and <code>permio.organisation.v1.OrganisationService</code>.
+Authentication, timeouts, retries and error mapping are already applied. Every RPC in the
+<a href="../../api-reference/">API reference</a> is available, with request and response types generated from the
+protobuf definitions. Method names are the RPC names in lower camel case, and fields are camelCase:</p>
+<div class="highlight"><pre><span></span><code><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">createPermission</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">description</span><span class="o">:</span><span class="w"> </span><span class="s2">"Read documents"</span><span class="p">,</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">role</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">createRole</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">"viewer"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permissions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.read"</span><span class="p">],</span><span class="w"> </span><span class="c1">// permission names</span>
+<span class="p">});</span>
+
+<span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">grantUserPermissionsAndRolesOnResource</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">userId</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resourceUri</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">roles</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="nx">role</span><span class="p">.</span><span class="nx">id</span><span class="p">],</span><span class="w"> </span><span class="c1">// role IDs</span>
+<span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">permissions</span><span class="p">.</span><span class="nx">check</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">principalId</span><span class="o">:</span><span class="w"> </span><span class="s2">"alice"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">resourceUris</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"/documents/42"</span><span class="p">],</span>
+<span class="w">  </span><span class="nx">permissions</span><span class="o">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"document.read"</span><span class="p">],</span>
+<span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">passed</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">.</span><span class="nx">missingPermissions</span><span class="p">);</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">What a key can call</p>
+<p>By default an API key has <strong>check</strong> access: it can run checks and access queries, and read permissions, roles,
+principals, assignments and groups. Creating, updating or deleting permissions, roles and groups, granting or
+revoking, and changing group members needs a key with full access. See
+<a href="../../concepts/api-keys/#access-levels">API keys</a>.</p>
+</div>
+<p>The generated messages are exported as the namespaces <code>permissionsv1</code>, <code>organisationv1</code> and <code>paginationv1</code>. The
+service descriptors are exported as <code>PermissionsService</code> and <code>OrganisationService</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">create</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"@bufbuild/protobuf"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">permissionsv1</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">req</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">create</span><span class="p">(</span><span class="nx">permissionsv1</span><span class="p">.</span><span class="nx">CheckPermissionRequestSchema</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">projectName</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<h2 id="api-key-helpers">API key helpers<a class="headerlink" href="#api-key-helpers" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Export</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validateApiKey(key)</code></td>
+<td>Returns <code>"opaque"</code> for <code>perms_</code> keys and <code>"jwt"</code> for legacy JWT keys. Throws <code>PermioConfigError</code> if the key is malformed.</td>
+</tr>
+<tr>
+<td><code>isValidApiKey(key)</code></td>
+<td><code>true</code> if <code>validateApiKey</code> would pass.</td>
+</tr>
+<tr>
+<td><code>API_KEY_LENGTH</code></td>
+<td><code>44</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>These only check the shape and checksum. Only the API can tell you whether a key exists and is still valid.</p>
+<h2 id="express">Express<a class="headerlink" href="#express" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="nx">express</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kr">type</span><span class="w"> </span><span class="nx">RequestHandler</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"express"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Permio</span><span class="p">,</span><span class="w"> </span><span class="nx">PermioDeniedError</span><span class="p">,</span><span class="w"> </span><span class="nx">resource</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">permio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Permio</span><span class="p">({</span><span class="w"> </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.PERMIO_API_KEY</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="nx">project</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w"> </span><span class="p">});</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">app</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">express</span><span class="p">();</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">can</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="o">:</span><span class="w"> </span><span class="nx">RequestHandler</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">next</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="k">try</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">assert</span><span class="p">({</span>
+<span class="w">      </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="kt">res.locals.userId</span><span class="p">,</span><span class="w"> </span><span class="c1">// set by your auth middleware</span>
+<span class="w">      </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="kt">resource</span><span class="p">(</span><span class="s2">"documents"</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="o">!</span><span class="p">),</span>
+<span class="w">      </span><span class="nx">permission</span><span class="p">,</span>
+<span class="w">    </span><span class="p">});</span>
+<span class="w">    </span><span class="nx">next</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">catch</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">err</span><span class="w"> </span><span class="ow">instanceof</span><span class="w"> </span><span class="nx">PermioDeniedError</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nx">res</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mf">403</span><span class="p">).</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">error</span><span class="o">:</span><span class="w"> </span><span class="s2">"forbidden"</span><span class="w"> </span><span class="p">});</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="nx">next</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span><span class="w"> </span><span class="c1">// any other PermioError: auth, validation, network...</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">};</span>
+
+<span class="nx">app</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">"/documents/:id"</span><span class="p">,</span><span class="w"> </span><span class="nx">can</span><span class="p">(</span><span class="s2">"document.read"</span><span class="p">),</span><span class="w"> </span><span class="p">(</span><span class="nx">req</span><span class="p">,</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">req.params.id</span><span class="w"> </span><span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div>
+<h2 id="nextjs">Next.js<a class="headerlink" href="#nextjs" title="Permanent link">&para;</a></h2>
+<p>Create one client and import it on the server only:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// lib/permio.ts</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Permio</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">permio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Permio</span><span class="p">({</span><span class="w"> </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.PERMIO_API_KEY</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="nx">project</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<h3 id="route-handler-app-router">Route handler (App Router)<a class="headerlink" href="#route-handler-app-router" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1">// app/documents/[id]/route.ts</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">resource</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">permio</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"@/lib/permio"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">getUserId</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"@/lib/auth"</span><span class="p">;</span><span class="w"> </span><span class="c1">// your auth</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">DELETE</span><span class="p">(</span><span class="nx">_req</span><span class="o">:</span><span class="w"> </span><span class="kt">Request</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">params</span><span class="w"> </span><span class="p">}</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">params</span><span class="o">:</span><span class="w"> </span><span class="kt">Promise</span><span class="o">&lt;</span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="kt">string</span><span class="w"> </span><span class="p">}</span><span class="o">&gt;</span><span class="w"> </span><span class="p">})</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">params</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">check</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="kt">await</span><span class="w"> </span><span class="nx">getUserId</span><span class="p">(),</span>
+<span class="w">    </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="kt">resource</span><span class="p">(</span><span class="s2">"documents"</span><span class="p">,</span><span class="w"> </span><span class="nx">id</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.delete"</span><span class="p">,</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">allowed</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Response</span><span class="p">(</span><span class="s2">"Forbidden"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="kt">403</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="c1">// ...delete the document</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Response</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="kt">204</span><span class="w"> </span><span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="middleware">Middleware<a class="headerlink" href="#middleware" title="Permanent link">&para;</a></h3>
+<p>The client only needs <code>fetch</code>, so it also runs in the Edge runtime and in middleware:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// middleware.ts</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">NextResponse</span><span class="p">,</span><span class="w"> </span><span class="kr">type</span><span class="w"> </span><span class="nx">NextRequest</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"next/server"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">resource</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">permio</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"@/lib/permio"</span><span class="p">;</span>
+<span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">getUserIdFromRequest</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"@/lib/auth"</span><span class="p">;</span><span class="w"> </span><span class="c1">// your auth</span>
+
+<span class="k">export</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">middleware</span><span class="p">(</span><span class="nx">req</span><span class="o">:</span><span class="w"> </span><span class="kt">NextRequest</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">userId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">getUserIdFromRequest</span><span class="p">(</span><span class="nx">req</span><span class="p">);</span>
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">userId</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nx">NextResponse</span><span class="p">.</span><span class="nx">redirect</span><span class="p">(</span><span class="ow">new</span><span class="w"> </span><span class="nx">URL</span><span class="p">(</span><span class="s2">"/login"</span><span class="p">,</span><span class="w"> </span><span class="nx">req</span><span class="p">.</span><span class="nx">url</span><span class="p">));</span>
+
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">check</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="kt">userId</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="kt">resource</span><span class="p">(</span><span class="s2">"admin"</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"admin.access"</span><span class="p">,</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">allowed</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">NextResponse</span><span class="p">.</span><span class="nx">next</span><span class="p">()</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">NextResponse</span><span class="p">(</span><span class="s2">"Forbidden"</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="kt">403</span><span class="w"> </span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="k">export</span><span class="w"> </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">matcher</span><span class="o">:</span><span class="w"> </span><span class="s2">"/admin/:path*"</span><span class="w"> </span><span class="p">};</span>
+</code></pre></div>
+<h2 id="how-it-talks-to-the-api">How it talks to the API<a class="headerlink" href="#how-it-talks-to-the-api" title="Permanent link">&para;</a></h2>
+<p>The SDK uses the gRPC-web protocol over <code>fetch</code> (through <code>@connectrpc/connect-web</code>). The perms.io gateway accepts
+it directly from servers, edge runtimes and browsers. The key is sent as <code>Authorization: Bearer &lt;key&gt;</code>. Timeouts are
+enforced on the client, so no <code>grpc-timeout</code> header is sent.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      <a href="https://perms.io">Permio</a>, permissions as a service
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", {"content.code.highlight": false}, "content.tabs.link", "navigation.sections"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

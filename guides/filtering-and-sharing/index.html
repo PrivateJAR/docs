@@ -1,0 +1,1412 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, TypeScript SDK and API reference.">
+      
+      
+      
+        <link rel="canonical" href="https://docs.perms.io/guides/filtering-and-sharing/">
+      
+      
+        <link rel="prev" href="../../iam-basics/">
+      
+      
+        <link rel="next" href="../../sdk/typescript/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Filtering lists and share dialogs - Permio docs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#filtering-lists-and-building-share-dialogs" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Permio docs" class="md-header__button md-logo" aria-label="Permio docs" data-md-component="logo">
+      
+  <img src="../../assets/favicon.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Permio docs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Filtering lists and share dialogs
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Permio docs" class="md-nav__button md-logo" aria-label="Permio docs" data-md-component="logo">
+      
+  <img src="../../assets/favicon.png" alt="logo">
+
+    </a>
+    Permio docs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-it-works/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How it works
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Resources and inheritance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/groups/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Groups
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/api-keys/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API keys
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../iam-basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    IAM fundamentals
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filtering lists and share dialogs
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Filtering lists and share dialogs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#permio-returns-scopes-not-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permio returns scopes, not records
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ask-once-with-listaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ask once with listAccess
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ask once with listAccess">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prisma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prisma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filter-rows-you-already-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter rows you already have
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filter rows you already have">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#allows-in-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        allows() in memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batchcheck-for-a-fetched-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        batchCheck for a fetched page
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-a-share-dialog-with-whohasaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build a share dialog with whoHasAccess
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-an-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing an approach
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sdk/typescript/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TypeScript SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/permissions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Permissions & Roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/organizations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Organisations & Projects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api-reference/pagination/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pagination
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#permio-returns-scopes-not-records" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permio returns scopes, not records
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ask-once-with-listaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ask once with listAccess
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ask once with listAccess">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prisma" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prisma
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mongodb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MongoDB
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#filter-rows-you-already-have" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Filter rows you already have
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Filter rows you already have">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#allows-in-memory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        allows() in memory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batchcheck-for-a-fetched-page" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        batchCheck for a fetched page
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-a-share-dialog-with-whohasaccess" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build a share dialog with whoHasAccess
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choosing-an-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choosing an approach
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="filtering-lists-and-building-share-dialogs">Filtering lists and building share dialogs<a class="headerlink" href="#filtering-lists-and-building-share-dialogs" title="Permanent link">&para;</a></h1>
+<p><code>Check</code> answers one question about one object. Lists and share dialogs need different questions:</p>
+<table>
+<thead>
+<tr>
+<th>You want to…</th>
+<th>Use</th>
+<th>SDK (from 0.2.0)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Show only the rows a user may see, filtered <strong>in your database</strong></td>
+<td><a href="../../api-reference/permissions/#listaccess">ListAccess</a></td>
+<td><code>listAccess()</code> → <code>toPrefixes()</code>, <code>toRegExp()</code></td>
+</tr>
+<tr>
+<td>Filter rows you <strong>already loaded</strong></td>
+<td>ListAccess, or <a href="../../api-reference/permissions/#batchcheck">BatchCheck</a></td>
+<td><code>allows()</code>, <code>batchCheck()</code></td>
+</tr>
+<tr>
+<td>Show <strong>who</strong> can access an object</td>
+<td><a href="../../api-reference/permissions/#listprincipalswithaccess">ListPrincipalsWithAccess</a></td>
+<td><code>whoHasAccess()</code></td>
+</tr>
+</tbody>
+</table>
+<p>All three apply exactly the same rules as <code>Check</code>: inheritance, the <code>_</code> wildcard, roles and
+<a href="../../concepts/groups/">groups</a>.</p>
+<p>The examples use the <a href="../../sdk/typescript/">TypeScript SDK</a>. The methods on this page are <strong>available from 0.2.0</strong>.
+The <a href="../../api-reference/permissions/#access-queries">API reference</a> has the same calls over REST and gRPC.</p>
+<h2 id="permio-returns-scopes-not-records">Permio returns scopes, not records<a class="headerlink" href="#permio-returns-scopes-not-records" title="Permanent link">&para;</a></h2>
+<p>perms.io doesn't know your rows. It only knows the grants you made. So <code>ListAccess</code> can't return "documents 4, 7
+and 9". It returns <strong>scopes</strong>: the places in your URI tree where the principal holds the permission.</p>
+<p>Because a grant applies to its URI <a href="../../concepts/resources/#grants-apply-to-everything-beneath-them">and everything beneath it</a>,
+each scope stands for a whole subtree. A grant on <code>/foo/bar</code> gives the scope <code>/foo/bar</code>, and it covers <code>/foo/bar</code>,
+<code>/foo/bar/baz</code> and anything later created below it. Your code turns the scopes into a filter on your own data.</p>
+<div class="highlight"><pre><span></span><code>grants for alice (document.read)       scopes under /documents
+  /documents/4                    →      /documents/4    SUBTREE
+  /documents/7                    →      /documents/7    SUBTREE
+  /documents/_/comments           →      /documents/_/comments   PATTERN
+</code></pre></div>
+<p>There are three possible answers:</p>
+<ul>
+<li><strong><code>coversAll</code></strong>: the principal holds the permission on the <code>under</code> URI itself, so on everything below it. Don't
+  filter at all.</li>
+<li><strong>SUBTREE scopes</strong>: a URI and everything below it. These turn into prefix filters.</li>
+<li><strong>PATTERN scopes</strong>: a grant made on a URI with <code>_</code> wildcard segments, such as <code>/documents/_/comments</code>. Each <code>_</code>
+  matches exactly one segment, and everything below a match is covered too. No prefix can express this, so use
+  <code>toRegExp()</code> or filter in memory with <code>allows()</code>.</li>
+</ul>
+<p>To use any of the filters below, store each row's resource URI (here in a <code>path</code> column), built the same way as
+when you grant, for example with <a href="../../sdk/typescript/#resourcesegments"><code>resource()</code></a>.</p>
+<h2 id="ask-once-with-listaccess">Ask once with <code>listAccess</code><a class="headerlink" href="#ask-once-with-listaccess" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">Permio</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">permio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">Permio</span><span class="p">({</span><span class="w"> </span><span class="nx">apiKey</span><span class="o">:</span><span class="w"> </span><span class="kt">process.env.PERMIO_API_KEY</span><span class="o">!</span><span class="p">,</span><span class="w"> </span><span class="nx">project</span><span class="o">:</span><span class="w"> </span><span class="s2">"default"</span><span class="w"> </span><span class="p">});</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">access</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">listAccess</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="kt">userId</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">under</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents"</span><span class="p">,</span><span class="w"> </span><span class="c1">// only resources at or below this URI are considered</span>
+<span class="p">});</span>
+</code></pre></div>
+<p><code>listAccess</code> follows every page and returns an <code>AccessScopes</code> object. The parts you use for filtering:</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>coversAll</code></td>
+<td><code>true</code>: no filter needed. Check it first.</td>
+</tr>
+<tr>
+<td><code>toPrefixes()</code></td>
+<td>The SUBTREE URIs. Prefixes already covered by a shorter one are dropped.</td>
+</tr>
+<tr>
+<td><code>hasPatterns</code> / <code>patterns()</code></td>
+<td>Whether there are PATTERN scopes, and their URIs.</td>
+</tr>
+<tr>
+<td><code>toRegExp()</code></td>
+<td>One anchored <code>RegExp</code> that matches exactly the covered URIs, patterns included.</td>
+</tr>
+<tr>
+<td><code>allows(uri)</code></td>
+<td>Whether one URI is covered.</td>
+</tr>
+</tbody>
+</table>
+<p>The answer is only about resources at or below <code>under</code>. For a URI outside <code>under</code>, <code>allows()</code> returning <code>false</code>
+means "not asked", not "denied".</p>
+<div class="admonition warning">
+<p class="admonition-title">Match on segment boundaries</p>
+<p>A prefix <code>p</code> stands for <code>p</code> itself and everything <strong>below</strong> it. Match <code>path = p OR path starts with p + '/'</code>.
+A bare "starts with <code>p</code>" is wrong: the scope <code>/documents/1</code> would also match <code>/documents/12</code>.</p>
+<p>Don't use <code>LIKE p || '%'</code> either. In SQL <code>LIKE</code>, <code>_</code> and <code>%</code> are wildcards, and <code>_</code> is common in IDs, so it
+matches rows it shouldn't unless you escape them.</p>
+</div>
+<h3 id="postgresql">PostgreSQL<a class="headerlink" href="#postgresql" title="Permanent link">&para;</a></h3>
+<p><code>starts_with</code> (PostgreSQL 11+) compares literally, so it is safe with any ID:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">prefixes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">access</span><span class="p">.</span><span class="nx">toPrefixes</span><span class="p">();</span>
+<span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">rows</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">access</span><span class="p">.</span><span class="nx">coversAll</span>
+<span class="w">  </span><span class="o">?</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span><span class="s2">"SELECT * FROM documents"</span><span class="p">)</span>
+<span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">pool</span><span class="p">.</span><span class="nx">query</span><span class="p">(</span>
+<span class="w">      </span><span class="sb">`SELECT * FROM documents</span>
+<span class="sb">        WHERE path = ANY($1::text[])</span>
+<span class="sb">           OR EXISTS (SELECT 1 FROM unnest($1::text[]) AS p WHERE starts_with(path, p || '/'))</span>
+<span class="sb">           OR ($2::text IS NOT NULL AND path ~ $2)`</span><span class="p">,</span>
+<span class="w">      </span><span class="p">[</span><span class="nx">prefixes</span><span class="p">,</span><span class="w"> </span><span class="nx">access</span><span class="p">.</span><span class="nx">hasPatterns</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">access</span><span class="p">.</span><span class="nx">toRegExp</span><span class="p">()</span><span class="nx">.source</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">null</span><span class="p">],</span>
+<span class="w">    </span><span class="p">);</span>
+</code></pre></div>
+<p>The last condition handles PATTERN scopes. <code>toRegExp().source</code> is valid PostgreSQL regular-expression syntax. On its
+own, <code>path ~ $1</code> with <code>toRegExp().source</code> also works for every scope, but it can't use an index.</p>
+<h3 id="prisma">Prisma<a class="headerlink" href="#prisma" title="Permanent link">&para;</a></h3>
+<p>Prisma's <code>startsWith</code> is literal, so the boundary match is safe:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">let</span><span class="w"> </span><span class="nx">docs</span><span class="o">:</span><span class="w"> </span><span class="kt">Document</span><span class="p">[];</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">access</span><span class="p">.</span><span class="nx">coversAll</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nx">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">findMany</span><span class="p">();</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">access</span><span class="p">.</span><span class="nx">hasPatterns</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">prefixes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">access</span><span class="p">.</span><span class="nx">toPrefixes</span><span class="p">();</span>
+<span class="w">  </span><span class="nx">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">findMany</span><span class="p">({</span>
+<span class="w">    </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">OR</span><span class="o">:</span><span class="w"> </span><span class="p">[{</span><span class="w"> </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">in</span><span class="o">:</span><span class="w"> </span><span class="kt">prefixes</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">},</span><span class="w"> </span><span class="p">...</span><span class="nx">prefixes</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">({</span><span class="w"> </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">startsWith</span><span class="o">:</span><span class="w"> </span><span class="kt">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s2">"/"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}))]</span><span class="w"> </span><span class="p">},</span>
+<span class="w">  </span><span class="p">});</span>
+<span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Prisma has no portable regex filter: load the candidates under /documents and keep the allowed ones.</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">candidates</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">findMany</span><span class="p">({</span><span class="w"> </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">startsWith</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents/"</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span>
+<span class="w">  </span><span class="nx">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">candidates</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">d</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">access</span><span class="p">.</span><span class="nx">allows</span><span class="p">(</span><span class="nx">d</span><span class="p">.</span><span class="nx">path</span><span class="p">));</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>If your rows have only an ID and their URI is <code>/documents/&lt;id&gt;</code>, the prefixes exactly one segment below <code>under</code> are
+the IDs the user can read (when <code>hasPatterns</code> is <code>false</code>; a pattern such as <code>/documents/_</code> stands for every
+document):</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">ids</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">access</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">toPrefixes</span><span class="p">()</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">p</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">).</span><span class="nx">length</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="mf">3</span><span class="p">)</span>
+<span class="w">  </span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">p</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nb">decodeURIComponent</span><span class="p">(</span><span class="nx">p</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)[</span><span class="mf">2</span><span class="p">]</span><span class="o">!</span><span class="p">));</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">access</span><span class="p">.</span><span class="nx">coversAll</span>
+<span class="w">  </span><span class="o">?</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">findMany</span><span class="p">()</span>
+<span class="w">  </span><span class="o">:</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">prisma</span><span class="p">.</span><span class="nb">document</span><span class="p">.</span><span class="nx">findMany</span><span class="p">({</span><span class="w"> </span><span class="nx">where</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">in</span><span class="o">:</span><span class="w"> </span><span class="kt">ids</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="p">});</span>
+</code></pre></div>
+<p>A deeper prefix such as <code>/documents/7/comments</code> gives access below document 7, not to document 7 itself, so it is
+rightly left out.</p>
+<h3 id="mongodb">MongoDB<a class="headerlink" href="#mongodb" title="Permanent link">&para;</a></h3>
+<p><code>toRegExp()</code> covers SUBTREE, PATTERN and EXACT scopes in one anchored regular expression:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">filter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">access</span><span class="p">.</span><span class="nx">coversAll</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">{}</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">path</span><span class="o">:</span><span class="w"> </span><span class="kt">access.toRegExp</span><span class="p">()</span><span class="w"> </span><span class="p">};</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">docs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">db</span><span class="p">.</span><span class="nx">collection</span><span class="p">(</span><span class="s2">"documents"</span><span class="p">).</span><span class="nx">find</span><span class="p">(</span><span class="nx">filter</span><span class="p">).</span><span class="nx">toArray</span><span class="p">();</span>
+</code></pre></div>
+<p>With no scopes at all, <code>toRegExp()</code> matches nothing.</p>
+<h2 id="filter-rows-you-already-have">Filter rows you already have<a class="headerlink" href="#filter-rows-you-already-have" title="Permanent link">&para;</a></h2>
+<h3 id="allows-in-memory"><code>allows()</code> in memory<a class="headerlink" href="#allows-in-memory" title="Permanent link">&para;</a></h3>
+<p>When the rows are already loaded, test each URI against the scopes. The number of calls to perms.io doesn't depend on
+how many rows you have, and <code>allows()</code> handles PATTERN scopes:</p>
+<div class="highlight"><pre><span></span><code><span class="k">import</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">resource</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="kr">from</span><span class="w"> </span><span class="s2">"permio"</span><span class="p">;</span>
+
+<span class="kd">const</span><span class="w"> </span><span class="nx">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">docs</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">d</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">access</span><span class="p">.</span><span class="nx">allows</span><span class="p">(</span><span class="nx">resource</span><span class="p">(</span><span class="s2">"documents"</span><span class="p">,</span><span class="w"> </span><span class="nx">d</span><span class="p">.</span><span class="nx">id</span><span class="p">)));</span>
+</code></pre></div>
+<h3 id="batchcheck-for-a-fetched-page"><code>batchCheck</code> for a fetched page<a class="headerlink" href="#batchcheck-for-a-fetched-page" title="Permanent link">&para;</a></h3>
+<p>For a short list, such as one page of search results, <code>batchCheck</code> checks every resource separately and returns a
+<code>Map</code> from URI to <code>true</code>/<code>false</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">uris</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">docs</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">d</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">resource</span><span class="p">(</span><span class="s2">"documents"</span><span class="p">,</span><span class="w"> </span><span class="nx">d</span><span class="p">.</span><span class="nx">id</span><span class="p">));</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">allowed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">batchCheck</span><span class="p">({</span><span class="w"> </span><span class="nx">principal</span><span class="o">:</span><span class="w"> </span><span class="kt">userId</span><span class="p">,</span><span class="w"> </span><span class="nx">resources</span><span class="o">:</span><span class="w"> </span><span class="kt">uris</span><span class="p">,</span><span class="w"> </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="w"> </span><span class="p">});</span>
+<span class="kd">const</span><span class="w"> </span><span class="nx">visible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">docs</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">d</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="nx">allowed</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">resource</span><span class="p">(</span><span class="s2">"documents"</span><span class="p">,</span><span class="w"> </span><span class="nx">d</span><span class="p">.</span><span class="nx">id</span><span class="p">)));</span>
+</code></pre></div>
+<ul>
+<li>A resource is allowed only if the principal holds <strong>every</strong> listed permission on it.</li>
+<li>Each API call takes up to 100 resources. The SDK splits longer lists into parallel calls.</li>
+<li><code>batchCheckDetailed</code> returns <code>{ resource, allowed, missing }</code> for each resource, in request order.</li>
+</ul>
+<p>Filtering after fetching means a page can come back with fewer rows than you asked for. When you need full pages,
+filter in the database with <code>listAccess</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">API key access</p>
+<p><code>batchCheck</code> needs <code>permission.check</code>, like <code>check</code>. <code>listAccess</code> also needs <code>principal.assignment.get</code> on the
+principal. A <a href="../../concepts/api-keys/#access-levels">check-access key</a> has both.</p>
+</div>
+<h2 id="build-a-share-dialog-with-whohasaccess">Build a share dialog with <code>whoHasAccess</code><a class="headerlink" href="#build-a-share-dialog-with-whohasaccess" title="Permanent link">&para;</a></h2>
+<p>A share dialog shows who can already open an object. <code>whoHasAccess</code> lists every principal with a grant on the
+resource, on an ancestor of it, or on a <code>_</code> wildcard URI that matches it, with the grants that give the access:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">const</span><span class="w"> </span><span class="nx">entries</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">permio</span><span class="p">.</span><span class="nx">whoHasAccess</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">resource</span><span class="o">:</span><span class="w"> </span><span class="s2">"/documents/42"</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">permission</span><span class="o">:</span><span class="w"> </span><span class="s2">"document.read"</span><span class="p">,</span><span class="w"> </span><span class="c1">// optional: only grants that confer this permission</span>
+<span class="w">  </span><span class="nx">expandGroups</span><span class="o">:</span><span class="w"> </span><span class="kt">true</span><span class="p">,</span><span class="w">          </span><span class="c1">// also list each group's members</span>
+<span class="p">});</span>
+
+<span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">const</span><span class="w"> </span><span class="nx">e</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">entries</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">how</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">via</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">g</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="nx">g</span><span class="p">.</span><span class="nx">source</span><span class="p">.</span><span class="kr">type</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s2">"role"</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">g</span><span class="p">.</span><span class="nx">source</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">"direct"</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="nx">g</span><span class="p">.</span><span class="nx">inherited</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="sb">` from </span><span class="si">${</span><span class="nx">g</span><span class="p">.</span><span class="nx">resource</span><span class="si">}</span><span class="sb">`</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">""</span><span class="p">))</span>
+<span class="w">    </span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s2">", "</span><span class="p">);</span>
+<span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">principal</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">isGroup</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s2">"(group)"</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nx">e</span><span class="p">.</span><span class="nx">viaGroup</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="sb">`via </span><span class="si">${</span><span class="nx">e</span><span class="p">.</span><span class="nx">viaGroup</span><span class="si">}</span><span class="sb">`</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w"> </span><span class="nx">how</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// For example:</span>
+<span class="c1">// alice  viewer from /documents</span>
+<span class="c1">// group:editors (group)  direct</span>
+<span class="c1">// bob  via editors  direct</span>
+</code></pre></div>
+<p>Each entry (<code>AccessEntry</code>) has:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>principal</code></td>
+<td>The principal ID. Groups appear as <code>group:&lt;slug&gt;</code>.</td>
+</tr>
+<tr>
+<td><code>isGroup</code></td>
+<td><code>true</code> for a group.</td>
+</tr>
+<tr>
+<td><code>viaGroup</code></td>
+<td>For entries added by <code>expandGroups</code>: the slug of the group the access comes through. <code>undefined</code> for the principal's own grants.</td>
+</tr>
+<tr>
+<td><code>via</code></td>
+<td>The grants that give the access, most specific first: <code>resource</code> (where the grant was made), <code>inherited</code>, <code>match</code> (<code>"exact"</code>, <code>"ancestor"</code> or <code>"wildcard"</code>) and <code>source</code> (a role with its <code>id</code> and <code>name</code>, or <code>"direct"</code>).</td>
+</tr>
+</tbody>
+</table>
+<p>Tips for the dialog:</p>
+<ul>
+<li>Pass <code>permission</code>. A principal is then listed exactly when a check for it passes through its own grants, and an
+  entry with <code>viaGroup</code> exactly when it passes through that group. Without <code>permission</code>, any grant on the resource
+  or above counts, whatever it allows.</li>
+<li>Without <code>expandGroups</code>, group members aren't listed; only the group is. With it, a member of two groups appears
+  once per group, so de-duplicate by <code>principal</code> if you show people once.</li>
+<li>Use <code>inherited</code> and <code>resource</code> to show "inherited from <code>/documents</code>" and to send people to the right place to
+  change it. Revoking on <code>/documents/42</code> doesn't remove a grant made on <code>/documents</code>.</li>
+<li>Entries are ordered by principal ID.</li>
+</ul>
+<p><code>whoHasAccess</code> needs <code>principal.list</code> and <code>principal.assignment.list</code> on the project, which a check-access key has.</p>
+<h2 id="choosing-an-approach">Choosing an approach<a class="headerlink" href="#choosing-an-approach" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Paginated list from your database</td>
+<td><code>listAccess</code> + <code>toPrefixes()</code> (and <code>toRegExp()</code> if <code>hasPatterns</code>) in the query</td>
+</tr>
+<tr>
+<td>Small list already in memory</td>
+<td><code>listAccess</code> + <code>allows()</code>, or <code>batchCheck</code></td>
+</tr>
+<tr>
+<td>Buttons for a page of results ("can edit?")</td>
+<td><code>batchCheck</code> with that permission</td>
+</tr>
+<tr>
+<td>Share dialog or access review</td>
+<td><code>whoHasAccess</code> with <code>permission</code> and <code>expandGroups</code></td>
+</tr>
+<tr>
+<td>One object, one request</td>
+<td><code>check</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      <a href="https://perms.io">Permio</a>, permissions as a service
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "content.code.annotate", {"content.code.highlight": false}, "content.tabs.link", "navigation.sections"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>
