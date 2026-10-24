@@ -2,7 +2,7 @@
     <img src="./assets/transparentLogoSquare.png" alt="perms.io logo" width="400" height="400">
 </div>
 
-Permio (perms.io) is permissions as a service. It gives you **resource-level role-based access control (RBAC)**: you
+Permio ([perms.io](https://perms.io)) is permissions as a service. It gives you **resource-level role-based access control (RBAC)**: you
 define permissions and roles, grant them to your users on **resource URIs**, and ask one question from your code:
 
 > May principal **alice** do **document.read** on **/documents/42**?

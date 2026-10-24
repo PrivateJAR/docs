@@ -1,5 +1,7 @@
-site_name: perms.io docs
+site_name: Permio docs
 site_url: https://docs.perms.io/
+site_description: Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, TypeScript SDK and API reference.
+copyright: <a href="https://perms.io">Permio</a>, permissions as a service
 theme:
   name: material
   logo: assets/favicon.png
