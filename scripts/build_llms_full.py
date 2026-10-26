@@ -77,15 +77,14 @@ def page_url(site: str, slug: str) -> str:
 
 
 def frontmatter(text: str) -> tuple[dict[str, str], str]:
-    """Top-level `key: value` pairs and the hero tagline; enough for titles, not a YAML parser."""
+    """Top-level `key: value` pairs; enough for titles, not a YAML parser."""
     m = FRONTMATTER.match(text)
     if not m:
         return {}, text
     fields = {}
     for line in m["yaml"].split("\n"):
-        if fm := re.match(r"^(?P<indent>\s*)(?P<key>\w+): (?P<value>.+)$", line):
-            key = fm["key"] if not fm["indent"] else f"hero.{fm['key']}"
-            fields.setdefault(key, fm["value"].strip().strip("\"'"))
+        if fm := re.match(r"^(?P<key>\w+): (?P<value>.+)$", line):
+            fields[fm["key"]] = fm["value"].strip().strip("\"'")
     return fields, text[m.end() :]
 
 
@@ -143,25 +142,14 @@ def convert(lines: list[str], seen: set[str]) -> list[str]:
     return out
 
 
-def question_card(m: re.Match) -> str:
-    """The home page's "one question" card, as the blockquote it replaced."""
-    question = re.search(r"<p>(.*?)</p>", m[0], re.S)[1]
-    return "> " + re.sub(r"<b[^>]*>(.*?)</b>", r"**\1**", question) + "\n"
-
-
 def drop_html_blocks(text: str) -> str:
-    text = re.sub(r'(?ms)^<div class="question[^"]*">.*?^</div>\s*\n', question_card, text)
+    # Block-level HTML has no plain-Markdown equivalent.
     return re.sub(r"(?ms)^<div\b.*?^</div>\s*\n", "", text)
 
 
 def render_page(slug: str, site: str, seen: set[str]) -> str:
     fields, body = frontmatter(source(slug).read_text(encoding="utf-8"))
-    lines = convert(drop_html_blocks(body).split("\n"), seen)
-    if fields.get("template") == "splash":
-        # The hero holds the intro; its title is a tagline-style headline, so keep only the tagline.
-        lines = [fields.get("hero.tagline", ""), ""] + lines
-    else:
-        lines = [f"# {fields['title']}", ""] + lines
+    lines = [f"# {fields['title']}", ""] + convert(drop_html_blocks(body).split("\n"), seen)
     text = "\n".join(lines)
 
     # Absolute links, outside fenced code.

@@ -26,7 +26,6 @@ export default defineConfig({
 			],
 			components: {
 				Header: './src/components/Header.astro',
-				Hero: './src/components/Hero.astro',
 				// The brand is dark-only, like perms.io and the dashboard.
 				ThemeProvider: './src/components/ThemeProvider.astro',
 				ThemeSelect: './src/components/ThemeSelect.astro',

@@ -12,45 +12,47 @@ A page index is at https://docs.perms.io/llms.txt.
 
 Source: https://docs.perms.io/
 
-Define permissions and roles, grant them to your users on resource URIs, and ask one question from your code. Permio does authorisation; you keep your own login.
+## Overview
+
+Permio (perms.io) is permissions as a service. It gives you **resource-level role-based access control (RBAC)**: you
+define permissions and roles, grant them to your users on **resource URIs**, and ask one question from your code:
 
 > May principal **alice** do **document.read** on **/documents/42**?
+
+Manage everything in the dashboard at [app.perms.io](https://app.perms.io), and check permissions through the API.
+
 ### Key features
 
-**Resource-level RBAC**
+#### Resource-level RBAC
 
 Grant access to individual objects, such as `/projects/42` or `/documents/42/comments/7`, not just to whole types.
 
-**Hierarchical inheritance**
+#### Hierarchical inheritance
 
 A grant on `/documents` applies to `/documents/42` and everything beneath it, including resources created later.
 The `_` wildcard segment lets one grant cover a whole level. See [Resources and inheritance](https://docs.perms.io/concepts/resources/).
 
-**Groups**
+#### Groups
 
 Grant to a group such as `group:editors` once, and every member holds the grant. See [Groups](https://docs.perms.io/concepts/groups/).
 
-**Bring your own authentication**
+#### Bring your own authentication
 
-Permio only does authorisation. Principals are whatever IDs your app already uses, so it works with any login system.
+perms.io only does authorisation. Principals are whatever IDs your app already uses, so it works with any login
+system.
 
-**API first**
+#### API first
 
-One REST/JSON, gRPC and gRPC-web API, and a [TypeScript SDK](https://docs.perms.io/sdk/typescript/) with check helpers, typed errors,
-retries and iterators. See the [API reference](https://docs.perms.io/api-reference/).
-
-**Dashboard**
-
-Manage projects, permissions, roles, grants and API keys at [app.perms.io](https://app.perms.io).
+- One **REST/JSON**, **gRPC** and **gRPC-web** API. See the [API reference](https://docs.perms.io/api-reference/).
+- A **[TypeScript SDK](https://docs.perms.io/sdk/typescript/)** with check helpers, typed errors, retries and iterators.
+- A dashboard for managing projects, permissions, roles, grants and API keys.
 
 ### Get started
 
-- [Quickstart](https://docs.perms.io/quickstart/): From sign-up to a passing check in five minutes.
-- [How it works](https://docs.perms.io/how-it-works/): Permissions, roles, principals and grants.
-- [TypeScript SDK](https://docs.perms.io/sdk/typescript/): Check helpers, typed errors, retries and iterators.
-- [API reference](https://docs.perms.io/api-reference/): REST/JSON, gRPC and gRPC-web, one API.
-- [API keys](https://docs.perms.io/concepts/api-keys/): Key format, access levels and invalidation.
-- [IAM fundamentals](https://docs.perms.io/iam-basics/): Background on access control in general.
+- **[Quickstart](https://docs.perms.io/quickstart/)**: from sign-up to a passing check in five minutes.
+- **[How it works](https://docs.perms.io/how-it-works/)**: permissions, roles, principals and grants.
+- **[API keys](https://docs.perms.io/concepts/api-keys/)**: key format, access levels and invalidation.
+- **[IAM fundamentals](https://docs.perms.io/iam-basics/)**: background on access control in general.
 
 ### For AI assistants
 

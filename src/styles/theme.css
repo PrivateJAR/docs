@@ -237,41 +237,6 @@ site-search button[data-open-modal] {
 	border-color: #374151;
 }
 
-/* Cards on the overview page. */
-.card {
-	border-radius: 1rem !important;
-	border-color: #1f2937 !important;
-	background: rgb(31 41 55 / 0.45) !important;
-	transition: transform 0.3s ease, border-color 0.3s ease;
-}
-.card:hover {
-	transform: translateY(-4px);
-	border-color: rgb(20 184 166 / 0.4) !important;
-}
-.card .icon {
-	color: var(--permio-turquoise) !important;
-	background: rgb(20 184 166 / 0.12) !important;
-	border-color: rgb(20 184 166 / 0.35) !important;
-}
-.sl-link-card {
-	border-radius: 1rem !important;
-	border-color: #1f2937 !important;
-	background: rgb(31 41 55 / 0.45);
-	transition: transform 0.3s ease, border-color 0.3s ease;
-}
-.sl-link-card:hover {
-	transform: translateY(-3px);
-	border-color: rgb(20 184 166 / 0.45) !important;
-	background: rgb(31 41 55 / 0.6);
-}
-
-.text-gradient {
-	background: var(--permio-gradient);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
-}
-
 /* Footer pagination links. */
 .pagination-links a {
 	border-radius: 0.75rem;

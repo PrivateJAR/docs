@@ -1,63 +1,47 @@
 ---
-title: Permio docs
+title: Overview
 description: Permio is permissions as a service. Resource-level RBAC with hierarchical inheritance, behind one API call.
-template: splash
-heroBadge: Groups and list filtering in the TypeScript SDK
-hero:
-  title: Who can do what, <span class="text-gradient">on every resource</span>
-  tagline: Define permissions and roles, grant them to your users on resource URIs, and ask one question from your code. Permio does authorisation; you keep your own login.
-  actions:
-    - text: Quickstart
-      link: /quickstart/
-      variant: primary
-      icon: right-arrow
-    - text: API reference
-      link: /api-reference/
-      variant: secondary
 ---
 
-import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+Permio (perms.io) is permissions as a service. It gives you **resource-level role-based access control (RBAC)**: you
+define permissions and roles, grant them to your users on **resource URIs**, and ask one question from your code:
 
-<div class="question not-content">
-	<span class="q-label">The one question</span>
-	<p>May principal <b>alice</b> do <b class="perm">document.read</b> on <b class="uri">/documents/42</b>?</p>
-</div>
+> May principal **alice** do **document.read** on **/documents/42**?
+
+Manage everything in the dashboard at [app.perms.io](https://app.perms.io), and check permissions through the API.
 
 ## Key features
 
-<CardGrid>
-	<Card title="Resource-level RBAC" icon="padlock">
-		Grant access to individual objects, such as `/projects/42` or `/documents/42/comments/7`, not just to whole types.
-	</Card>
-	<Card title="Hierarchical inheritance" icon="list-format">
-		A grant on `/documents` applies to `/documents/42` and everything beneath it, including resources created later.
-		The `_` wildcard segment lets one grant cover a whole level. See [Resources and inheritance](/concepts/resources/).
-	</Card>
-	<Card title="Groups" icon="puzzle">
-		Grant to a group such as `group:editors` once, and every member holds the grant. See [Groups](/concepts/groups/).
-	</Card>
-	<Card title="Bring your own authentication" icon="approve-check">
-		Permio only does authorisation. Principals are whatever IDs your app already uses, so it works with any login system.
-	</Card>
-	<Card title="API first" icon="seti:json">
-		One REST/JSON, gRPC and gRPC-web API, and a [TypeScript SDK](/sdk/typescript/) with check helpers, typed errors,
-		retries and iterators. See the [API reference](/api-reference/).
-	</Card>
-	<Card title="Dashboard" icon="laptop">
-		Manage projects, permissions, roles, grants and API keys at [app.perms.io](https://app.perms.io).
-	</Card>
-</CardGrid>
+### Resource-level RBAC
+
+Grant access to individual objects, such as `/projects/42` or `/documents/42/comments/7`, not just to whole types.
+
+### Hierarchical inheritance
+
+A grant on `/documents` applies to `/documents/42` and everything beneath it, including resources created later.
+The `_` wildcard segment lets one grant cover a whole level. See [Resources and inheritance](/concepts/resources/).
+
+### Groups
+
+Grant to a group such as `group:editors` once, and every member holds the grant. See [Groups](/concepts/groups/).
+
+### Bring your own authentication
+
+perms.io only does authorisation. Principals are whatever IDs your app already uses, so it works with any login
+system.
+
+### API first
+
+- One **REST/JSON**, **gRPC** and **gRPC-web** API. See the [API reference](/api-reference/).
+- A **[TypeScript SDK](/sdk/typescript/)** with check helpers, typed errors, retries and iterators.
+- A dashboard for managing projects, permissions, roles, grants and API keys.
 
 ## Get started
 
-<CardGrid>
-	<LinkCard title="Quickstart" description="From sign-up to a passing check in five minutes." href="/quickstart/" />
-	<LinkCard title="How it works" description="Permissions, roles, principals and grants." href="/how-it-works/" />
-	<LinkCard title="TypeScript SDK" description="Check helpers, typed errors, retries and iterators." href="/sdk/typescript/" />
-	<LinkCard title="API reference" description="REST/JSON, gRPC and gRPC-web, one API." href="/api-reference/" />
-	<LinkCard title="API keys" description="Key format, access levels and invalidation." href="/concepts/api-keys/" />
-	<LinkCard title="IAM fundamentals" description="Background on access control in general." href="/iam-basics/" />
-</CardGrid>
+- **[Quickstart](/quickstart/)**: from sign-up to a passing check in five minutes.
+- **[How it works](/how-it-works/)**: permissions, roles, principals and grants.
+- **[API keys](/concepts/api-keys/)**: key format, access levels and invalidation.
+- **[IAM fundamentals](/iam-basics/)**: background on access control in general.
 
 ## For AI assistants
 
@@ -70,7 +54,7 @@ If you use a coding assistant or an LLM, point it at these files:
 
 For example, give your assistant this prompt:
 
-```text title="Prompt"
+```text
 Add Permio permissions to this app using the `permio` npm package. Docs: https://docs.perms.io/llms.txt
 ```
 
@@ -79,32 +63,3 @@ Install it with `npm install permio`. See the [TypeScript SDK](/sdk/typescript/)
 ## Support
 
 Questions or problems? Email [hello@perms.io](mailto:hello@perms.io).
-
-<style>{`
-	.question {
-		margin: 0 auto 1rem;
-		max-width: 40rem;
-		padding: 1.25rem 1.5rem;
-		border: 1px solid #1f2937;
-		border-radius: 1rem;
-		background: #0b1120;
-		text-align: center;
-		box-shadow: 0 18px 40px -18px rgb(0 0 0 / 0.6);
-	}
-	.question .q-label {
-		font-size: 0.7rem;
-		font-weight: 700;
-		letter-spacing: 0.1em;
-		text-transform: uppercase;
-		color: var(--sl-color-gray-4);
-	}
-	.question p {
-		margin: 0.4rem 0 0;
-		font-family: var(--sl-font-mono);
-		font-size: 1rem;
-		color: var(--sl-color-gray-2);
-	}
-	.question b { color: #fff; }
-	.question .perm { color: #5eead4; }
-	.question .uri { color: #c4b5fd; }
-`}</style>
