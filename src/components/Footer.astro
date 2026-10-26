@@ -1,0 +1,24 @@
+---
+/** Starlight's footer plus a link back to perms.io. */
+import Default from '@astrojs/starlight/components/Footer.astro';
+---
+
+<Default><slot /></Default>
+<p class="copyright">
+	<a href="https://perms.io">Permio</a>, permissions as a service
+</p>
+
+<style>
+	.copyright {
+		margin-top: 2rem;
+		font-size: 0.85rem;
+		color: var(--sl-color-gray-4);
+	}
+	.copyright a {
+		color: var(--sl-color-gray-3);
+		text-decoration: none;
+	}
+	.copyright a:hover {
+		color: var(--permio-teal);
+	}
+</style>

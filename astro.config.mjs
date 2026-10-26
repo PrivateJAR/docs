@@ -8,7 +8,7 @@ export default defineConfig({
 		starlight({
 			title: 'Permio docs',
 			description:
-				'Permio is a permissions API: resource-level RBAC with hierarchical inheritance, behind one API call.',
+				'Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, TypeScript SDK and API reference.',
 			logo: { src: './src/assets/logo.svg', replacesTitle: true, alt: 'Permio' },
 			favicon: '/favicon.svg',
 			customCss: ['./src/styles/theme.css'],
@@ -26,6 +26,7 @@ export default defineConfig({
 			],
 			components: {
 				Header: './src/components/Header.astro',
+				Footer: './src/components/Footer.astro',
 				// The brand is dark-only, like perms.io and the dashboard.
 				ThemeProvider: './src/components/ThemeProvider.astro',
 				ThemeSelect: './src/components/ThemeSelect.astro',
