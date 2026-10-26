@@ -119,6 +119,8 @@ membership needs a **full-access** key.
 
 - **Dashboard:** use the Groups page in the dashboard to create groups and manage their members.
 - **TypeScript SDK:** `permio.groups` (available from 0.2.0). See [Groups](../sdk/typescript.md#groups).
+- **Other SDKs:** `client.Groups()` in [Go](../sdk/go.md#groups), `permio.groups` in [Python](../sdk/python.md#groups),
+  `permio.groups()` in [Rust](../sdk/rust.md#groups) and [Java](../sdk/java.md#groups).
 - **API:** the group RPCs in the [API reference](../api-reference/permissions.md#groups).
 
 ```ts

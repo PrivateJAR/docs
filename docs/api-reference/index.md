@@ -16,7 +16,7 @@ Both are defined in Permio's protobuf definitions. The same host serves them as 
 | Protocol | How to call it |
 | --- | --- |
 | **REST/JSON** | The HTTP method and path listed for each RPC in this reference, for example `POST $PERMIO_API/permissions-service/v1/permissions/check`. Request bodies accept the proto field names (`project_name`). Responses use camelCase JSON names (`missingPermissions`) and leave out fields that have default values. |
-| **gRPC** | Connect to the host on port 443 with TLS, for example `api.perms.io:443`, and send the key as `authorization` metadata. |
+| **gRPC** | Connect to the host on port 443 with TLS, for example `api.perms.io:443`, and send the key as `authorization` metadata. The [Go](../sdk/go.md), [Python](../sdk/python.md), [Rust](../sdk/rust.md) and [Java](../sdk/java.md) SDKs use it. |
 | **gRPC-web** | The protocol the [TypeScript SDK](../sdk/typescript.md) uses. It works from servers, edge runtimes and browsers. |
 
 For `GET` and `DELETE` requests over REST, fields that aren't in the path go in the query string. Nested fields use
@@ -63,6 +63,16 @@ Over gRPC and gRPC-web, the code arrives as `grpc-status` and the text as `grpc-
 
 ## Clients
 
+Official SDKs:
+
+| Language | Package | Status |
+| --- | --- | --- |
+| [TypeScript](../sdk/typescript.md) | `permio` on npm | Released |
+| [Go](../sdk/go.md) | `github.com/PrivateJAR/permio-go` | Untagged; the first release will be v0.1.0 |
+| [Python](../sdk/python.md) | `permio` on PyPI | Released (0.1.0) |
+| [Rust](../sdk/rust.md) | `permio` crate | Install from Git; crates.io coming soon |
+| [Java](../sdk/java.md) | `io.perms:permio` | Coming soon to Maven Central |
+
 === "TypeScript"
 
     The [TypeScript SDK](../sdk/typescript.md) (`npm install permio`) is the recommended client.
@@ -82,68 +92,83 @@ Over gRPC and gRPC-web, the code arrives as `grpc-status` and the text as `grpc-
 
 === "Go"
 
-    Generated gRPC client. It isn't publicly available yet.
+    The [Go SDK](../sdk/go.md) (`go get github.com/PrivateJAR/permio-go@latest`, Go 1.24+) is the recommended client.
+    Besides the check helpers, it exposes every RPC on this page through `client.Permissions()` and
+    `client.Organisations()`, the generated gRPC clients with auth, timeouts, retries and typed errors applied.
 
     ```go
-    import (
-        permissionsv1 "github.com/PrivateJAR/permio-go/proto/permissions/v1"
-        "google.golang.org/grpc"
-        "google.golang.org/grpc/credentials"
-        "google.golang.org/grpc/metadata"
-    )
+    import permio "github.com/PrivateJAR/permio-go"
 
-    conn, err := grpc.NewClient("api.perms.io:443",
-        grpc.WithTransportCredentials(credentials.NewTLS(nil)))
-    // handle err
-    client := permissionsv1.NewPermissionsServiceClient(conn)
-    ctx = metadata.AppendToOutgoingContext(ctx, "authorization", "Bearer "+apiKey)
-
-    res, err := client.Check(ctx, &permissionsv1.CheckPermissionRequest{
-        ProjectName:  "default",
-        PrincipalId:  "alice",
-        ResourceUris: []string{"/documents/42"},
-        Permissions:  []string{"document.read"},
+    client, err := permio.New(permio.Options{
+        APIKey:  os.Getenv("PERMIO_API_KEY"),
+        Project: "default",
     })
-    ```
+    // handle err
+    defer client.Close()
 
-    Packages: `github.com/PrivateJAR/permio-go/proto/permissions/v1`, `.../proto/organisation/v1`,
-    `.../proto/pagination/v1`.
+    allowed, err := client.Check(ctx, "alice", "document.read", "/documents/42")
+    ```
 
 === "Python"
 
-    Generated gRPC stubs. They aren't publicly available yet.
+    The [Python SDK](../sdk/python.md) (`pip install permio`) gives you a synchronous `Permio` client and an asyncio
+    `AsyncPermio` client with the same methods. Besides the check helpers, both expose every RPC on this page through
+    `permio.permissions` and `permio.organisations`, with the generated messages in `permio.raw`.
 
     ```python
-    import grpc
-    from permio.permissions.v1 import permissions_pb2, permissions_pb2_grpc
+    from permio import Permio
 
-    channel = grpc.secure_channel("api.perms.io:443", grpc.ssl_channel_credentials())
-    client = permissions_pb2_grpc.PermissionsServiceStub(channel)
+    permio = Permio(api_key=api_key, project="default")  # api_key defaults to $PERMIO_API_KEY
 
-    res = client.Check(
-        permissions_pb2.CheckPermissionRequest(
-            project_name="default",
-            principal_id="alice",
-            resource_uris=["/documents/42"],
-            permissions=["document.read"],
-        ),
-        metadata=[("authorization", f"Bearer {api_key}")],
-    )
-    print(res.passed)
+    permio.check("alice", "document.read", "/documents/42")  # True or False
     ```
-
-    Modules: `permio.permissions.v1`, `permio.organisation.v1`, `permio.pagination.v1`.
 
 === "Rust"
 
-    Generated prost/tonic client. It isn't publicly available yet.
+    The [Rust SDK](../sdk/rust.md) (crate `permio`) is the recommended client. It isn't on crates.io yet, so depend on
+    the Git repository. Besides the check helpers, it exposes every RPC on this page through `permio.raw_permissions()`
+    and `permio.raw_organisations()`, with authentication, timeouts and retries already applied.
 
-    ```rust
-    use permio_rust::permissions::v1::permissions_service_client::PermissionsServiceClient;
-    use permio_rust::permissions::v1::CheckPermissionRequest;
+    ```toml
+    [dependencies]
+    permio = { git = "https://github.com/PrivateJAR/permio-rust" }
+    tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
     ```
 
-    Send the key as `authorization: Bearer <key>` metadata, for example with a tonic interceptor.
+    ```rust
+    let permio = permio::Client::builder()
+        .api_key(api_key) // defaults to the PERMIO_API_KEY env var
+        .project("default")
+        .build()?;
+
+    let allowed = permio.check("alice", "document.read", "/documents/42").await?;
+    ```
+
+=== "Java"
+
+    The [Java SDK](../sdk/java.md) (`io.perms:permio`, Java 11+) wraps the check, access-query, grant and group RPCs, and
+    exposes every RPC on this page as generated gRPC stubs through `permio.raw()`. It is coming soon to Maven Central.
+
+    ```java
+    import io.perms.Permio;
+
+    Permio permio = Permio.builder()
+        .apiKey(System.getenv("PERMIO_API_KEY"))
+        .project("default")
+        .build();
+
+    boolean allowed = permio.check("alice", "document.read", "/documents/42");
+    ```
 
 Field names in this reference are the proto names (`project_name`). The generated clients use their language's
-convention: `ProjectName` in Go, `project_name` in Python and Rust, and `projectName` in TypeScript.
+convention: `ProjectName` in Go, `project_name` in Python and Rust, `projectName` in TypeScript, and
+`setProjectName` / `getProjectName` in Java.
+
+### Other languages
+
+Permio is a gRPC and REST/JSON API, so you can use it from any language:
+
+- **Generate a client** from Permio's public protobuf definitions with your language's gRPC tooling. The public
+  protos repository is coming soon.
+- **Call the REST API** with any HTTP client, using the paths listed for each RPC in this reference and the
+  `Authorization: Bearer` header described in [Authentication](#authentication).

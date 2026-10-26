@@ -144,6 +144,61 @@ A failed check is a successful response with `passed: false`. `PERMISSION_DENIED
     {"missingPermissions": [{"resourceUri": "/invoices/1", "missingPermissions": ["document.read"]}]}
     ```
 
+=== "Go"
+
+    ```go
+    res, err := client.CheckDetailed(ctx, permio.CheckRequest{
+        Principal:   "alice",
+        Resources:   []string{"/documents/42", "/invoices/1"},
+        Permissions: []string{"document.read"},
+    })
+    // handle err
+    res.Allowed // false
+    res.Missing // [{Resource: "/invoices/1", Permissions: ["document.read"]}]
+    ```
+
+=== "Python"
+
+    ```python
+    result = permio.check_detailed("alice", "document.read", ["/documents/42", "/invoices/1"])
+    result.allowed  # False
+    result.missing  # [MissingPermission(resource="/invoices/1", permissions=["document.read"])]
+    ```
+
+    `check()` returns just the `bool`. See [Checking permissions](../sdk/python.md#checking-permissions).
+
+=== "Rust"
+
+    ```rust
+    use permio::Check;
+
+    let result = permio
+        .check_detailed(
+            Check::new("alice")
+                .resources(["/documents/42", "/invoices/1"])
+                .permission("document.read"),
+        )
+        .await?;
+    println!("{} {:?}", result.allowed, result.missing);
+    ```
+
+    `permio.check("alice", "document.read", "/documents/42")` returns just the `bool`. See
+    [Checking permissions](../sdk/rust.md#checking-permissions).
+
+=== "Java"
+
+    ```java
+    import io.perms.CheckResult;
+    import java.util.List;
+
+    CheckResult result = permio.checkDetailed(
+        "alice", List.of("document.read"), List.of("/documents/42", "/invoices/1"));
+    result.allowed(); // false
+    result.missing(); // [MissingPermission{resource=/invoices/1, permissions=[document.read]}]
+    ```
+
+    `check` returns just the boolean. See [Checking permissions](../sdk/java.md#checking-permissions).
+
 ---
 
 ## BatchCheck
@@ -221,54 +276,57 @@ order. It is evaluated exactly like [Check](#check): inheritance, stored `_` wil
 === "Go"
 
     ```go
-    res, err := client.BatchCheck(ctx, &permissionsv1.BatchCheckRequest{
-        ProjectName:  "default",
-        PrincipalId:  "alice",
-        ResourceUris: []string{"/documents/42", "/invoices/1"},
-        Permissions:  []string{"document.read"},
-    })
+    allowed, err := client.BatchCheck(ctx, "alice",
+        []string{"document.read"},
+        []string{"/documents/42", "/invoices/1"})
     // handle err
-    for _, r := range res.GetResults() {
-        fmt.Println(r.GetResourceUri(), r.GetAllowed())
-    }
+    allowed["/documents/42"] // true
     ```
+
+    `BatchCheckDetailed` returns the missing permissions too. See [Batch checks](../sdk/go.md#batch-checks).
 
 === "Python"
 
     ```python
-    res = client.BatchCheck(
-        permissions_pb2.BatchCheckRequest(
-            project_name="default",
-            principal_id="alice",
-            resource_uris=["/documents/42", "/invoices/1"],
-            permissions=["document.read"],
-        ),
-        metadata=[("authorization", f"Bearer {api_key}")],
-    )
-    for r in res.results:
-        print(r.resource_uri, r.allowed)
+    allowed = permio.batch_check("alice", "document.read", ["/documents/42", "/invoices/1"])
+    allowed["/documents/42"]  # True
     ```
+
+    `batch_check_detailed` returns the missing permissions too. See [Batch checks](../sdk/python.md#batch-checks).
 
 === "Rust"
 
     ```rust
-    use permio_rust::permissions::v1::BatchCheckRequest;
+    use permio::BatchCheck;
 
-    let res = client
-        .batch_check(BatchCheckRequest {
-            project_name: "default".into(),
-            principal_id: "alice".into(),
-            resource_uris: vec!["/documents/42".into(), "/invoices/1".into()],
-            permissions: vec!["document.read".into()],
-        })
-        .await?
-        .into_inner();
-    for r in res.results {
-        println!("{} {}", r.resource_uri, r.allowed);
+    let entries = permio
+        .batch_check(
+            BatchCheck::new("alice")
+                .resources(["/documents/42", "/invoices/1"])
+                .permission("document.read"),
+        )
+        .await?;
+    for e in &entries {
+        println!("{} {} {:?}", e.resource, e.allowed, e.missing);
     }
     ```
 
-The Go, Python and Rust examples use a client set up as in [Clients](index.md#clients).
+    More than 100 resources are split into concurrent calls. See [`batch_check`](../sdk/rust.md#batch_check).
+
+=== "Java"
+
+    ```java
+    import java.util.List;
+    import java.util.Map;
+
+    Map<String, Boolean> allowed =
+        permio.batchCheck("alice", "document.read", List.of("/documents/42", "/invoices/1"));
+    allowed.get("/documents/42"); // true
+    ```
+
+    `batchCheckDetailed` returns the missing permissions too. See [Batch checks](../sdk/java.md#batch-checks).
+
+The Go, Python, Rust and Java examples on this page use a client set up as in [Clients](index.md#clients).
 
 ---
 
@@ -304,6 +362,65 @@ Creates a permission. This call is idempotent: if the permission already exists,
       -H "Authorization: Bearer $PERMIO_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{"project_name": "default", "name": "document.read", "description": "Read documents"}'
+    ```
+
+=== "Go"
+
+    ```go
+    perm, err := client.CreatePermission(ctx, "document.read", "Read documents")
+    ```
+
+    If the permission already exists with another description, the SDK returns an error of kind `KindAlreadyExists`;
+    use `UpdatePermission` to change it.
+
+=== "Python"
+
+    The SDK has no helper for this RPC, so call it through the raw client:
+
+    ```python
+    from permio import raw
+
+    perm = permio.permissions.CreatePermission(
+        raw.permissions_pb2.CreatePermissionRequest(
+            project_name="default", name="document.read", description="Read documents"
+        )
+    )
+    ```
+
+=== "Rust"
+
+    There is no helper for this RPC; use the raw client.
+
+    ```rust
+    use permio::raw::permissions::v1::CreatePermissionRequest;
+
+    let perm = permio
+        .raw_permissions()
+        .create_permission(CreatePermissionRequest {
+            project_name: "default".into(),
+            name: "document.read".into(),
+            description: "Read documents".into(),
+        })
+        .await?
+        .into_inner();
+    ```
+
+=== "Java"
+
+    The SDK has no helper for this RPC, so use the generated stub from `permio.raw()`. It sends the API key and applies
+    the client's timeout, but not its default project: set `project_name` yourself. See
+    [Raw client](../sdk/java.md#raw-client).
+
+    ```java
+    import io.perms.proto.permissions.v1.CreatePermissionRequest;
+    import io.perms.proto.permissions.v1.Permission;
+
+    Permission perm = permio.raw().permissions().createPermission(
+        CreatePermissionRequest.newBuilder()
+            .setProjectName("default")
+            .setName("document.read")
+            .setDescription("Read documents")
+            .build());
     ```
 
 ### GetPermission
@@ -580,6 +697,48 @@ towards your unique principals.
       -d '{"project_name": "default", "user_id": "alice", "resource_uri": "/documents", "roles": ["ROLE_ID"]}'
     ```
 
+=== "Go"
+
+    ```go
+    err := client.Grant(ctx, permio.GrantRequest{
+        Principal: "alice",
+        Resource:  "/documents",
+        Roles:     []string{roleID},
+    })
+    ```
+
+=== "Python"
+
+    ```python
+    permio.grant("alice", "/documents", roles="ROLE_ID")
+    ```
+
+    `permissions=` and `roles=` each take one value or a list. See
+    [Granting and revoking](../sdk/python.md#granting-and-revoking).
+
+=== "Rust"
+
+    ```rust
+    use permio::Grant;
+
+    permio
+        .grant(Grant::new("alice", "/documents").role("ROLE_ID"))
+        .await?;
+    ```
+
+    Add `.permission("document.read")` to grant permissions by name. See
+    [Granting and revoking](../sdk/rust.md#granting-and-revoking).
+
+=== "Java"
+
+    ```java
+    import io.perms.Grant;
+
+    permio.grant(Grant.to("alice").on("/documents").roles("ROLE_ID"));
+    ```
+
+    The client's project is used. Grants are never retried automatically.
+
 ### RevokeUserPermissionsAndRolesOnResource
 
 `POST /permissions-service/v1/permissions/revoke`
@@ -605,6 +764,40 @@ Removes permissions and/or roles from a principal on a resource. It takes the sa
       -H "Authorization: Bearer $PERMIO_API_KEY" \
       -H "Content-Type: application/json" \
       -d '{"project_name": "default", "user_id": "alice", "resource_uri": "/documents", "roles": ["ROLE_ID"]}'
+    ```
+
+=== "Go"
+
+    ```go
+    err := client.Revoke(ctx, permio.GrantRequest{
+        Principal: "alice",
+        Resource:  "/documents",
+        Roles:     []string{roleID},
+    })
+    ```
+
+=== "Python"
+
+    ```python
+    permio.revoke("alice", "/documents", roles="ROLE_ID")
+    ```
+
+=== "Rust"
+
+    ```rust
+    use permio::Grant;
+
+    permio
+        .revoke(Grant::new("alice", "/documents").role("ROLE_ID"))
+        .await?;
+    ```
+
+=== "Java"
+
+    ```java
+    import io.perms.Grant;
+
+    permio.revoke(Grant.to("alice").on("/documents").roles("ROLE_ID"));
     ```
 
 ### GetUserPermissionsAndRolesOnResource
@@ -771,39 +964,47 @@ either permission; `NOT_FOUND` if `principal_id` is `group:<slug>` and that grou
 === "Go"
 
     ```go
-    res, err := client.ListAccess(ctx, &permissionsv1.ListAccessRequest{
-        ProjectName: "default",
-        PrincipalId: "alice",
-        Permission:  "document.read",
-        UnderUri:    "/documents",
-    })
+    access, err := client.ListAccess(ctx, "alice", "document.read", "/documents")
     // handle err
-    if res.GetCoversAll() {
-        // no filter needed
-    }
-    for _, s := range res.GetScopes() {
-        if s.GetScope() == permissionsv1.AccessScopeKind_ACCESS_SCOPE_KIND_SUBTREE {
-            fmt.Println(s.GetUri())
-        }
-    }
+    access.CoversAll  // false
+    access.Prefixes() // ["/documents/4", "/documents/7"]
     ```
+
+    It follows every page. See [`ListAccess`](../sdk/go.md#listaccess).
 
 === "Python"
 
     ```python
-    res = client.ListAccess(
-        permissions_pb2.ListAccessRequest(
-            project_name="default",
-            principal_id="alice",
-            permission="document.read",
-            under_uri="/documents",
-        ),
-        metadata=[("authorization", f"Bearer {api_key}")],
-    )
-    for s in res.scopes:
-        if s.scope == permissions_pb2.ACCESS_SCOPE_KIND_SUBTREE:
-            print(s.uri)
+    access = permio.list_access("alice", "document.read", "/documents")
+    if access.covers_all:
+        ...  # no filter needed
+    else:
+        print(access.to_prefixes())  # ["/documents/4", "/documents/7"]
     ```
+
+    It follows every page. See [`list_access`](../sdk/python.md#list_access).
+
+=== "Rust"
+
+    ```rust
+    let access = permio.list_access("alice", "document.read", "/documents").await?;
+    access.covers_all;    // false
+    access.to_prefixes(); // ["/documents/4", "/documents/7"]
+    ```
+
+    It follows every page. See [`list_access`](../sdk/rust.md#list_access).
+
+=== "Java"
+
+    ```java
+    import io.perms.AccessScopes;
+
+    AccessScopes access = permio.listAccess("alice", "document.read", "/documents");
+    access.coversAll();  // false
+    access.toPrefixes(); // [/documents/4, /documents/7]
+    ```
+
+    It follows every page. See [`listAccess`](../sdk/java.md#listaccess).
 
 ### ListPrincipalsWithAccess
 
@@ -887,6 +1088,56 @@ either permission.
     ]}
     ```
 
+=== "Go"
+
+    ```go
+    entries, err := client.WhoHasAccess(ctx, "/documents/42", &permio.WhoHasAccessOptions{
+        Permission:   "document.read",
+        ExpandGroups: true,
+    })
+    ```
+
+    It follows every page. See [`WhoHasAccess`](../sdk/go.md#whohasaccess).
+
+=== "Python"
+
+    ```python
+    for entry in permio.who_has_access("/documents/42", permission="document.read", expand_groups=True):
+        print(entry.principal, entry.via_group, [g.resource for g in entry.via])
+    ```
+
+    It follows every page. See [`who_has_access`](../sdk/python.md#who_has_access).
+
+=== "Rust"
+
+    ```rust
+    use permio::WhoHasAccess;
+
+    let entries = permio
+        .who_has_access(
+            WhoHasAccess::new("/documents/42")
+                .permission("document.read")
+                .expand_groups(true),
+        )
+        .await?;
+    for e in &entries {
+        println!("{} {} {:?}", e.principal, e.is_group, e.via_group);
+    }
+    ```
+
+    It follows every page. See [`who_has_access`](../sdk/rust.md#who_has_access).
+
+=== "Java"
+
+    ```java
+    import io.perms.AccessEntry;
+    import java.util.List;
+
+    List<AccessEntry> entries = permio.whoHasAccess("/documents/42", "document.read", true);
+    ```
+
+    It follows every page. See [`whoHasAccess`](../sdk/java.md#whohasaccess).
+
 ---
 
 ## Groups
@@ -944,20 +1195,35 @@ Creates a group and returns the `Group`. Returns `ALREADY_EXISTS` if the project
 === "Go"
 
     ```go
-    g, err := client.CreateGroup(ctx, &permissionsv1.CreateGroupRequest{
-        ProjectName: "default",
-        Name:        "editors",
-        Description: "Can edit every document",
-    })
+    g, err := client.Groups().Create(ctx, "editors", "Can edit every document")
+    // handle err
+    g.PrincipalID // "group:editors"
     ```
 
 === "Python"
 
     ```python
-    g = client.CreateGroup(
-        permissions_pb2.CreateGroupRequest(project_name="default", name="editors", description="Can edit every document"),
-        metadata=[("authorization", f"Bearer {api_key}")],
-    )
+    g = permio.groups.create("editors", description="Can edit every document")
+    g.principal_id  # "group:editors"
+    ```
+
+=== "Rust"
+
+    ```rust
+    let g = permio
+        .groups()
+        .create("editors", Some("Can edit every document"))
+        .await?;
+    g.principal_id; // "group:editors"
+    ```
+
+=== "Java"
+
+    ```java
+    import io.perms.proto.permissions.v1.Group;
+
+    Group g = permio.groups().create("editors", "Can edit every document");
+    g.getPrincipalId(); // "group:editors"
     ```
 
 ### GetGroup
@@ -1106,20 +1372,35 @@ new principals.
 === "Go"
 
     ```go
-    res, err := client.AddGroupMembers(ctx, &permissionsv1.AddGroupMembersRequest{
-        ProjectName:  "default",
-        Name:         "editors",
-        PrincipalIds: []string{"alice", "bob"},
-    })
+    change, err := client.Groups().AddMembers(ctx, "editors", []string{"alice", "bob"})
+    // handle err
+    change.Changed   // added
+    change.Unchanged // already members
     ```
 
 === "Python"
 
     ```python
-    res = client.AddGroupMembers(
-        permissions_pb2.AddGroupMembersRequest(project_name="default", name="editors", principal_ids=["alice", "bob"]),
-        metadata=[("authorization", f"Bearer {api_key}")],
-    )
+    res = permio.groups.add_members("editors", ["alice", "bob"])
+    res.added, res.existing  # (["alice", "bob"], [])
+    ```
+
+=== "Rust"
+
+    ```rust
+    let res = permio.groups().add_members("editors", ["alice", "bob"]).await?;
+    println!("{:?} {:?}", res.added, res.existing);
+    ```
+
+=== "Java"
+
+    ```java
+    import io.perms.AddMembersResult;
+    import java.util.List;
+
+    AddMembersResult res = permio.groups().addMembers("editors", List.of("alice", "bob"));
+    res.added();
+    res.existing();
     ```
 
 ### RemoveGroupMembers

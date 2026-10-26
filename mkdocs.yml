@@ -1,6 +1,6 @@
 site_name: Permio docs
 site_url: https://docs.perms.io/
-site_description: Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, TypeScript SDK and API reference.
+site_description: Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, SDKs (TypeScript, Go, Python, Rust, Java) and API reference.
 copyright: <a href="https://perms.io">Permio</a>, permissions as a service
 theme:
   name: material
@@ -26,7 +26,12 @@ nav:
     - IAM fundamentals: iam-basics.md
   - Guides:
     - Filtering lists and share dialogs: guides/filtering-and-sharing.md
-  - TypeScript SDK: sdk/typescript.md
+  - SDKs:
+    - TypeScript: sdk/typescript.md
+    - Go: sdk/go.md
+    - Python: sdk/python.md
+    - Rust: sdk/rust.md
+    - Java: sdk/java.md
   - API Reference:
     - Overview: api-reference/index.md
     - Permissions & Roles: api-reference/permissions.md
@@ -57,3 +62,7 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+
+validation:
+  anchors: warn
+  unrecognized_links: warn

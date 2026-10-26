@@ -124,4 +124,5 @@ grant comment_moderator to carol on /documents/_/comments
 ## Next steps
 
 - Follow the [Quickstart](quickstart.md).
-- Add checks to your app with the [TypeScript SDK](sdk/typescript.md), including Express and Next.js examples.
+- Add checks to your app with the [TypeScript SDK](sdk/typescript.md), including Express and Next.js examples, or
+  the [Go](sdk/go.md), [Python](sdk/python.md), [Rust](sdk/rust.md) or [Java](sdk/java.md) SDK.
