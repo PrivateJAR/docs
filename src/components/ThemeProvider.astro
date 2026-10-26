@@ -1,0 +1,8 @@
+---
+// Dark-only, like perms.io: no theme picker and no light mode.
+---
+
+<script is:inline>
+	document.documentElement.dataset.theme = 'dark';
+	window.StarlightThemeProvider = { updatePickers() {} };
+</script>

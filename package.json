@@ -1,0 +1,17 @@
+{
+  "name": "permio-docs",
+  "private": true,
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "python3 scripts/build_llms_full.py && astro build",
+    "preview": "astro preview",
+    "check:llms": "python3 scripts/build_llms_full.py --check"
+  },
+  "dependencies": {
+    "@astrojs/starlight": "0.42.7",
+    "astro": "7.4.2",
+    "sharp": "^0.34.0"
+  }
+}

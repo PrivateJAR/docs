@@ -1,0 +1,61 @@
+---
+/** An HTTP method badge and path, shown under each API reference heading. */
+interface Props {
+	method: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+	path: string;
+}
+const { method, path } = Astro.props;
+---
+
+<div class="endpoint not-content">
+	<span class:list={['method', method.toLowerCase()]}>{method}</span>
+	<code class="path">{path}</code>
+</div>
+
+<style>
+	.endpoint {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		width: fit-content;
+		max-width: 100%;
+		margin-block: 0.75rem 1.25rem;
+		padding: 0.4rem 0.9rem 0.4rem 0.4rem;
+		border: 1px solid #1f2937;
+		border-radius: 0.75rem;
+		background: #0b1120;
+		overflow-x: auto;
+	}
+	.method {
+		flex-shrink: 0;
+		padding: 0.2rem 0.55rem;
+		border-radius: 0.45rem;
+		font-family: var(--sl-font-mono);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.04em;
+	}
+	.get {
+		color: #5eead4;
+		background: rgb(20 184 166 / 0.15);
+	}
+	.post {
+		color: #93c5fd;
+		background: rgb(67 166 212 / 0.18);
+	}
+	.put,
+	.patch {
+		color: #c4b5fd;
+		background: rgb(112 59 237 / 0.22);
+	}
+	.delete {
+		color: #fca5a5;
+		background: rgb(220 53 69 / 0.18);
+	}
+	.path {
+		font-family: var(--sl-font-mono);
+		font-size: 0.85rem;
+		color: #e5e7eb;
+		white-space: nowrap;
+	}
+</style>
