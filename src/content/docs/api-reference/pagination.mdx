@@ -1,0 +1,78 @@
+---
+title: "Pagination"
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+List endpoints use cursor-based pagination with two shared messages from the `pagination` proto package.
+
+## PaginationRequest
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `limit` | int32 | Optional. Items per page, 1–100. Default 10. |
+| `cursor` | string | Optional. The `next_cursor` from the previous page. Leave it out to start from the beginning. |
+
+Over REST, send these as query parameters: `?pagination.limit=50&pagination.cursor=…`.
+
+## PaginationResponse
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `next_cursor` | string | Pass this as `cursor` to get the next page. It's empty when there are no more pages. |
+
+Treat cursors as opaque strings.
+
+## Paginated endpoints
+
+| RPC | Items field |
+| --- | --- |
+| [ListPermissions](/api-reference/permissions/#listpermissions) | `permissions` |
+| [ListRoles](/api-reference/permissions/#listroles) | `roles` |
+| [ListPrincipals](/api-reference/permissions/#listprincipals) | `principals` |
+| [GetAllAssignmentsForPrincipal](/api-reference/permissions/#getallassignmentsforprincipal) | `assignments` |
+| [ListAccess](/api-reference/permissions/#listaccess) | `scopes` |
+| [ListPrincipalsWithAccess](/api-reference/permissions/#listprincipalswithaccess) | `principals` |
+| [ListGroups](/api-reference/permissions/#listgroups) | `groups` |
+| [ListGroupMembers](/api-reference/permissions/#listgroupmembers) | `members` |
+| [ListGroupsForPrincipal](/api-reference/permissions/#listgroupsforprincipal) | `groups` |
+| [GetProjectsForOrganisation](/api-reference/organizations/#projects) | `projects` |
+| [ListAPIKeys](/api-reference/organizations/#api-keys) | `api_keys` |
+
+## Examples
+
+<Tabs syncKey="lang">
+
+<TabItem label="TypeScript">
+
+
+The SDK's iterators follow cursors for you:
+
+```ts
+for await (const p of permio.listPermissions({ pageSize: 50 })) {
+  console.log(p.name);
+}
+```
+
+For other list RPCs, use `paginate` (see [Listing with iterators](/sdk/typescript/#listing-with-iterators)).
+
+</TabItem>
+<TabItem label="cURL">
+
+
+```bash
+# First page
+curl "$PERMIO_API/permissions-service/v1/permissions?project_name=default&pagination.limit=50" \
+  -H "Authorization: Bearer $PERMIO_API_KEY"
+
+# Next page: pass the nextCursor value from the previous response
+curl "$PERMIO_API/permissions-service/v1/permissions?project_name=default&pagination.limit=50&pagination.cursor=NEXT_CURSOR" \
+  -H "Authorization: Bearer $PERMIO_API_KEY"
+```
+
+Responses use camelCase JSON names, so the cursor arrives as `pagination.nextCursor`. When there are no more
+pages it is empty or left out.
+
+</TabItem>
+
+</Tabs>

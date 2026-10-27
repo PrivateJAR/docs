@@ -1,0 +1,755 @@
+---
+title: "Java SDK"
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+`io.perms:permio` is the official Java client for the perms.io API. It wraps the API in a few calls for asking "may
+this principal do X on this resource?". It also gives you typed exceptions, retries for idempotent reads and lazy
+iterables over list endpoints. The generated gRPC stubs for the whole API are there too, as an escape hatch.
+
+- Runs on Java 11 or later.
+- Talks gRPC over HTTP/2 with TLS, using [grpc-java](https://grpc.io/docs/languages/java/) and protobuf-java 4.
+- Depends on `grpc-api`, `grpc-stub`, `grpc-protobuf`, `protobuf-java` and `pgv-java-stub`, plus
+  `grpc-netty-shaded` at runtime.
+
+:::note[Coming soon to Maven Central]
+
+The Java SDK isn't on Maven Central yet. The coordinates below are the ones it will be published under, and they
+won't resolve until then. This page describes version **0.1.0**.
+:::
+
+## Install
+
+<Tabs syncKey="lang">
+
+<TabItem label="Gradle">
+
+
+```kotlin
+dependencies {
+    implementation("io.perms:permio:0.1.0")
+}
+```
+
+</TabItem>
+<TabItem label="Maven">
+
+
+```xml
+<dependency>
+  <groupId>io.perms</groupId>
+  <artifactId>permio</artifactId>
+  <version>0.1.0</version>
+</dependency>
+```
+
+</TabItem>
+
+</Tabs>
+
+## Quick start
+
+```java
+import io.perms.Permio;
+
+// The API key is read from the PERMIO_API_KEY environment variable.
+try (Permio permio = Permio.builder().project("default").build()) {
+    boolean allowed = permio.check("alice", "document.read", Permio.resource("documents", 42));
+}
+```
+
+The arguments are `principal`, `permission`, `resource`, in that order. They are all strings, so the compiler won't
+catch them swapped round.
+
+A principal that lacks the permission is a normal answer: `check` returns `false`. It only throws when the call itself
+fails, for example because of a bad key, malformed input or network trouble.
+
+## Configuration
+
+```java
+import io.perms.Permio;
+import java.time.Duration;
+
+Permio permio = Permio.builder()
+    .apiKey(System.getenv("PERMIO_API_KEY")) // the default when not set
+    .baseUrl(Permio.DEV_BASE_URL)            // default: Permio.DEFAULT_BASE_URL
+    .project("default")                      // default project for every helper
+    .timeout(Duration.ofSeconds(5))          // per attempt; default 10 s
+    .retries(3)                              // idempotent reads only; default 2
+    .build();
+```
+
+`build()` checks the API key's format and checksum straight away. A missing, mistyped or truncated key throws
+`PermioConfigException` before any request is sent. So does a malformed base URL. See
+[API keys](/concepts/api-keys/) for the key format.
+
+`Permio.create(apiKey)` is a shortcut for a production client with no default project.
+
+### Options
+
+| Builder method | Default | Description |
+| --- | --- | --- |
+| `apiKey(String)` | `$PERMIO_API_KEY` | A `perms_…` key from the dashboard, or a legacy JWT key. |
+| `baseUrl(String)` / `endpoint(String)` | `https://api.perms.io` | API host: `https://host[:port]` (TLS), or `http://host[:port]` (plaintext, for local testing). No path, query or fragment. |
+| `project(String)` | none | Default project for every helper. Override it with `withProject` (below). |
+| `timeout(Duration)` | 10 s | Timeout for each attempt. `Duration.ZERO`, or a negative duration, disables it. |
+| `retries(int)` | `2` | Retries for idempotent reads. Shorthand for `retryPolicy(RetryPolicy.ofMaxRetries(n))`. |
+| `retryPolicy(RetryPolicy)` | `RetryPolicy.DEFAULT` | Full retry settings; see [Retries and rate limits](#retries-and-rate-limits). |
+| `channel(io.grpc.Channel)` | built from `baseUrl` | Advanced: a gRPC channel to use instead, for example an in-process channel in tests. `baseUrl` is then ignored. Auth, timeouts and retries still apply. The client doesn't shut it down. |
+| `executor(Executor)` | a cached pool of daemon threads | Runs the `*Async` methods. An executor you pass isn't shut down by `close()`. |
+| `configureChannel(Consumer<ManagedChannelBuilder<?>>)` | none | Advanced: adjust the channel builder (keepalive, proxy, interceptors) before the channel is built. Ignored when `channel` is set. |
+
+The client has no default project. Every helper except `whoAmI()` needs one, and throws `PermioConfigException`
+when there is none.
+
+### Production and development
+
+| Constant | Value |
+| --- | --- |
+| `Permio.DEFAULT_BASE_URL` | `https://api.perms.io` (production, the default) |
+| `Permio.DEV_BASE_URL` | `https://dev-api.perms.io` (development) |
+
+An API key belongs to one project in one environment, so a production key won't work against the development API.
+
+Other constants: `Permio.API_KEY_ENV` (`"PERMIO_API_KEY"`), `Permio.DEFAULT_TIMEOUT` (10 s) and `Permio.VERSION`
+(the SDK version, also sent in the user agent).
+
+### Views
+
+`withProject(name)` and `withCallTimeout(duration)` return views of the client that share its channel:
+
+```java
+Permio billing = permio.withProject("billing");
+billing.check("alice", "invoice.read", "/invoices/1");
+
+Permio strict = permio.withCallTimeout(Duration.ofSeconds(2));
+```
+
+- `withProject` uses another default project. An empty name throws `PermioConfigException`.
+- `withCallTimeout` gives each call an overall deadline across all its attempts, on top of the per-attempt timeout.
+  The duration must be positive. List helpers apply it to each page request.
+
+The client also exposes `project()` (an `Optional<String>`), `baseUrl()` (`null` when you passed a channel) and
+`apiKeyKind()` (`ApiKeys.Kind.OPAQUE` or `ApiKeys.Kind.JWT`).
+
+### Checking the key
+
+`whoAmI()` asks the API who the key is. It is useful to verify a key at startup, and it needs no project:
+
+```java
+import io.perms.WhoAmI;
+
+WhoAmI me = permio.whoAmI();
+me.principalId();    // the key's ID
+me.organisationId();
+me.project();        // Optional<String>: the key's project
+me.apiKeyAccess();   // Optional<WhoAmI.ApiKeyAccess>: CHECK, FULL or UNKNOWN
+```
+
+`ApiKeys.validate(key)` runs the same local format and checksum check as `build()` and returns the key's `Kind`.
+`ApiKeys.isValid(key)` returns a boolean instead of throwing. `ApiKeys.API_KEY_LENGTH` is `44`. Only the API can tell
+you whether a key exists and is still valid.
+
+### Closing the client
+
+A `Permio` is thread-safe and owns a gRPC channel. Create one at startup, share it, and close it at shutdown.
+`close()` shuts down the channel and the executors the client created, waiting up to 5 seconds for calls in flight.
+A channel or executor you passed to the builder is left alone, and closing a view does nothing.
+
+## Checking permissions
+
+| Method | Returns |
+| --- | --- |
+| `check(principal, permission, resource)` | `boolean`: the principal holds the permission on the resource. |
+| `checkAll(principal, permissions, resources)` | `boolean`: every permission on every resource. `resources` can also be a single `String`. |
+| `checkAny(principal, permissions, resources)` | `boolean`: on every resource, at least one of the permissions. `resources` can also be a single `String`. |
+| `checkDetailed(principal, permissions, resources)` | `CheckResult`: the answer and what is missing. Also `checkDetailed(principal, permission, resource)`. |
+| `assertAllowed(principal, permission, resource)` | Nothing; throws `PermioDeniedException` when denied. Also takes collections of permissions and resources. |
+
+`permissions` and `resources` are `Collection<String>`s. Each takes 1–100 values; duplicates are removed before
+sending. The principal must not be empty, and every resource URI is checked with
+[`Resources.assertResourceUri`](#other-helpers) first. Breaking any of these rules throws
+`PermioValidationException` without sending a request. Every check runs in the client's project.
+
+### `check`
+
+```java
+boolean allowed = permio.check("alice", "document.read", "/documents/42");
+```
+
+### `checkDetailed`
+
+Same question, but it also tells you what is missing, per resource and in request order:
+
+```java
+import io.perms.CheckResult;
+import java.util.List;
+
+CheckResult result = permio.checkDetailed(
+    "alice",
+    List.of("document.read", "document.write"),
+    List.of("/documents/1", "/documents/2"));
+result.allowed(); // false
+result.missing(); // [MissingPermission{resource=/documents/2, permissions=[document.write]}]
+```
+
+`missing()` is a `List<MissingPermission>`, each with `resource()` and `permissions()`. It is empty when `allowed()`
+is `true`.
+
+### `assertAllowed`
+
+Returns when the principal is allowed and throws `PermioDeniedException` when it is not. The exception carries
+`principal()` and `missing()`:
+
+```java
+permio.assertAllowed("alice", "document.write", "/documents/1");
+```
+
+### `checkAny`
+
+Returns `true` when, **on every resource**, the principal holds **at least one** of the permissions. It is still a
+single API call:
+
+```java
+permio.checkAny("alice", List.of("document.admin", "document.write"), "/documents/1");
+```
+
+### `checkAll`
+
+Every permission on every resource, like `check` with collections:
+
+```java
+permio.checkAll("alice", List.of("document.read", "document.write"), "/documents/1");
+```
+
+## Batch checks
+
+`check` gives one answer for all its resources together. `batchCheck` answers **each resource separately**, which is
+what you need to filter a list or decide which rows get an "edit" button.
+
+### `batchCheck`
+
+Returns an unmodifiable `Map<String, Boolean>` from resource URI to allowed, with one entry per distinct resource,
+in request order:
+
+```java
+import java.util.Map;
+import java.util.stream.Collectors;
+
+List<String> uris = docs.stream()
+    .map(d -> Permio.resource("documents", d.id()))
+    .collect(Collectors.toList());
+Map<String, Boolean> allowed = permio.batchCheck("alice", "document.read", uris);
+List<Doc> visible = docs.stream()
+    .filter(d -> allowed.get(Permio.resource("documents", d.id())))
+    .collect(Collectors.toList());
+```
+
+`batchCheck(principal, permissions, resources)` takes up to 100 permissions; a resource is then allowed only with
+**all** of them. Duplicate resources are sent once. More than 100 resources are split into several calls, sent in
+parallel.
+
+### `batchCheckDetailed`
+
+Same question, but returns a `List<BatchCheckEntry>` in request order. Each entry has `resource()`, `allowed()` and
+`missing()`, the permission names it lacks there:
+
+```java
+import io.perms.BatchCheckEntry;
+
+List<BatchCheckEntry> entries = permio.batchCheckDetailed(
+    "alice",
+    List.of("document.read", "document.write"),
+    List.of("/documents/1", "/documents/2"));
+// [BatchCheckEntry{resource=/documents/1, allowed=true, missing=[]},
+//  BatchCheckEntry{resource=/documents/2, allowed=false, missing=[document.write]}]
+```
+
+The SDK fails closed: if the API's answer doesn't include a result for each requested resource, it throws a
+`PermioException` instead of guessing.
+
+## Access queries
+
+These answer "where?" and "who?" rather than "may they?". Both follow every page before returning. The
+[Filtering lists and building share dialogs](/guides/filtering-and-sharing/) guide shows them in context.
+
+### `listAccess`
+
+`listAccess(principal, permission, under)` answers "where may this principal use this permission, at or below
+`under`?". Access through roles and groups counts. It returns an `AccessScopes`:
+
+```java
+import io.perms.AccessScopes;
+
+AccessScopes access = permio.listAccess("alice", "document.read", "/documents");
+
+if (access.coversAll()) {
+    // alice may read everything under /documents
+} else {
+    System.out.println(access.toPrefixes()); // e.g. [/documents/4, /documents/7]
+}
+```
+
+| Method | Returns | Description |
+| --- | --- | --- |
+| `under()` | `String` | The URI that was asked about. |
+| `coversAll()` | `boolean` | The principal holds the permission on `under` itself, so on everything below it. `scopes()` is then a single subtree scope for `under`. |
+| `scopes()` | `List<AccessScopes.Scope>` | Each has `uri()` and `kind()`, ordered by URI. `Kind` is `SUBTREE`, `PATTERN`, `EXACT` (reserved, not returned today) or `UNKNOWN` (a kind this SDK version doesn't know; it never matches). |
+| `isEmpty()` | `boolean` | No access anywhere under `under`. |
+| `allows(uri)` | `boolean` | Whether `uri` is covered. Matches per segment: `/a/b` covers `/a/b/c` but not `/a/bc`. Malformed URIs are never allowed. |
+| `toPrefixes()` | `List<String>` | The subtree URIs, for prefix filters. Prefixes covered by a shorter one are dropped. Pattern scopes aren't included. |
+| `patterns()` | `List<String>` | The pattern URIs, with `_` segments. |
+| `hasPatterns()` | `boolean` | Some scope is a pattern, so `toPrefixes()` alone doesn't cover everything. |
+| `exact()` | `List<String>` | The exact URIs. Empty today. |
+| `toRegex()` | `String` | One anchored regular expression matching exactly what `allows()` accepts. Usable in MongoDB `$regex` and PostgreSQL `~`. Matches nothing when there are no scopes. |
+| `toPattern()` | `java.util.regex.Pattern` | `toRegex()`, compiled. |
+
+:::caution
+
+A prefix `p` from `toPrefixes()` means `p` **and everything below it**. Filter with
+`path = p OR path starts with p + "/"`, never a bare "starts with `p`", which would let `/documents/1` match
+`/documents/12`. In SQL, use `starts_with(path, p || '/')` rather than `LIKE`, where `_` is a wildcard.
+:::
+
+For a URI outside `under`, `allows()` returning `false` means "not asked", not "denied". The API key needs
+`permission.check` on `under` and `principal.assignment.get` on the principal.
+
+### `whoHasAccess`
+
+Answers "who has access to this resource?". It returns a `List<AccessEntry>`, ordered by principal ID:
+
+```java
+import io.perms.AccessEntry;
+
+List<AccessEntry> entries = permio.whoHasAccess("/documents/42", "document.read", true);
+for (AccessEntry e : entries) {
+    System.out.println(e.principal() + " " + e.viaGroup().orElse("") + " " + e.via());
+}
+```
+
+`whoHasAccess(resource)` counts any grant. `whoHasAccess(resource, permission, expandGroups)` takes:
+
+| Parameter | Description |
+| --- | --- |
+| `resource` | The resource to look at. A `_` segment here is literal. |
+| `permission` | Only count grants that confer this permission, so a principal is listed exactly when `check` passes for it through its own grants (or, for entries with `viaGroup`, through that group). `null` counts any grant. |
+| `expandGroups` | Also list every member of each listed group, once per group, with `viaGroup` set. |
+
+`AccessEntry` has `principal()`, `isGroup()`, `viaGroup()` (an `Optional<String>` group slug) and `via()`, the
+grants that give the access, most specific first. Each grant (`AccessGrantInfo`) has:
+
+- `resource()`: the URI the grant was made on (the resource, an ancestor, or a `_` wildcard URI that matches it);
+- `inherited()`: `true` unless the grant was made on exactly the resource;
+- `match()`: `EXACT`, `ANCESTOR`, `WILDCARD` or `UNKNOWN`;
+- `source()`: `ROLE`, `DIRECT` (directly granted permissions) or `UNKNOWN`, with `roleId()` and `roleName()` as
+  `Optional<String>`s for roles.
+
+The API key needs `principal.list` and `principal.assignment.list` on the project.
+
+## Async variants
+
+These methods return a `CompletableFuture` and run on the client's executor:
+
+| Method | Completes with |
+| --- | --- |
+| `checkAsync(principal, permission, resource)` | `Boolean` |
+| `checkDetailedAsync(principal, permissions, resources)` | `CheckResult` |
+| `batchCheckAsync(principal, permission, resources)` | `Map<String, Boolean>` |
+| `listAccessAsync(principal, permission, under)` | `AccessScopes` |
+| `whoHasAccessAsync(resource, permission, expandGroups)` | `List<AccessEntry>` |
+| `grantAsync(grant)` / `revokeAsync(grant)` | `Void` |
+| `whoAmIAsync()` | `WhoAmI` |
+
+A failed future completes exceptionally with the same exception types as the blocking methods. `join()` and `get()`
+wrap them in `CompletionException` and `ExecutionException`; `PermioException.from(e)` unwraps both.
+
+## Granting and revoking
+
+Grants need an API key with full access, and are sent once: they are never retried automatically.
+
+```java
+import io.perms.Grant;
+
+permio.grant("alice", "document.read", "/documents");
+
+permio.grant(Grant.to("alice").on("/documents").permissions("document.read").roles(roleId));
+permio.revoke(Grant.to("alice").on("/documents").roles(roleId));
+```
+
+| Method | Description |
+| --- | --- |
+| `grant(principal, permission, resource)` | Grants one permission. |
+| `grant(Grant)` | Grants permissions and roles to a principal on a resource, and so on everything below it. Additive: what the principal already holds is kept. |
+| `revoke(principal, permission, resource)` | Revokes one permission. |
+| `revoke(Grant)` | Removes permissions and roles from the principal's grant on exactly the resource. Names the grant doesn't hold are ignored. |
+
+`Grant` is immutable; each method returns a copy:
+
+- `Grant.to(principal)` starts a grant. Use `Permio.group("editors")` to grant to a group.
+- `on(resource)` sets the resource URI.
+- `permissions(...)` adds permission **names**, as varargs or a `Collection<String>`.
+- `roles(...)` adds role **IDs**, as varargs or a `Collection<String>`.
+
+A grant needs at least one permission or role, or it throws `PermioValidationException`. So does a permission or role
+that doesn't exist in the project (the API answers `INVALID_ARGUMENT`).
+
+:::note[Revoking doesn't touch ancestors]
+
+`revoke` only changes the grant on exactly the URI you pass. Grants on ancestor URIs, or on `_` wildcard URIs
+that match it, are kept, so the principal may still pass `check` afterwards. `whoHasAccess` shows where access
+comes from.
+:::
+
+## Groups
+
+A [group](/concepts/groups/) is a named set of principals in a project. Grant to the group's principal ID,
+`group:<slug>`, and every member holds the grant. Checks include the principal's groups automatically.
+
+### `Permio.group(slug)`
+
+Returns the group's principal ID. It throws `PermioValidationException` unless the slug is 1–64 lower-case letters,
+digits and hyphens. `Groups.principal(slug)` does the same, and `Groups.GROUP_PRINCIPAL_PREFIX` is `"group:"`.
+
+```java
+import io.perms.Grant;
+import io.perms.Permio;
+
+Permio.group("editors"); // "group:editors"
+
+permio.groups().create("editors", "Can edit every document");
+permio.groups().addMembers("editors", List.of("alice", "bob"));
+permio.grant(Grant.to(Permio.group("editors")).on("/documents").permissions("document.write"));
+
+permio.check("alice", "document.write", "/documents/42"); // true
+```
+
+### `permio.groups()`
+
+Every method that takes a group accepts its slug (`"editors"`) or its principal ID (`"group:editors"`). Groups use the
+client's project.
+
+| Method | Returns |
+| --- | --- |
+| `create(name)` / `create(name, description)` | `Group`. Throws a `PermioException` with code `ALREADY_EXISTS` if the project already has a group with this name. |
+| `get(name)` | `Group`. Throws `PermioNotFoundException` if it doesn't exist. |
+| `update(name, description)` | `Group`. Replaces the description; a group can't be renamed. Throws `PermioNotFoundException` if it doesn't exist. |
+| `delete(name)` | Nothing. Deletes the group, its memberships and every grant made to it. Succeeds whether or not it existed. |
+| `list()` / `list(ListOptions)` | `PagedIterable<Group>`, ordered by name. Takes a search filter. |
+| `addMembers(name, principals)` | `AddMembersResult`: `added()` and `existing()`, in request order. |
+| `removeMembers(name, principals)` | `RemoveMembersResult`: `removed()` and `notMembers()`, in request order. |
+| `listMembers(name)` | `PagedIterable<GroupMember>` (`getPrincipalId()`, `getCreatedAt()`), ordered by principal ID. |
+| `listForPrincipal(principal)` | `PagedIterable<Group>`: the groups the principal is a member of, ordered by name. |
+
+- `addMembers` and `removeMembers` take 1–100 principals; duplicates are removed. `addMembers` rejects `group:` IDs
+  with `PermioValidationException`, because groups can't contain groups.
+- `listMembers` and `listForPrincipal` also take a `ListOptions` for the page size.
+- `Group` and `GroupMember` are the generated protobuf messages from `io.perms.proto.permissions.v1`. `Group` has
+  `getId()`, `getOrganisationId()`, `getProjectName()`, `getName()`, `getDescription()`, `getPrincipalId()`
+  (`"group:<name>"`), `getCreatedAt()` and `getUpdatedAt()`.
+- The group methods have no async variants.
+
+```java
+import io.perms.AddMembersResult;
+import io.perms.proto.permissions.v1.Group;
+import io.perms.proto.permissions.v1.GroupMember;
+
+AddMembersResult res = permio.groups().addMembers("group:editors", List.of("alice", "carol"));
+res.added();    // [carol]
+res.existing(); // [alice]
+
+for (GroupMember m : permio.groups().listMembers("editors")) System.out.println(m.getPrincipalId());
+for (Group g : permio.groups().listForPrincipal("alice")) System.out.println(g.getName());
+```
+
+Reading groups works with a check-access API key. Creating, updating and deleting groups and changing members needs
+a key with full access, and changing members also needs the right to grant across the project. See
+[Permissions you need](/concepts/groups/#permissions-you-need).
+
+## Resource URIs
+
+Resource URIs are paths such as `/projects/p1/documents/42`. A grant on a URI also covers every URI beneath it. See
+[Resources and inheritance](/concepts/resources/) for the full rules.
+
+### `Permio.resource(segments...)`
+
+Builds a URI from raw segments. It adds the leading `/` and percent-encodes each segment, so an ID that contains `/`,
+spaces or other reserved characters stays a single segment. Each segment is converted with `String.valueOf`, so
+numbers and other objects work too:
+
+```java
+Permio.resource("projects", "p1", "documents", 42); // "/projects/p1/documents/42"
+Permio.resource("files", "reports/2026.pdf");       // "/files/reports%2F2026.pdf"
+```
+
+Every character except `A-Z a-z 0-9 - _ . ~` is encoded as UTF-8 bytes. This matches the TypeScript SDK's
+`resource()`, so both build the same URIs. A null or empty segment, or no segments at all, throws
+`PermioValidationException`. `Resources.resource(...)` is the same method.
+
+:::tip
+
+Build URIs the same way when you grant and when you check, or they will not match.
+:::
+
+### Other helpers
+
+| Member | Description |
+| --- | --- |
+| `Resources.encodeSegment(segment)` | Encodes one segment the way `resource()` does. |
+| `Resources.assertResourceUri(uri)` | Throws `PermioValidationException` unless `uri` has the basic shape the API accepts: a leading `/`, no empty segments, no whitespace or control characters, and at most 2048 bytes. |
+| `Resources.MAX_RESOURCE_URI_LENGTH` | `2048`. |
+
+Every check, access query and grant runs `assertResourceUri` on its URIs before sending. The API enforces the
+remaining rules, such as no `( ) [ ] { } * + ? | ^ $ \` in segments, and answers with `INVALID_ARGUMENT`, which the
+SDK throws as `PermioValidationException`.
+
+## Errors
+
+Every exception the SDK throws is an unchecked `PermioException`. It has:
+
+- `code()`: the gRPC `Status.Code`, as an `Optional`. Empty when the error didn't come from the API.
+- `codeName()`: the code's name in lower case, for example `"permission_denied"`, as an `Optional`.
+- `metadata()`: the response headers and trailers.
+- `getCause()`: the original exception, usually a `StatusRuntimeException`.
+
+| Exception | When |
+| --- | --- |
+| `PermioConfigException` | Bad client setup: a missing or malformed API key, an invalid base URL, or no project. |
+| `PermioAuthException` | `UNAUTHENTICATED`: the key is missing, unknown or invalidated. |
+| `PermioPermissionException` | `PERMISSION_DENIED`: the **API key** lacks the rights for this call. `missing()` lists what it lacks when the API says. |
+| `PermioValidationException` | `INVALID_ARGUMENT`, or the SDK's own input checks (then no request is sent and `code()` is empty). |
+| `PermioNotFoundException` | `NOT_FOUND`, for example `groups().get` for a group that doesn't exist. |
+| `PermioUnavailableException` | `UNAVAILABLE`, including network failures, after any retries. |
+| `PermioTimeoutException` | `DEADLINE_EXCEEDED`, including the SDK's own timeouts. |
+| `PermioRateLimitException` | `RESOURCE_EXHAUSTED`. `retryAfter()` is the delay the server asked for, as an `Optional<Duration>`. |
+| `PermioDeniedException` | Thrown only by `assertAllowed`, when the **principal** is not allowed. Has `principal()` and `missing()`. |
+
+Any other status, such as `ALREADY_EXISTS` or `INTERNAL`, is a plain `PermioException` with the matching code.
+
+:::note[Denied is not an error]
+
+`PermioPermissionException` is about the *caller*. It means your API key is not allowed to make the call: for
+`Check`, the key needs `permission.check` on the checked resources and on the principal. A principal failing a
+check is a normal result: `check` returns `false` and `assertAllowed` throws `PermioDeniedException`.
+:::
+
+`PermioPermissionException.missing()` uses the API's fully qualified URIs (`/organisation/{org}/project/{project}/...`),
+not the URIs you sent.
+
+```java
+import io.perms.PermioAuthException;
+import io.perms.PermioDeniedException;
+import io.perms.PermioException;
+import io.perms.PermioPermissionException;
+
+try {
+    permio.assertAllowed("alice", "document.write", "/documents/1");
+} catch (PermioDeniedException e) {
+    // the principal may not do this: respond with 403
+} catch (PermioPermissionException e) {
+    // the API key may not run this check (it needs permission.check)
+    System.err.println(e.missing());
+} catch (PermioAuthException e) {
+    // the API key is missing, unknown or invalidated
+} catch (PermioException e) {
+    System.err.println(e.codeName().orElse("error") + ": " + e.getMessage());
+}
+```
+
+`PermioException.from(throwable)` converts any exception into the matching subclass. It unwraps
+`ExecutionException` and `CompletionException`, and maps gRPC status exceptions by code. Anything else becomes a plain
+`PermioException` with code `UNKNOWN`. `PermioException.parseMissingPermissions(message)` extracts the missing list
+from a `PERMISSION_DENIED` message. You only need these with the [raw client](#raw-client).
+
+## Retries and rate limits
+
+- **Retries:** idempotent reads are retried on `UNAVAILABLE` and `DEADLINE_EXCEEDED`. These are `Check`,
+  `BatchCheck`, `WhoAmI` and the `Get*` and `List*` RPCs, including `ListAccess`, `ListPrincipalsWithAccess`, the
+  group reads and the read-only organisation calls. By default they are retried twice, with exponential backoff and
+  jitter. Network failures count as `UNAVAILABLE`.
+- **Writes** (every Create, Update, Delete, Grant, Revoke, Invite, adding and removing group members, and so on) are
+  sent exactly once. After a timeout the first attempt may still have landed, and repeating it could undo another
+  caller's change. Retry them yourself if that is safe for you.
+- **Backoff:** the delay before retry *n* is a random value between half and all of
+  `min(maxDelay, baseDelay × 2^(n−1))`. If the server sends a `retry-after` header with `UNAVAILABLE`, the SDK waits
+  at least that long, or doesn't retry when it is longer than `maxDelay`.
+- **Rate limits:** a read that fails with `RESOURCE_EXHAUSTED` is retried only when the server says how long to wait
+  (a `google.rpc.RetryInfo` error detail, or a `retry-after` header) and that delay is within `maxDelay`. The SDK
+  then waits at least that long, plus up to 100 ms of jitter. Otherwise it throws `PermioRateLimitException` with
+  `retryAfter()` set. Writes are never retried, whatever the code.
+- **Timeouts:**
+    - The builder's `timeout` applies to each attempt (default 10 s).
+    - `withCallTimeout`, or a deadline you set on a raw stub, is an overall deadline across all attempts. If it would
+      expire before the next retry, the call fails with `PermioTimeoutException` straight away.
+
+```java
+import io.perms.RetryPolicy;
+
+Permio permio = Permio.builder()
+    .project("default")
+    .timeout(Duration.ofSeconds(5))
+    .retryPolicy(RetryPolicy.builder()
+        .maxRetries(3)
+        .baseDelay(Duration.ofMillis(100))
+        .maxDelay(Duration.ofSeconds(2))
+        .build())
+    .build();
+```
+
+`RetryPolicy` has these settings:
+
+- `maxRetries`: retries after the first attempt. Default 2. Negative values count as 0.
+- `baseDelay`: the first delay, which doubles each time. Default 100 ms.
+- `maxDelay`: the cap on a single delay, and on a server-requested delay the SDK will wait. Default 2 s.
+
+`RetryPolicy.DEFAULT` holds the defaults and `RetryPolicy.NONE` turns retries off.
+`RetryPolicy.isIdempotent("permio.permissions.v1.PermissionsService/Check")` tells you whether the SDK retries a given
+RPC. The dotted form, `permio.permissions.v1.PermissionsService.Check`, works too.
+
+To back off from a rate limit yourself:
+
+```java
+import io.perms.PermioRateLimitException;
+
+try {
+    permio.check("alice", "document.read", "/documents/42");
+} catch (PermioRateLimitException e) {
+    Duration wait = e.retryAfter().orElse(Duration.ofSeconds(1));
+    // try again after `wait`
+}
+```
+
+## Listing with iterators
+
+List RPCs are paginated with a cursor (see [Pagination](/api-reference/pagination/)). The list helpers return a
+`PagedIterable<T>`, which fetches pages lazily as you iterate:
+
+```java
+import io.perms.ListOptions;
+import io.perms.proto.permissions.v1.Assignment;
+import io.perms.proto.permissions.v1.Permission;
+import io.perms.proto.permissions.v1.Role;
+
+for (Permission p : permio.listPermissions(ListOptions.defaults().withSearch("document."))) {
+    System.out.println(p.getName());
+}
+for (Role role : permio.listRoles()) System.out.println(role.getName() + " " + role.getPermissionsCount());
+for (String id : permio.listPrincipals()) System.out.println(id);
+for (Assignment a : permio.listGrants("alice")) System.out.println(a.getResourceUri() + " " + a.getRolesList());
+
+List<String> principals = permio.listPrincipals().toList();
+long roles = permio.listRoles().stream().count();
+```
+
+| Method | Yields |
+| --- | --- |
+| `listPermissions()` / `listPermissions(ListOptions)` | `Permission` |
+| `listRoles()` / `listRoles(ListOptions)` | `Role` (with its permissions) |
+| `listPrincipals()` / `listPrincipals(ListOptions)` | `String` principal IDs that have grants in the project |
+| `listGrants(principal)` / `listGrants(principal, ListOptions)` | `Assignment` (`getResourceUri()`, `getPermissionsList()`, `getRolesList()`). `listAssignments(principal)` is an alias. |
+| `groups().list(...)`, `groups().listMembers(...)`, `groups().listForPrincipal(...)` | See [Groups](#groups). |
+
+The items are the generated protobuf messages from `io.perms.proto.permissions.v1`.
+
+`ListOptions` is immutable:
+
+- `ListOptions.defaults()`: no search filter, 100 items per page.
+- `withSearch(text)`: filters by name. It applies to `listPermissions`, `listRoles`, `listPrincipals` and
+  `groups().list`; the other list methods ignore it.
+- `withPageSize(n)`: items per page, clamped to 1–100.
+
+`PagedIterable` is an `Iterable`, and also has `stream()` and `toList()` (which fetches every page). Each new
+iteration or stream starts again from the first page. Iteration stops when the API returns an empty cursor, or one it
+has already returned. API errors are thrown from `hasNext()` as `PermioException`s.
+
+For any other list RPC, build a `PagedIterable` yourself. It passes you a `PaginationRequest`; you return a
+`PagedIterable.Page` with the items and the next cursor:
+
+```java
+import io.perms.PagedIterable;
+import io.perms.proto.organisation.v1.APIKey;
+import io.perms.proto.organisation.v1.ListAPIKeysRequest;
+import io.perms.proto.organisation.v1.ListAPIKeysResponse;
+
+PagedIterable<APIKey> keys = new PagedIterable<>(
+    page -> {
+        ListAPIKeysResponse res = permio.raw().organisations().listAPIKeys(
+            ListAPIKeysRequest.newBuilder()
+                .setOrganisationId("your-org-id")
+                .setProjectName("default")
+                .setPagination(page)
+                .build());
+        return new PagedIterable.Page<>(res.getApiKeysList(), res.getPagination().getNextCursor());
+    },
+    100);
+for (APIKey key : keys) System.out.println(key.getName());
+```
+
+## Raw client
+
+`permio.raw()` returns a `RawClient` with the generated [grpc-java](https://grpc.io/docs/languages/java/) stubs for
+`permio.permissions.v1.PermissionsService` and `permio.organisation.v1.OrganisationService`. They run over the
+client's channel, so authentication, timeouts and retries already apply. Every RPC in the
+[API reference](/api-reference/) is available. Method names are the RPC names in lower camel case, and the
+request builders use camelCase setters:
+
+| Method | Stub |
+| --- | --- |
+| `permissions()` | `PermissionsServiceGrpc.PermissionsServiceBlockingStub` |
+| `permissionsFuture()` | `PermissionsServiceGrpc.PermissionsServiceFutureStub` (`ListenableFuture`) |
+| `permissionsAsync()` | `PermissionsServiceGrpc.PermissionsServiceStub` (`StreamObserver`) |
+| `organisations()`, `organisationsFuture()`, `organisationsAsync()` | The same three for `OrganisationServiceGrpc` |
+| `channel()` | The client's `io.grpc.Channel`, for building any stub yourself |
+
+```java
+import io.perms.proto.permissions.v1.CheckPermissionRequest;
+import io.perms.proto.permissions.v1.CheckPermissionResponse;
+import io.perms.proto.permissions.v1.CreatePermissionRequest;
+import io.perms.proto.permissions.v1.CreateRoleRequest;
+import io.perms.proto.permissions.v1.GrantUserPermissionsAndRolesOnResourceRequest;
+import io.perms.proto.permissions.v1.Role;
+
+var stub = permio.raw().permissions();
+
+stub.createPermission(CreatePermissionRequest.newBuilder()
+    .setProjectName("default")
+    .setName("document.read")
+    .setDescription("Read documents")
+    .build());
+
+Role role = stub.createRole(CreateRoleRequest.newBuilder()
+    .setProjectName("default")
+    .setName("viewer")
+    .addPermissions("document.read") // permission names
+    .build());
+
+stub.grantUserPermissionsAndRolesOnResource(GrantUserPermissionsAndRolesOnResourceRequest.newBuilder()
+    .setProjectName("default")
+    .setUserId("alice")
+    .setResourceUri("/documents")
+    .addRoles(role.getId()) // role IDs
+    .build());
+
+CheckPermissionResponse res = stub.check(CheckPermissionRequest.newBuilder()
+    .setProjectName("default")
+    .setPrincipalId("alice")
+    .addResourceUris("/documents/42")
+    .addPermissions("document.read")
+    .build());
+System.out.println(res.getPassed() + " " + res.getMissingPermissionsList());
+```
+
+- Raw requests don't use the client's default project: set `project_name` on each one.
+- Raw errors are plain `io.grpc.StatusRuntimeException`s. Convert them with `PermioException.from(e)` to get the
+  typed exceptions above.
+- On a `withCallTimeout` view, the raw stubs carry that deadline too.
+- The generated messages live in `io.perms.proto.permissions.v1`, `io.perms.proto.organisation.v1` and
+  `io.perms.proto.pagination.v1`.
+
+:::note[What a key can call]
+
+By default an API key has **check** access: it can run checks and access queries, and read permissions, roles,
+principals, assignments and groups. Creating, updating or deleting permissions, roles and groups, granting or
+revoking, and changing group members needs a key with full access. See
+[API keys](/concepts/api-keys/#access-levels).
+:::

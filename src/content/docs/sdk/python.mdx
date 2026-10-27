@@ -1,0 +1,722 @@
+---
+title: "Python SDK"
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+`permio` is the official Python client for the perms.io API. It wraps the API in a few calls for asking "may this
+principal do X on this resource?", granting and revoking, managing groups and answering "where?" and "who?"
+questions. It also gives you typed errors, retries for idempotent reads and iterators over list endpoints. The full
+generated API is there too, as an escape hatch.
+
+- Runs on Python 3.9 and later. It is fully typed (`py.typed`).
+- Comes with two clients that have the same methods: `Permio` (synchronous) and `AsyncPermio` (asyncio).
+- Talks native gRPC over TLS through `grpcio` (`grpc.aio` for `AsyncPermio`).
+- Has three runtime dependencies: `grpcio`, `protobuf` and `googleapis-common-protos`.
+
+:::note[Versions]
+
+This page describes **0.1.0**, the first release on [PyPI](https://pypi.org/project/permio/).
+:::
+
+## Install
+
+```bash
+pip install permio
+```
+
+## Quick start
+
+<Tabs syncKey="lang">
+
+<TabItem label="Sync">
+
+
+```python
+from permio import Permio, resource
+
+permio = Permio(project="default")  # API key from $PERMIO_API_KEY
+
+if permio.check("alice", "document.read", resource("documents", 42)):  # "/documents/42"
+    print("alice may read document 42")
+```
+
+</TabItem>
+<TabItem label="Async">
+
+
+```python
+from permio import AsyncPermio, resource
+
+async with AsyncPermio(project="default") as permio:  # API key from $PERMIO_API_KEY
+    if await permio.check("alice", "document.read", resource("documents", 42)):
+        print("alice may read document 42")
+```
+
+</TabItem>
+
+</Tabs>
+
+The arguments are always `principal, permission, resource`, in that order. A principal that lacks the permission is
+a normal answer: `check` returns `False`.
+
+## Configuration
+
+```python
+from permio import DEV_BASE_URL, Permio, RetryOptions
+
+permio = Permio(
+    api_key="perms_...",    # default: $PERMIO_API_KEY
+    base_url=DEV_BASE_URL,  # default: https://api.perms.io
+    project="default",      # default project for every call
+    timeout=10,             # seconds per attempt
+    retries=RetryOptions(max_retries=2, base_delay=0.1, max_delay=2.0),
+)
+```
+
+The constructor checks the API key's format and checksum straight away. A missing, mistyped or truncated key raises
+`PermioConfigError` before any request is sent. See [API keys](/concepts/api-keys/) for the format.
+
+### Options
+
+`api_key` is the only positional argument; the rest are keyword-only. `AsyncPermio` takes the same options.
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `api_key` | `str` | `$PERMIO_API_KEY` | A `perms_…` key from the dashboard, or a legacy JWT key. |
+| `base_url` | `str` | `https://api.perms.io` | API host: `https://host[:port]` (TLS), `http://host:port` (plaintext, for a local server) or `host:port` (TLS). It can't have a path. |
+| `project` | `str` | none | Default project for every call. Each call can override it with `project=`. A call with neither raises `PermioConfigError`. |
+| `timeout` | `float` | `10` | Timeout for each attempt, in seconds. `0` disables it. |
+| `retries` | `int \| RetryOptions` | `2` | Retries for idempotent reads. An `int` sets `max_retries`; see [Retries and rate limits](#retries-and-rate-limits). |
+| `channel` | `grpc.Channel` | none | Your own channel (`grpc.aio.Channel` for `AsyncPermio`), for example for a proxy or custom credentials. `base_url` and `channel_options` are then ignored, and the client doesn't close it. |
+| `channel_options` | `list[tuple[str, Any]]` | none | Extra gRPC channel options, used when the client creates the channel. |
+
+### Production and development
+
+| Constant | Value |
+| --- | --- |
+| `DEFAULT_BASE_URL` | `https://api.perms.io` (production, the default) |
+| `DEV_BASE_URL` | `https://dev-api.perms.io` (development) |
+
+Keys belong to one environment, so a production key won't work against the development API. `who_am_i()` tells you
+which organisation and project a key belongs to and whether it can write. It is the one call that needs no project,
+which makes it useful for checking a key at startup:
+
+```python
+me = permio.who_am_i()
+print(me.kind, me.project, me.api_key_access)  # "api_key" "default" "check" (or "full")
+```
+
+`WhoAmI` has `principal_id`, `organisation_id`, `kind` (`"user"`, `"api_key"`, `"service_account"` or `"unknown"`),
+`project`, `api_key_access` (`"check"`, `"full"` or `"unknown"`; `None` for credentials other than API keys) and
+`email`.
+
+The client also exposes `permio.project`, `permio.base_url`, `permio.api_key_kind` (`"opaque"` or `"jwt"`) and
+`permio.channel`.
+
+### Per-call options
+
+Every method also takes these keyword arguments:
+
+| Argument | Description |
+| --- | --- |
+| `project` | Project for this call. Defaults to the client's `project`. (`who_am_i` doesn't take it.) |
+| `timeout` | Overall deadline for this call in seconds, across retries. |
+| `metadata` | Extra request headers, as `[("name", "value"), ...]`. An `authorization` entry is ignored; the client always sends its own key. |
+
+### Closing the client
+
+Create one client per process and share it. `close()` closes the gRPC channel if the client created it. Both
+clients are context managers:
+
+<Tabs syncKey="lang">
+
+<TabItem label="Sync">
+
+
+```python
+with Permio(project="default") as permio:
+    ...
+
+# or
+permio = Permio(project="default")
+...
+permio.close()
+```
+
+</TabItem>
+<TabItem label="Async">
+
+
+```python
+async with AsyncPermio(project="default") as permio:
+    ...
+
+# or
+permio = AsyncPermio(project="default")
+...
+await permio.close()
+```
+
+</TabItem>
+
+</Tabs>
+
+:::note[Async]
+
+On `AsyncPermio`, every method on this page is a coroutine and must be awaited, except the list helpers, which
+return async iterators for `async for`. The examples below use the sync client.
+:::
+
+## Checking permissions
+
+The check helpers all take the same arguments:
+
+| Argument | Description |
+| --- | --- |
+| `principal` | Required. The ID of the user, service or other principal being checked. |
+| `permission` | Required. One permission name, or a list of up to 100. |
+| `resource` | Required. One resource URI, or a list of up to 100. Every resource is checked. |
+| `project`, `timeout`, `metadata` | As in [Per-call options](#per-call-options). |
+
+Duplicates are removed before sending. Each URI is checked with `assert_resource_uri()` first, so a malformed one
+raises `PermioValidationError` without a request.
+
+### `check`
+
+Returns `True` when the principal holds **every** permission on **every** resource:
+
+```python
+permio.check("alice", "document.read", "/documents/42")                        # -> bool
+permio.check("alice", ["document.read", "document.write"], "/documents/42")    # both
+permio.check("alice", "document.read", ["/documents/42", "/invoices/1"])       # on both
+```
+
+It only raises when the call itself fails, for example because of a bad key, malformed input or network trouble.
+
+### `check_detailed`
+
+Same question, but it also tells you what is missing, per resource:
+
+```python
+result = permio.check_detailed("alice", "document.read", ["/documents/42", "/invoices/1"])
+result.allowed  # False
+result.missing  # [MissingPermission(resource="/invoices/1", permissions=["document.read"])]
+```
+
+It returns a `CheckResult` with `allowed` and `missing`, a list of `MissingPermission` (`resource`, `permissions`).
+`missing` is empty when `allowed` is `True`. A `CheckResult` is truthy when `allowed` is `True`.
+
+### `assert_allowed`
+
+Returns `None` when the principal is allowed and raises `PermioDeniedError` when it is not. (`assert` is a Python
+keyword, hence the name.) The error carries `principal` and `missing`:
+
+```python
+permio.assert_allowed("alice", "document.write", "/documents/42")
+```
+
+### `check_any`
+
+Returns `True` when, **on every resource**, the principal holds **at least one** of the permissions. It is still a
+single API call:
+
+```python
+permio.check_any("alice", ["document.admin", "document.write"], "/documents/42")
+```
+
+### `check_all`
+
+An alias of `check`: every permission on every resource.
+
+### Batch checks
+
+`check` gives one answer for all its resources together. `batch_check` answers **each resource separately**, which is
+what you need to filter a list or decide which rows get an "edit" button. It returns a `dict` from resource URI to
+allowed, with one entry per distinct resource, in request order:
+
+```python
+from permio import resource
+
+allowed = permio.batch_check("alice", "document.read", [resource("documents", d.id) for d in docs])
+visible = [d for d in docs if allowed[resource("documents", d.id)]]
+```
+
+`batch_check_detailed` asks the same question but returns a list of `BatchCheckEntry` (`resource`, `allowed`,
+`missing`) in request order. Here `missing` is a list of permission names:
+
+```python
+for entry in permio.batch_check_detailed(
+    "alice", ["document.read", "document.write"], ["/documents/1", "/documents/2"]
+):
+    print(entry.resource, entry.allowed, entry.missing)
+# /documents/1 True []
+# /documents/2 False ['document.write']
+```
+
+- `resources` must be a list (or other iterable) of URIs, not a single string. Duplicates are sent once.
+- A resource is allowed only with **all** the permissions (up to 100).
+- More than 100 resources are split into several `BatchCheck` calls. `Permio` sends them one after another;
+  `AsyncPermio` sends them in parallel.
+- The SDK fails closed: if the API's answer lacks a result for any requested resource, it raises a `PermioError`
+  instead of guessing.
+
+### Access queries
+
+These answer "where?" and "who?" rather than "may they?". The
+[Filtering lists and building share dialogs](/guides/filtering-and-sharing/) guide shows them in context.
+
+#### `list_access`
+
+`list_access(principal, permission, under)` answers "where may this principal use this permission, at or below
+`under`?". It follows every page and returns an `AccessScopes` object:
+
+```python
+access = permio.list_access("alice", "document.read", "/documents")
+
+if access.covers_all:
+    ...  # alice may read everything under /documents: no filter needed
+else:
+    print(access.to_prefixes())  # e.g. ["/documents/4", "/documents/7"]
+```
+
+Access through roles and groups counts. `permission` is a single name, and a `_` segment in `under` is literal. It
+also takes `page_size`, and its `timeout` and `metadata` apply to each page. The API key needs `permission.check` on
+`under` and `principal.assignment.get` on the principal.
+
+`AccessScopes`:
+
+| Member | Type | Description |
+| --- | --- | --- |
+| `under` | `str` | The URI that was asked about. |
+| `covers_all` | `bool` | The principal holds the permission on `under` itself, so on everything below it. Check this first. |
+| `scopes` | `tuple[AccessScopeInfo, ...]` | `AccessScopeInfo(uri, kind)`, ordered by URI. `kind` is `"subtree"`, `"pattern"`, `"exact"` (reserved, not returned today) or `"unknown"` (a kind this SDK version doesn't know; it never matches). |
+| `is_empty` | `bool` | No access anywhere under `under`. |
+| `allows(uri)` | `bool` | Whether `uri` is covered. Matches per segment: `/a/b` covers `/a/b/c` but not `/a/bc`. Malformed URIs are never allowed. |
+| `to_prefixes()` | `list[str]` | The subtree URIs, for prefix filters. Prefixes covered by a shorter one are dropped. Pattern scopes aren't included. |
+| `patterns()` | `list[str]` | The pattern URIs, with `_` segments. |
+| `has_patterns` | `bool` | Some scope is a pattern, so `to_prefixes()` alone doesn't cover everything. |
+| `exact()` | `list[str]` | The exact URIs. Empty today. |
+| `to_regex()` | `re.Pattern[str]` | One anchored regular expression matching exactly what `allows()` accepts. Use `.pattern` for MongoDB `$regex` or PostgreSQL `~`. Matches nothing when there are no scopes. |
+
+:::caution
+
+A prefix `p` from `to_prefixes()` means `p` **and everything below it**. Filter with
+`path = p OR path starts with p + "/"`, never a bare "starts with `p`", which would let `/documents/1` match
+`/documents/12`. In SQL, use `starts_with(path, p || '/')` rather than `LIKE`, where `_` is a wildcard.
+:::
+
+For a URI outside `under`, `allows()` returning `False` means "not asked", not "denied".
+
+#### `who_has_access`
+
+`who_has_access(resource, *, permission=None, expand_groups=False)` answers "who has access to this resource?". It
+follows every page and returns a list of `AccessEntry`, ordered by principal ID:
+
+```python
+for entry in permio.who_has_access("/documents/42", permission="document.read", expand_groups=True):
+    print(entry.principal, entry.is_group, entry.via_group,
+          [(g.resource, g.match, g.source.type) for g in entry.via])
+# alice False None [('/documents', 'ancestor', 'role')]
+# bob False editors [('/documents', 'ancestor', 'direct')]
+# group:editors True None [('/documents', 'ancestor', 'direct')]
+```
+
+| Argument | Description |
+| --- | --- |
+| `resource` | Required. The resource to look at. A `_` segment here is literal. |
+| `permission` | Optional. Only count grants that confer this permission, so a principal is listed exactly when `check()` passes for it through its own grants (or, for entries with `via_group`, through that group). Unset, any grant counts. |
+| `expand_groups` | Optional. Also list every member of each listed group, once per group, with `via_group` set. |
+| `project`, `page_size`, `timeout`, `metadata` | As for `list_access`. |
+
+`AccessEntry` has `principal`, `is_group`, `via_group` (a group slug, or `None`) and `via`, the grants that give the
+access, most specific first. Each grant (`AccessGrantInfo`) has:
+
+- `resource`: the URI the grant was made on (the resource, an ancestor, or a `_` wildcard URI that matches it);
+- `inherited`: `True` unless the grant was made on exactly the resource;
+- `match`: `"exact"`, `"ancestor"`, `"wildcard"` or `"unknown"`;
+- `source`: an `AccessGrantSource` whose `type` is `"role"` (with the role's `id` and `name`), `"direct"` for
+  directly granted permissions, or `"unknown"`.
+
+The API key needs `principal.list` and `principal.assignment.list` on the project.
+
+## Granting and revoking
+
+`grant` and `revoke` need an API key with full access. Both take a principal and one resource URI, then
+`permissions` (permission names) and `roles` (role IDs) as keyword arguments. Each takes one value or a list, and at
+least one permission or role is required.
+
+```python
+permio.grant("alice", "/documents/42", permissions="document.read")
+permio.grant("alice", "/documents", permissions=["document.read", "document.write"], roles="ROLE_ID")
+
+permio.revoke("alice", "/documents/42", permissions="document.read")
+```
+
+- A grant applies to the URI and everything beneath it. Grants are additive: what the principal already holds there
+  is kept. A permission or role that doesn't exist in the project raises `PermioValidationError`.
+- `revoke` removes names from the grant on **exactly** that URI. Grants on ancestor URIs stay, so `check()` may still
+  pass afterwards; `who_has_access()` shows where access comes from. Names the grant doesn't hold are ignored, so
+  revoking twice is harmless.
+- Roles are referenced by ID. Find them with `list_roles()`.
+- Neither call is ever retried automatically. After a timeout, the first attempt may still have landed.
+- Both return `None`.
+
+There are no helpers for creating permissions and roles; use the [raw client](#raw-client-full-api).
+
+## Groups
+
+A [group](/concepts/groups/) is a named set of principals in a project. Grant to the group's principal ID,
+`group:<slug>`, and every member holds the grant. Checks include the principal's groups automatically.
+
+### `group(slug)`
+
+Returns the group's principal ID. It raises `PermioValidationError` unless the slug is 1–64 lower-case letters,
+digits and hyphens.
+
+```python
+from permio import group
+
+group("editors")  # "group:editors"
+
+permio.groups.create("editors", description="Can edit every document")
+permio.groups.add_members("editors", ["alice", "bob"])
+permio.grant(group("editors"), "/documents", permissions="document.write")
+
+permio.check("alice", "document.write", "/documents/42")  # True, through the group
+```
+
+### `permio.groups`
+
+Every method that takes a group accepts its slug (`"editors"`) or its principal ID (`"group:editors"`).
+
+| Method | Returns |
+| --- | --- |
+| `create(name, *, description="")` | `Group`. Raises a `PermioError` with code `grpc.StatusCode.ALREADY_EXISTS` if the project already has a group with this name. |
+| `get(name)` | `Group`. Raises `PermioNotFoundError` if it doesn't exist. |
+| `update(name, *, description)` | `Group`. Replaces the description; a group can't be renamed. |
+| `delete(name)` | `None`. Deletes the group, its memberships and every grant made to it, whether or not it existed. |
+| `list(*, search=None)` | Iterator of `Group`, ordered by name. |
+| `add_members(name, principals)` | `AddMembersResult(added, existing)`, each a list in request order. |
+| `remove_members(name, principals)` | `RemoveMembersResult(removed, not_members)`, each a list in request order. |
+| `list_members(name)` | Iterator of `GroupMember` (`principal_id`, `created_at`), ordered by principal ID. |
+| `list_for_principal(principal)` | Iterator of the `Group`s the principal is a member of, ordered by name. |
+
+- `add_members` and `remove_members` take a list of 1–100 principals; duplicates are removed. `add_members` rejects
+  `group:` IDs with `PermioValidationError`, because groups can't contain groups.
+- Every method also takes `project`, `timeout` and `metadata`. The list methods take `page_size` too, and their
+  `timeout` and `metadata` apply to each page.
+- `Group` and `GroupMember` are the generated protobuf messages. `Group` has `id`, `organisation_id`,
+  `project_name`, `name`, `description`, `principal_id` (`"group:<name>"`), `created_at` and `updated_at`.
+- On `AsyncPermio`, `permio.groups` is an `AsyncGroups` with the same methods.
+
+```python
+res = permio.groups.add_members("group:editors", ["alice", "carol"])
+print(res.added, res.existing)
+
+for m in permio.groups.list_members("editors"):
+    print(m.principal_id)
+for g in permio.groups.list_for_principal("alice"):
+    print(g.name)
+```
+
+Reading groups works with a check-access API key. Creating, updating and deleting groups and changing members needs
+a key with full access, and changing members also needs the right to grant across the project. See
+[Permissions you need](/concepts/groups/#permissions-you-need).
+
+## Resource URIs
+
+Resource URIs are paths such as `/projects/p1/documents/42`. A grant on a URI also covers every URI beneath it. See
+[Resources and inheritance](/concepts/resources/) for the full rules.
+
+### `resource(*segments)`
+
+Builds a URI from raw segments (strings or integers). It adds the leading `/` and percent-encodes each segment, so an
+ID that contains `/`, spaces or other reserved characters stays a single segment:
+
+```python
+from permio import resource
+
+resource("projects", "p1", "documents", 42)  # "/projects/p1/documents/42"
+resource("files", "reports/2026.pdf")        # "/files/reports%2F2026.pdf"
+```
+
+Everything except `A-Z a-z 0-9 - _ . ~` is encoded as UTF-8, including `( ) *`, which the API rejects in segments.
+The output matches the TypeScript SDK's `resource()`. Empty segments, or no segments, raise `PermioValidationError`.
+
+:::tip
+
+Build URIs the same way when you grant and when you check, or they will not match.
+:::
+
+### Other helpers
+
+| Export | Description |
+| --- | --- |
+| `encode_segment(segment)` | Encodes one segment the way `resource()` does. |
+| `assert_resource_uri(uri)` | Raises `PermioValidationError` unless `uri` has the basic shape the API accepts: a leading `/`, no empty segments, no whitespace or control characters, and at most 2048 bytes. |
+| `MAX_RESOURCE_URI_LENGTH` | `2048`. |
+| `WILDCARD_SEGMENT` | `"_"`. |
+| `GROUP_PRINCIPAL_PREFIX` | `"group:"`. |
+
+Every helper runs `assert_resource_uri` on its URIs before sending. The API enforces the remaining rules, such as no
+`( ) [ ] { } * + ? | ^ $ \` in segments, and answers with `INVALID_ARGUMENT`, which the SDK raises as
+`PermioValidationError`.
+
+## Errors
+
+Every error the SDK raises extends `PermioError`. It has these attributes:
+
+- `code`: the `grpc.StatusCode`, or `None` for errors the SDK raises itself (bad configuration, failed input checks,
+  `PermioDeniedError`).
+- `code_name`: the code's name in lower case, for example `"permission_denied"`, or `None`.
+- `message`: the error message.
+- `metadata`: the response headers and trailers, as a tuple of `(name, value)` pairs.
+
+The original `grpc.RpcError` is chained as `__cause__`.
+
+| Class | When |
+| --- | --- |
+| `PermioConfigError` | Bad client setup: a missing or malformed API key, no `project`, an invalid `base_url`, `timeout` or `retries`. |
+| `PermioAuthError` | `UNAUTHENTICATED`: the key is missing, unknown or invalidated. |
+| `PermioPermissionError` | `PERMISSION_DENIED`: the **API key** lacks the rights for this call. `missing` lists what it lacks when the API says. |
+| `PermioValidationError` | `INVALID_ARGUMENT`, or the SDK's own input checks (for example a URI without a leading `/`). |
+| `PermioNotFoundError` | `NOT_FOUND`, for example `groups.get()` for a group that doesn't exist. |
+| `PermioUnavailableError` | `UNAVAILABLE`, including network failures. |
+| `PermioTimeoutError` | `DEADLINE_EXCEEDED`, including the SDK's own deadlines. |
+| `PermioRateLimitError` | `RESOURCE_EXHAUSTED`: the organisation's rate limit is used up. `retry_after` is the delay the server asked for, in seconds, or `None`. |
+| `PermioDeniedError` | Raised only by `assert_allowed()`, when the **principal** is not allowed. Has `principal` and `missing`. |
+
+Any other status, such as `ALREADY_EXISTS`, is a plain `PermioError` with the matching `code`.
+
+:::note[Denied is not an error]
+
+`PermioPermissionError` is about the *caller*. It means your API key is not allowed to make the call: for
+`Check`, the key needs `permission.check` on the checked resources and on the principal. A principal failing a
+check is a normal result: `check()` returns `False` and `assert_allowed()` raises `PermioDeniedError`.
+:::
+
+`PermioPermissionError.missing` uses the API's fully qualified URIs (`/organisation/{org}/project/{project}/...`),
+not the URIs you sent.
+
+```python
+from permio import PermioAuthError, PermioDeniedError, PermioError, PermioPermissionError, resource
+
+try:
+    permio.assert_allowed(user_id, "document.write", resource("documents", doc_id))
+except PermioDeniedError:
+    ...  # the principal may not do this: respond with 403
+except PermioPermissionError as err:
+    print(err.missing)  # the API key may not run this check (it needs permission.check)
+except PermioAuthError:
+    ...  # the API key is missing, unknown or invalidated
+except PermioError as err:
+    print(err.code_name, err.message)
+```
+
+`parse_missing_permissions(message)` extracts the missing list from a `PERMISSION_DENIED` message. You only need it
+if you call the generated stubs without the SDK.
+
+## Retries and rate limits
+
+- **Retries:** idempotent reads (`Check`, `BatchCheck`, `WhoAmI`, and every `Get*` and `List*` RPC, including
+  `ListAccess`, `ListPrincipalsWithAccess` and the group reads) are retried on `UNAVAILABLE` and
+  `DEADLINE_EXCEEDED`. They are retried twice by default, with exponential backoff and jitter. Network failures
+  count as `UNAVAILABLE`.
+- **Writes** (every Create, Update, Delete, Grant, Revoke, Invite, adding and removing group members, and so on)
+  are never retried.
+- **Timeouts:**
+    - The client's `timeout` applies to each attempt (default 10 seconds).
+    - A call's `timeout=` is an overall deadline across all attempts. If a retry couldn't finish its backoff
+      before the deadline, the last error is raised instead.
+    - On `AsyncPermio`, cancelling the task cancels the call and any pending retry.
+
+```python
+permio = Permio(
+    project="default",
+    timeout=5,
+    retries=RetryOptions(max_retries=3, base_delay=0.1, max_delay=2.0),
+)
+
+permio.check("alice", "document.read", "/documents/1", timeout=8)
+```
+
+`RetryOptions` is a frozen dataclass with these fields:
+
+- `max_retries`: retries after the first attempt. Default 2. `retries=0` turns retries off.
+- `base_delay`: the first delay in seconds, which doubles each time. Default 0.1.
+- `max_delay`: the cap on a single delay in seconds. Default 2.0.
+
+Each delay is picked at random between half and all of `min(max_delay, base_delay * 2**attempt)`.
+
+### Rate limits
+
+When the API answers `RESOURCE_EXHAUSTED`, the SDK looks for the delay the server asked for: a
+`google.rpc.RetryInfo` detail, or else a `retry-after` header (seconds or an HTTP date).
+
+- An idempotent read is retried after that delay, plus a little jitter, if the delay is no longer than `max_delay`
+  and a retry is left.
+- Otherwise, including when the server gave no delay and for every write, the call raises `PermioRateLimitError` with
+  `retry_after` set. Waiting and trying again is then up to you.
+- A `retry-after` header on `UNAVAILABLE` is honoured as the minimum backoff.
+
+```python
+import time
+
+from permio import PermioRateLimitError
+
+try:
+    permio.grant("alice", "/documents/42", permissions="document.read")
+except PermioRateLimitError as err:
+    time.sleep(err.retry_after or 1)
+    # ...try again, or queue the write
+```
+
+`is_idempotent_method("permio.permissions.v1.PermissionsService.Check")` tells you whether the SDK retries a given
+RPC.
+
+## Listing with iterators
+
+List RPCs are paginated with a cursor (see [Pagination](/api-reference/pagination/)). The list helpers return
+iterators that fetch pages as you go. Each item is the generated protobuf message:
+
+<Tabs syncKey="lang">
+
+<TabItem label="Sync">
+
+
+```python
+for p in permio.list_permissions(search="document."):
+    print(p.name)
+for role in permio.list_roles():
+    print(role.id, role.name, list(role.permissions))
+for principal_id in permio.list_principals():
+    print(principal_id)
+for a in permio.list_assignments("alice"):
+    print(a.resource_uri, list(a.roles))
+```
+
+</TabItem>
+<TabItem label="Async">
+
+
+```python
+async for p in permio.list_permissions(search="document."):
+    print(p.name)
+async for role in permio.list_roles():
+    print(role.id, role.name, list(role.permissions))
+async for principal_id in permio.list_principals():
+    print(principal_id)
+async for a in permio.list_assignments("alice"):
+    print(a.resource_uri, list(a.roles))
+```
+
+</TabItem>
+
+</Tabs>
+
+| Method | Yields |
+| --- | --- |
+| `list_permissions(*, search=None)` | `Permission` |
+| `list_roles(*, search=None)` | `Role` (with its `permissions`) |
+| `list_principals(*, search=None)` | `str` principal IDs that have grants in the project |
+| `list_assignments(principal)` | `Assignment` (`resource_uri`, `permissions`, `roles`) |
+| `groups.list(*, search=None)` | `Group` (see [Groups](#groups)) |
+| `groups.list_members(name)` | `GroupMember` |
+| `groups.list_for_principal(principal)` | `Group` |
+
+Each method also takes these keyword arguments:
+
+- `project`
+- `page_size`: 1–100, default 100
+- `timeout`: per page
+- `metadata`
+
+The project and principal are checked when you call the method; the first request is sent when you start iterating.
+`list_access` and `who_has_access` follow every page themselves and return the complete result.
+
+For any other list RPC, call the [raw client](#raw-client-full-api) and follow `pagination.next_cursor` until it is
+empty:
+
+```python
+from permio import raw
+
+org = raw.organisation_pb2
+page = raw.pagination_pb2.PaginationRequest(limit=100)
+while True:
+    res = permio.organisations.ListAPIKeys(
+        org.ListAPIKeysRequest(organisation_id="your-org-id", project_name="default", pagination=page)
+    )
+    for key in res.api_keys:
+        print(key.name)
+    if not res.pagination.next_cursor:
+        break
+    page.cursor = res.pagination.next_cursor
+```
+
+## Raw client (full API)
+
+`permio.permissions` and `permio.organisations` are the generated gRPC stubs for
+`permio.permissions.v1.PermissionsService` and `permio.organisation.v1.OrganisationService`, with authentication,
+timeouts, retries (reads only) and error mapping already applied. Every RPC in the
+[API reference](/api-reference/) is available. Method names are the RPC names, requests are the generated
+messages with the proto field names, and each method also takes `timeout` (an overall deadline) and `metadata`. On
+`AsyncPermio` they are coroutines.
+
+The generated modules are re-exported from `permio.raw`: `permissions_pb2`, `permissions_pb2_grpc`,
+`organisation_pb2`, `organisation_pb2_grpc` and `pagination_pb2`. They also live at `permio.permissions.v1`,
+`permio.organisation.v1` and `permio.pagination.v1`.
+
+```python
+from permio import raw
+
+pb = raw.permissions_pb2
+
+permio.permissions.CreatePermission(
+    pb.CreatePermissionRequest(project_name="default", name="document.read", description="Read documents")
+)
+
+role = permio.permissions.CreateRole(
+    pb.CreateRoleRequest(project_name="default", name="viewer", permissions=["document.read"])  # permission names
+)
+
+permio.grant("alice", "/documents", roles=role.id)  # role IDs
+
+res = permio.permissions.Check(
+    pb.CheckPermissionRequest(
+        project_name="default",
+        principal_id="alice",
+        resource_uris=["/documents/42"],
+        permissions=["document.read"],
+    )
+)
+print(res.passed, res.missing_permissions)
+```
+
+:::note[What a key can call]
+
+By default an API key has **check** access: it can run checks and access queries, and read permissions, roles,
+principals, assignments and groups. Creating, updating or deleting permissions, roles and groups, granting or
+revoking, and changing group members needs a key with full access. See
+[API keys](/concepts/api-keys/#access-levels).
+:::
+
+For the bare stubs with no SDK behaviour, build `raw.permissions_pb2_grpc.PermissionsServiceStub(channel)` on your own
+channel and send `("authorization", "Bearer <key>")` metadata yourself.
+
+## API key helpers
+
+| Export | Description |
+| --- | --- |
+| `validate_api_key(key)` | Returns `"opaque"` for `perms_` keys and `"jwt"` for legacy JWT keys. Raises `PermioConfigError` if the key is missing or malformed. |
+| `is_valid_api_key(key)` | `True` if `validate_api_key` would pass. |
+| `API_KEY_LENGTH` | `44`. |
+
+These only check the shape and checksum. Only the API can tell you whether a key exists and is still valid.
+
+## How it talks to the API
+
+The SDK uses native gRPC over HTTP/2 through `grpcio`, with TLS for `https://` and `host:port` base URLs. The
+production default connects to `api.perms.io:443`. The key is sent as `authorization: Bearer <key>` metadata, and the
+client identifies itself with the user agent `permio-python/<version>`. Timeouts are passed to gRPC as per-attempt
+deadlines.

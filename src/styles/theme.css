@@ -1,0 +1,275 @@
+/* ==========================================================================
+   perms.io theme for Starlight. Colours, font and surfaces match the
+   marketing site (website/src/app.css): Tailwind grays, Nunito, and the
+   turquoise -> blue -> purple brand gradient. Dark only.
+   ========================================================================== */
+
+:root,
+::backdrop {
+	--permio-turquoise: #29e8c6;
+	--permio-teal: #14b8a6;
+	--permio-blue: #43a6d4;
+	--permio-purple: #703bed;
+	--permio-gradient: linear-gradient(90deg, #29e8c6 0%, #43a6d4 50%, #703bed 100%);
+	--permio-gradient-cta: linear-gradient(90deg, #29e8c6 0%, #14b8a6 50%, #703bed 100%);
+
+	--sl-font: 'Nunito', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+	--sl-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+	/* Tailwind gray scale, mapped onto Starlight's 1 (lightest) .. black. */
+	--sl-color-white: #f9fafb;
+	--sl-color-gray-1: #e5e7eb;
+	--sl-color-gray-2: #c4c9d2;
+	--sl-color-gray-3: #9ca3af;
+	--sl-color-gray-4: #6b7280;
+	--sl-color-gray-5: #374151;
+	--sl-color-gray-6: #1f2937;
+	--sl-color-black: #111827;
+
+	--sl-color-accent-low: #0d3b3a;
+	--sl-color-accent: #14b8a6;
+	--sl-color-accent-high: #5eead4;
+
+	--sl-color-purple-low: #2a1a5e;
+	--sl-color-purple: #8b5cf6;
+	--sl-color-purple-high: #ddd6fe;
+
+	--sl-color-text-accent: var(--sl-color-accent-high);
+	--sl-color-bg: #111827;
+	--sl-color-bg-nav: rgb(17 24 39 / 0.8);
+	--sl-color-bg-sidebar: #111827;
+	--sl-color-bg-inline-code: rgb(55 65 81 / 0.55);
+	--sl-color-hairline-light: #374151;
+	--sl-color-hairline: rgb(31 41 55 / 0.9);
+	--sl-color-hairline-shade: #0b1120;
+
+	--sl-text-h1: 2.5rem;
+	--sl-text-h2: 1.75rem;
+	--sl-text-h3: 1.3rem;
+	--sl-content-width: 50rem;
+	--sl-nav-height: 4.25rem;
+}
+
+::selection {
+	background: rgb(45 212 191 / 0.3);
+}
+
+/* Frosted nav bar, as on perms.io. */
+.header {
+	backdrop-filter: blur(16px);
+	-webkit-backdrop-filter: blur(16px);
+}
+header.header {
+	border-bottom-color: rgb(31 41 55 / 0.6);
+}
+.site-title img {
+	height: 2rem;
+}
+
+/* A soft brand glow at the top of every page. */
+body {
+	background:
+		radial-gradient(60rem 28rem at 15% -8rem, rgb(20 184 166 / 0.09), transparent 70%),
+		radial-gradient(50rem 26rem at 95% -6rem, rgb(112 59 237 / 0.09), transparent 70%),
+		var(--sl-color-bg);
+	background-repeat: no-repeat;
+}
+
+/* Sidebar: section labels small and muted, the current page a teal pill. */
+.sidebar-content .group-label .large {
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+	color: var(--sl-color-gray-4);
+}
+.sidebar-content a {
+	border-radius: 0.5rem;
+	color: var(--sl-color-gray-2);
+	transition: color 0.15s ease, background-color 0.15s ease;
+}
+.sidebar-content a:hover {
+	color: var(--sl-color-white);
+	background: rgb(31 41 55 / 0.6);
+}
+.sidebar-content a[aria-current='page'],
+.sidebar-content a[aria-current='page']:hover {
+	color: var(--sl-color-white);
+	font-weight: 700;
+	background: linear-gradient(90deg, rgb(20 184 166 / 0.18), rgb(112 59 237 / 0.1));
+	box-shadow: inset 2px 0 0 var(--permio-turquoise);
+}
+
+/* Page title: heavy Nunito, like the site's headings. */
+.content-panel h1 {
+	font-weight: 800;
+	letter-spacing: -0.02em;
+}
+.sl-markdown-content :is(h2, h3) {
+	font-weight: 800;
+	letter-spacing: -0.01em;
+	color: var(--sl-color-white);
+}
+.sl-markdown-content h2 {
+	padding-top: 0.5rem;
+}
+.sl-markdown-content a:not(:where(.not-content *)) {
+	color: var(--sl-color-accent-high);
+	text-decoration-color: rgb(94 234 212 / 0.35);
+	text-underline-offset: 0.2em;
+}
+.sl-markdown-content a:not(:where(.not-content *)):hover {
+	text-decoration-color: currentColor;
+}
+.sl-markdown-content strong {
+	color: var(--sl-color-white);
+}
+
+/* Inline code: a quiet chip. */
+.sl-markdown-content :not(pre) > code {
+	padding: 0.1em 0.4em;
+	border: 1px solid rgb(75 85 99 / 0.45);
+	border-radius: 0.375rem;
+	font-size: 0.85em;
+	color: #e5e7eb;
+}
+
+/* Code in headings: no chip, just the mono face. */
+.sl-markdown-content :is(h1, h2, h3, h4) code {
+	padding: 0;
+	border: 0;
+	background: none;
+	font-size: 0.85em;
+	color: var(--sl-color-accent-high);
+}
+
+/* Tables: card-style, rounded, with a tinted header. */
+.sl-markdown-content table {
+	display: block;
+	width: fit-content;
+	max-width: 100%;
+	overflow-x: auto;
+	border-collapse: separate;
+	border-spacing: 0;
+	border: 1px solid #1f2937;
+	border-radius: 0.75rem;
+	overflow: hidden;
+	font-size: 0.9rem;
+}
+.sl-markdown-content :is(th, td) {
+	border: 0;
+	border-bottom: 1px solid #1f2937;
+	padding: 0.6rem 0.9rem;
+}
+.sl-markdown-content tr:last-child td {
+	border-bottom: 0;
+}
+.sl-markdown-content th {
+	background: #1a2333;
+	color: var(--sl-color-gray-3);
+	font-size: 0.75rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+}
+.sl-markdown-content tbody tr:hover {
+	background: rgb(31 41 55 / 0.4);
+}
+
+/* Asides: glassy cards; the kind shows in a faint tinted border and the coloured title. */
+.starlight-aside {
+	border: 1px solid color-mix(in srgb, var(--sl-color-asides-border) 30%, transparent);
+	border-radius: 0.75rem;
+	background: rgb(31 41 55 / 0.45);
+}
+.starlight-aside--note {
+	--sl-color-asides-border: var(--permio-blue);
+	--sl-color-asides-text-accent: #93c5fd;
+}
+.starlight-aside--tip {
+	--sl-color-asides-border: var(--permio-turquoise);
+	--sl-color-asides-text-accent: var(--sl-color-accent-high);
+}
+.starlight-aside--caution {
+	--sl-color-asides-text-accent: #fcd34d;
+}
+
+/* Tabs: pill segmented control. */
+starlight-tabs .tablist-wrapper {
+	border-bottom: 0;
+}
+starlight-tabs [role='tablist'] {
+	gap: 0.25rem;
+	border: 0;
+	padding: 0.25rem;
+	width: fit-content;
+	border-radius: 0.75rem;
+	background: #1a2333;
+}
+starlight-tabs [role='tab'] {
+	border: 0 !important;
+	margin: 0 !important;
+	padding: 0.35rem 0.9rem !important;
+	border-radius: 0.5rem;
+	font-size: 0.85rem;
+	font-weight: 700;
+	color: var(--sl-color-gray-3);
+}
+starlight-tabs [role='tab'][aria-selected='true'] {
+	color: #fff;
+	background: linear-gradient(90deg, rgb(41 232 198 / 0.25), rgb(112 59 237 / 0.25));
+	box-shadow: inset 0 0 0 1px rgb(94 234 212 / 0.25);
+}
+
+/* Right-hand "On this page". */
+.right-sidebar a {
+	color: var(--sl-color-gray-3);
+}
+.right-sidebar a[aria-current='true'] {
+	color: var(--permio-turquoise);
+	font-weight: 700;
+}
+
+/* Search box: rounded like the site's inputs. */
+site-search button[data-open-modal] {
+	border-radius: 0.6rem;
+	background: #18212f;
+	border-color: #374151;
+}
+
+/* Footer pagination links. */
+.pagination-links a {
+	border-radius: 0.75rem;
+	border-color: #1f2937;
+}
+.pagination-links a:hover {
+	border-color: rgb(20 184 166 / 0.45);
+}
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+::-webkit-scrollbar-track {
+	background: #18212f;
+}
+::-webkit-scrollbar-thumb {
+	background: #4b5563;
+	border-radius: 4px;
+}
+
+/* Endpoint lines (components/Endpoint.astro): no inline-code chip inside, wrap on phones. */
+.sl-markdown-content .endpoint code {
+	padding: 0;
+	border: 0;
+	background: none;
+}
+@media (max-width: 40rem) {
+	.sl-markdown-content .endpoint {
+		align-items: flex-start;
+	}
+	.sl-markdown-content .endpoint code {
+		white-space: normal;
+		word-break: break-all;
+	}
+}

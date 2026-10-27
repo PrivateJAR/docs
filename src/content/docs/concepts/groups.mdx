@@ -1,0 +1,144 @@
+---
+title: "Groups"
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+A **group** is a named set of principals in a project. You grant permissions and roles to the group once, and every
+member holds them. Use groups for teams, departments or any set of users that should share access, instead of
+repeating the same grants for each user.
+
+```
+group:editors  ── document.write on /documents
+   ├── alice   ✔ can write /documents/42
+   └── bob     ✔ can write /documents/42
+```
+
+## The `group:<slug>` principal
+
+Each group has a **slug**, its name: 1–64 lower-case letters, digits and hyphens, unique within the project. Grants
+to the group are made to the principal ID `group:<slug>`. You use it exactly like any other principal ID when you
+grant, revoke or list assignments:
+
+<Tabs syncKey="lang">
+
+<TabItem label="TypeScript">
+
+
+```ts
+import { group } from "permio";
+
+await permio.permissions.grantUserPermissionsAndRolesOnResource({
+  projectName: "default",
+  userId: group("editors"), // "group:editors"
+  resourceUri: "/documents",
+  permissions: ["document.write"],
+});
+```
+
+</TabItem>
+<TabItem label="cURL">
+
+
+```bash
+curl -X POST "$PERMIO_API/permissions-service/v1/permissions/assign" \
+  -H "Authorization: Bearer $PERMIO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"project_name": "default", "user_id": "group:editors", "resource_uri": "/documents", "permissions": ["document.write"]}'
+```
+
+</TabItem>
+
+</Tabs>
+
+The `group:` prefix is reserved:
+
+- A grant to `group:<slug>` is only accepted if that group exists in the project. Otherwise the call fails with
+  `NOT_FOUND`. A `group:` ID that isn't a valid slug is rejected with `INVALID_ARGUMENT`.
+- Revoking from a `group:` principal always works, even if the group no longer exists, so stray grants can be
+  cleaned up.
+- A `group:` ID can never be a member of a group.
+
+## Groups belong to a project
+
+Like permissions, roles and grants, a group belongs to one **project**. Its members and its grants only apply in
+that project. Two projects can each have a group called `editors`, and they are unrelated.
+
+## Members
+
+A member is any principal ID, the same IDs you pass to a check. perms.io doesn't need to know the principal in
+advance. You add and remove up to 100 members per call. The response tells you which principals were added and
+which were already members (or, when removing, which weren't members).
+
+Groups are **flat**: a group can't contain another group. Adding a `group:` principal as a member is rejected with
+`INVALID_ARGUMENT`.
+
+You can also see the groups a principal belongs to (`ListGroupsForPrincipal`), and list a group's members.
+
+## How checks use groups
+
+When you check a principal, perms.io counts the principal's own grants **and** the grants of every group it is a
+member of in that project. Nothing changes in your code: you still check `alice`, and access she has through
+`group:editors` counts.
+
+The same rules apply everywhere else a check is answered: [BatchCheck](/api-reference/permissions/#batchcheck)
+and [ListAccess](/api-reference/permissions/#listaccess) include the principal's groups too.
+[ListPrincipalsWithAccess](/api-reference/permissions/#listprincipalswithaccess) lists the group itself, and with
+`expand_groups` also lists its members. See [Filtering lists and building share dialogs](/guides/filtering-and-sharing/).
+
+Membership changes apply to the next check straight away. Adding alice to `editors` gives her the group's grants
+everywhere in the project, including grants made to the group later.
+
+## Changing and deleting a group
+
+- **No renaming.** A group's slug can't be changed, because `group:<slug>` is the principal ID its grants are stored
+  under. You can change its description. To rename, create a new group, grant it the same access, move the members
+  and delete the old one.
+- **Deleting a group** also removes all its memberships and every grant made to `group:<slug>`, in one transaction.
+  Members keep any access they have through their own grants or other groups. Deleting a group that doesn't exist
+  succeeds.
+
+## Billing
+
+Groups don't count towards your plan's unique principals. Their **members** do: a principal that is a member of a
+group counts as a unique principal, just as if it had been granted something directly. A principal is counted once,
+however many groups and grants it has.
+
+Adding a member who is new to your organisation goes through the same billing check as granting to a new
+principal. If your organisation isn't allowed to add principals, the call fails with `PERMISSION_DENIED`.
+
+## Permissions you need
+
+Managing groups needs these permissions on the project. In the dashboard they come with your organisation role. For
+an API key, see [Access levels](/concepts/api-keys/#access-levels).
+
+| Action | Needs |
+| --- | --- |
+| Create a group | `group.create` |
+| View or list groups and members | `group.get`, `group.list`, `group.member.list` |
+| Change a description | `group.update` |
+| Delete a group | `group.delete`, plus `principal.assignment.delete`, because it revokes the group's grants |
+| Add or remove members | `group.member.add` / `group.member.remove`, **plus** `principal.assignment.create` on the whole project |
+| Grant to a group | The same as any grant: `principal.assignment.create` on the resource |
+
+Changing membership requires the right to grant across the whole project because a member gets the group's grants
+anywhere in the project. Only someone who could already grant that access directly can add members. This stops
+group membership from being used to get around the limits on who may grant what.
+
+A **check-access** API key can read groups and members. Creating, changing and deleting groups and changing
+membership needs a **full-access** key.
+
+## Managing groups
+
+- **Dashboard:** use the Groups page in the dashboard to create groups and manage their members.
+- **TypeScript SDK:** `permio.groups` (available from 0.2.0). See [Groups](/sdk/typescript/#groups).
+- **Other SDKs:** `client.Groups()` in [Go](/sdk/go/#groups), `permio.groups` in [Python](/sdk/python/#groups),
+  `permio.groups()` in [Rust](/sdk/rust/#groups) and [Java](/sdk/java/#groups).
+- **API:** the group RPCs in the [API reference](/api-reference/permissions/#groups).
+
+```ts
+await permio.groups.create("editors", { description: "Can edit every document" });
+await permio.groups.addMembers("editors", ["alice", "bob"]);
+// grant to group("editors") as above, then:
+await permio.check({ principal: "alice", resource: "/documents/42", permission: "document.write" }); // true
+```
