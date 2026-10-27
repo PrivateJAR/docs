@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
+import starlightLinksValidator from 'starlight-links-validator';
 
 export default defineConfig({
 	site: 'https://docs.perms.io',
@@ -8,9 +9,11 @@ export default defineConfig({
 		starlight({
 			title: 'Permio docs',
 			description:
-				'Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, TypeScript SDK and API reference.',
+				'Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, SDKs (TypeScript, Go, Python, Rust, Java) and API reference.',
 			logo: { src: './src/assets/logo.svg', replacesTitle: true, alt: 'Permio' },
 			favicon: '/favicon.svg',
+			// Fails the build on broken internal links and anchors.
+			plugins: [starlightLinksValidator()],
 			customCss: ['./src/styles/theme.css'],
 			head: [
 				{ tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },
@@ -73,7 +76,16 @@ export default defineConfig({
 					label: 'Guides',
 					items: [{ label: 'Filtering lists and share dialogs', slug: 'guides/filtering-and-sharing' }],
 				},
-				{ label: 'TypeScript SDK', items: [{ label: 'TypeScript SDK', slug: 'sdk/typescript' }] },
+				{
+					label: 'SDKs',
+					items: [
+						{ label: 'TypeScript', slug: 'sdk/typescript' },
+						{ label: 'Go', slug: 'sdk/go' },
+						{ label: 'Python', slug: 'sdk/python' },
+						{ label: 'Rust', slug: 'sdk/rust' },
+						{ label: 'Java', slug: 'sdk/java' },
+					],
+				},
 				{
 					label: 'API reference',
 					items: [

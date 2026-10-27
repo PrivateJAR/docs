@@ -196,6 +196,33 @@ const entries = await permio.batchCheckDetailed({
 The SDK fails closed: if the API's answer doesn't have exactly one result for each requested resource, it throws a
 `PermioError` instead of guessing.
 
+## Granting and revoking
+
+Grant and revoke through the [raw client](#raw-clients-full-api). Permissions are given by **name** and roles by
+**ID**, and the key needs full access:
+
+```ts
+await permio.permissions.grantUserPermissionsAndRolesOnResource({
+  projectName: "default",
+  userId: "alice",
+  resourceUri: "/documents",
+  roles: [roleId],
+});
+
+await permio.permissions.revokeUserPermissionsAndRolesOnResource({
+  projectName: "default",
+  userId: "alice",
+  resourceUri: "/documents",
+  roles: [roleId],
+});
+```
+
+:::note[Coming in the next release]
+
+`permio.grant({ principal, resource, permission(s), role(s), project })` and `permio.revoke(...)` helpers, and
+`permio.whoAmI()` to see which principal, organisation, project and access level an API key has.
+:::
+
 ## Groups
 
 :::note[Available from 0.2.0]

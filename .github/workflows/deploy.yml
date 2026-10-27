@@ -4,17 +4,36 @@ on:
     branches:
       - master
       - main
+  pull_request:
 permissions:
   contents: write
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  build:
+    if: github.event_name == 'pull_request'
+    runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: useblacksmith/checkout@v1
+      - uses: actions/setup-python@v6
         with:
           python-version: 3.x
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Check llms-full.txt is up to date
+        run: npm run check:llms
+      # Fails on broken internal links and anchors (starlight-links-validator).
+      - run: npx astro build
+  deploy:
+    if: github.event_name == 'push'
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    steps:
+      - uses: useblacksmith/checkout@v1
+      - uses: actions/setup-python@v6
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm

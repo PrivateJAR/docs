@@ -9,7 +9,7 @@ Key facts:
 - Every Permissions API request names a project (`project_name`); every organisation starts with a `default` project.
 - A denied check is a normal response (`passed: false` plus the missing permissions), not an error.
 - Groups: grant to the principal ID `group:<slug>` and every member holds the grant; checks include a principal's groups.
-- The TypeScript SDK is the npm package `permio` (`npm install permio`); batch checks, groups and access queries need 0.2.0 or later. There is no Java SDK. A generated Rust client is open source on GitHub (not on crates.io), and the generated Go and Python clients are not publicly available yet.
+- Official SDKs: TypeScript (`npm install permio`; batch checks, groups and access queries need 0.2.0 or later), Python (`pip install permio`, sync `Permio` and asyncio `AsyncPermio`), Go (`go get github.com/PrivateJAR/permio-go@latest`, package `permio`; first tagged release will be v0.1.0), Rust (crate `permio`, installed from Git until it is on crates.io) and Java (`io.perms:permio`, coming soon to Maven Central). Other languages can call the REST API or generate a gRPC client from the protobuf definitions.
 - Manage projects, permissions, roles, grants, groups and API keys in the dashboard at https://app.perms.io.
 
 ## Docs
@@ -32,6 +32,10 @@ Key facts:
 ## SDKs
 
 - [TypeScript SDK](https://docs.perms.io/sdk/typescript/): The `permio` package on npm: client options, `check`, `checkDetailed`, `assert`, `checkAny`, `batchCheck`, groups, `listAccess`, `whoHasAccess`, `resource()`, typed errors, retries, iterators, raw clients, and Express and Next.js examples.
+- [Go SDK](https://docs.perms.io/sdk/go/): The `github.com/PrivateJAR/permio-go` module: options, checks, batch checks, access queries, grant and revoke, groups, typed errors, retries and rate limits, and the raw gRPC clients.
+- [Python SDK](https://docs.perms.io/sdk/python/): The `permio` package on PyPI with sync `Permio` and asyncio `AsyncPermio`: configuration, checks, batch checks, access queries, grant and revoke, groups, exceptions, retries and rate limits, and the raw stubs.
+- [Rust SDK](https://docs.perms.io/sdk/rust/): The `permio` crate (from Git for now): client builder, checks, batch checks, access queries, grant and revoke, groups, the `Error` enum, retries and rate limits, list streams and the raw tonic clients.
+- [Java SDK](https://docs.perms.io/sdk/java/): `io.perms:permio` (coming soon to Maven Central): builder options, checks, batch checks, access queries, async variants, grant and revoke, groups, exceptions, retries and rate limits, and the raw gRPC stubs.
 
 ## Optional
 
