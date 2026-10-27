@@ -63,11 +63,11 @@ a normal answer: `check` returns `False`.
 ## Configuration
 
 ```python
-from permio import DEV_BASE_URL, Permio, RetryOptions
+from permio import Permio, RetryOptions
 
 permio = Permio(
     api_key="perms_...",    # default: $PERMIO_API_KEY
-    base_url=DEV_BASE_URL,  # default: https://api.perms.io
+    base_url="https://api.perms.io",  # the default
     project="default",      # default project for every call
     timeout=10,             # seconds per attempt
     retries=RetryOptions(max_retries=2, base_delay=0.1, max_delay=2.0),
@@ -91,14 +91,11 @@ The constructor checks the API key's format and checksum straight away. A missin
 | `channel` | `grpc.Channel` | none | Your own channel (`grpc.aio.Channel` for `AsyncPermio`), for example for a proxy or custom credentials. `base_url` and `channel_options` are then ignored, and the client doesn't close it. |
 | `channel_options` | `list[tuple[str, Any]]` | none | Extra gRPC channel options, used when the client creates the channel. |
 
-### Production and development
+### API host
 
-| Constant | Value |
-| --- | --- |
-| `DEFAULT_BASE_URL` | `https://api.perms.io` (production, the default) |
-| `DEV_BASE_URL` | `https://dev-api.perms.io` (development) |
+`DEFAULT_BASE_URL` is `https://api.perms.io`, the default.
 
-Keys belong to one environment, so a production key won't work against the development API. `who_am_i()` tells you
+A key belongs to one project. `who_am_i()` tells you
 which organisation and project a key belongs to and whether it can write. It is the one call that needs no project,
 which makes it useful for checking a key at startup:
 

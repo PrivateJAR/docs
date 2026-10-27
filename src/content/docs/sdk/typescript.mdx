@@ -47,7 +47,7 @@ perms.io from your backend, route handlers or middleware.
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `apiKey` | `string` | required | A `perms_…` key from the dashboard, or a legacy JWT key. |
-| `baseUrl` | `string` | `https://api.perms.io` | API host. `DEV_BASE_URL` (`https://dev-api.perms.io`) is exported for the development API. |
+| `baseUrl` | `string` | `https://api.perms.io` | API host. |
 | `project` | `string` | none | Default project name for `check*` and `list*` helpers. Each call can override it. |
 | `timeoutMs` | `number` | `10000` | Timeout for each attempt, in ms. `0` disables it. |
 | `retries` | `number \| RetryOptions` | `2` | Retries for idempotent reads. A number sets `maxRetries`; see [Retries and timeouts](#retries-and-timeouts). |
@@ -56,12 +56,6 @@ perms.io from your backend, route handlers or middleware.
 
 The production default is `https://api.perms.io`. Versions 0.2.1 and earlier default to
 `https://temp-api.perms.io`, which is being retired: upgrade, or set `baseUrl`.
-
-```ts
-import { Permio, DEV_BASE_URL } from "permio";
-
-const devClient = new Permio({ apiKey: process.env.PERMIO_API_KEY!, baseUrl: DEV_BASE_URL, project: "default" });
-```
 
 The client also exposes `permio.project`, `permio.baseUrl` and `permio.apiKeyKind` (`"opaque"` or `"jwt"`).
 

@@ -113,7 +113,7 @@ def convert(lines: list[str], seen: set[str]) -> list[str]:
 
         if line.strip() == "<Hosts />":
             if "hosts" in seen:
-                out.append('(See "API hosts" earlier in this file.)')
+                out.append('(See "API host" earlier in this file.)')
             else:
                 seen.add("hosts")
                 out.extend(convert(snippet_body("hosts.mdx"), seen))
