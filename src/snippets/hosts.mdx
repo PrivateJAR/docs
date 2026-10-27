@@ -1,14 +1,8 @@
 import { Aside } from '@astrojs/starlight/components';
 
-<Aside type="note" title="API hosts">
+<Aside type="note" title="API host">
 
-| Environment | Base URL |
-| --- | --- |
-| Production | `https://api.perms.io` |
-| Development | `https://dev-api.perms.io` |
-
-The examples on this site read the host from a `PERMIO_API` shell variable, so you only need to
-change it in one place:
+The API is at `https://api.perms.io`. The examples on this site read the host from a `PERMIO_API` shell variable:
 
 ```bash
 export PERMIO_API=https://api.perms.io

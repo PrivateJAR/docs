@@ -89,21 +89,12 @@ endpoint is used without the `tls` feature, or it's called outside a Tokio runti
 `permio::Client::from_env("default")` is a shorthand for `Client::builder().project("default").build()`: production
 endpoint, key from `PERMIO_API_KEY`.
 
-### Production and development
+### API host
 
-| Constant | URL |
-| --- | --- |
-| `permio::DEFAULT_ENDPOINT` | `https://api.perms.io` (production, the default) |
-| `permio::DEV_ENDPOINT` | `https://dev-api.perms.io` (development) |
+`permio::DEFAULT_ENDPOINT` is `https://api.perms.io`, the default. To use another endpoint, pass it to
+`.endpoint(...)` on the builder.
 
-```rust
-let dev = permio::Client::builder()
-    .endpoint(permio::DEV_ENDPOINT)
-    .project("default")
-    .build()?;
-```
-
-An API key only works in the environment and project it was created in.
+An API key only works in the project it was created in.
 
 ### Sharing the client and switching project
 

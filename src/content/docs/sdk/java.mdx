@@ -73,7 +73,7 @@ import java.time.Duration;
 
 Permio permio = Permio.builder()
     .apiKey(System.getenv("PERMIO_API_KEY")) // the default when not set
-    .baseUrl(Permio.DEV_BASE_URL)            // default: Permio.DEFAULT_BASE_URL
+    .baseUrl(Permio.DEFAULT_BASE_URL)        // the default
     .project("default")                      // default project for every helper
     .timeout(Duration.ofSeconds(5))          // per attempt; default 10 s
     .retries(3)                              // idempotent reads only; default 2
@@ -103,14 +103,9 @@ Permio permio = Permio.builder()
 The client has no default project. Every helper except `whoAmI()` needs one, and throws `PermioConfigException`
 when there is none.
 
-### Production and development
+### API host
 
-| Constant | Value |
-| --- | --- |
-| `Permio.DEFAULT_BASE_URL` | `https://api.perms.io` (production, the default) |
-| `Permio.DEV_BASE_URL` | `https://dev-api.perms.io` (development) |
-
-An API key belongs to one project in one environment, so a production key won't work against the development API.
+`Permio.DEFAULT_BASE_URL` is `https://api.perms.io`, the default. An API key belongs to one project.
 
 Other constants: `Permio.API_KEY_ENV` (`"PERMIO_API_KEY"`), `Permio.DEFAULT_TIMEOUT` (10 s) and `Permio.VERSION`
 (the SDK version, also sent in the user agent).

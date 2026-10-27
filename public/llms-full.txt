@@ -142,15 +142,9 @@ Keys look like `perms_` followed by 38 letters and digits. Keep the key on your 
 
 Ask whether `alice` may read document 42:
 
-**Note: API hosts**
+**Note: API host**
 
-| Environment | Base URL |
-| --- | --- |
-| Production | `https://api.perms.io` |
-| Development | `https://dev-api.perms.io` |
-
-The examples on this site read the host from a `PERMIO_API` shell variable, so you only need to
-change it in one place:
+The API is at `https://api.perms.io`. The examples on this site read the host from a `PERMIO_API` shell variable:
 
 ```bash
 export PERMIO_API=https://api.perms.io
@@ -1017,7 +1011,7 @@ perms.io from your backend, route handlers or middleware.
 | Option | Type | Default | Description |
 | --- | --- | --- | --- |
 | `apiKey` | `string` | required | A `perms_…` key from the dashboard, or a legacy JWT key. |
-| `baseUrl` | `string` | `https://api.perms.io` | API host. `DEV_BASE_URL` (`https://dev-api.perms.io`) is exported for the development API. |
+| `baseUrl` | `string` | `https://api.perms.io` | API host. |
 | `project` | `string` | none | Default project name for `check*` and `list*` helpers. Each call can override it. |
 | `timeoutMs` | `number` | `10000` | Timeout for each attempt, in ms. `0` disables it. |
 | `retries` | `number \| RetryOptions` | `2` | Retries for idempotent reads. A number sets `maxRetries`; see [Retries and timeouts](https://docs.perms.io/sdk/typescript/#retries-and-timeouts). |
@@ -1026,12 +1020,6 @@ perms.io from your backend, route handlers or middleware.
 
 The production default is `https://api.perms.io`. Versions 0.2.1 and earlier default to
 `https://temp-api.perms.io`, which is being retired: upgrade, or set `baseUrl`.
-
-```ts
-import { Permio, DEV_BASE_URL } from "permio";
-
-const devClient = new Permio({ apiKey: process.env.PERMIO_API_KEY!, baseUrl: DEV_BASE_URL, project: "default" });
-```
 
 The client also exposes `permio.project`, `permio.baseUrl` and `permio.apiKeyKind` (`"opaque"` or `"jwt"`).
 
@@ -1752,7 +1740,7 @@ one and share it.
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
 | `APIKey` | `string` | `$PERMIO_API_KEY` | A `perms_…` key from the dashboard, or a legacy JWT key. When empty, the `PERMIO_API_KEY` environment variable is used. |
-| `Endpoint` | `string` | `permio.DefaultEndpoint` | API host, as `host:port`, a bare host (port 443) or a URL such as `https://dev-api.perms.io`. An `http://` URL dials without TLS. |
+| `Endpoint` | `string` | `permio.DefaultEndpoint` | API host, as `host:port`, a bare host (port 443) or a URL such as `https://api.perms.io`. An `http://` URL dials without TLS. |
 | `Project` | `string` | none | Default project for every helper. Helpers fail with `KindConfig` when it is empty. |
 | `Timeout` | `time.Duration` | `10 * time.Second` | Timeout for each attempt. Zero means the default; a negative value disables it. |
 | `Retry` | `permio.RetryOptions` | 2 retries | Retries for idempotent reads. See [Retries and rate limits](https://docs.perms.io/sdk/go/#retries-and-rate-limits). |
@@ -1761,17 +1749,12 @@ one and share it.
 | `DialOptions` | `[]grpc.DialOption` | none | Appended to the SDK's dial options. |
 | `Conn` | `grpc.ClientConnInterface` | none | Advanced: a connection to use instead of dialling `Endpoint`, for example a bufconn connection in tests. Auth, timeouts, retries and error mapping still apply. You own it: `Close` doesn't close it. |
 
-The host constants are:
-
-| Constant | Value |
-| --- | --- |
-| `permio.DefaultEndpoint` | `api.perms.io:443`, the production API (`https://api.perms.io`). |
-| `permio.DevEndpoint` | `dev-api.perms.io:443`, the development API (`https://dev-api.perms.io`). |
+`permio.DefaultEndpoint` is `api.perms.io:443`, the production API (`https://api.perms.io`).
 
 ```go
 client, err := permio.New(permio.Options{
     APIKey:   os.Getenv("PERMIO_API_KEY"),
-    Endpoint: permio.DevEndpoint,
+    Endpoint: permio.DefaultEndpoint,
     Project:  "default",
     Timeout:  5 * time.Second,
     Retry:    permio.RetryOptions{MaxRetries: 3},
@@ -2475,11 +2458,11 @@ a normal answer: `check` returns `False`.
 ### Configuration
 
 ```python
-from permio import DEV_BASE_URL, Permio, RetryOptions
+from permio import Permio, RetryOptions
 
 permio = Permio(
     api_key="perms_...",    # default: $PERMIO_API_KEY
-    base_url=DEV_BASE_URL,  # default: https://api.perms.io
+    base_url="https://api.perms.io",  # the default
     project="default",      # default project for every call
     timeout=10,             # seconds per attempt
     retries=RetryOptions(max_retries=2, base_delay=0.1, max_delay=2.0),
@@ -2503,14 +2486,11 @@ The constructor checks the API key's format and checksum straight away. A missin
 | `channel` | `grpc.Channel` | none | Your own channel (`grpc.aio.Channel` for `AsyncPermio`), for example for a proxy or custom credentials. `base_url` and `channel_options` are then ignored, and the client doesn't close it. |
 | `channel_options` | `list[tuple[str, Any]]` | none | Extra gRPC channel options, used when the client creates the channel. |
 
-#### Production and development
+#### API host
 
-| Constant | Value |
-| --- | --- |
-| `DEFAULT_BASE_URL` | `https://api.perms.io` (production, the default) |
-| `DEV_BASE_URL` | `https://dev-api.perms.io` (development) |
+`DEFAULT_BASE_URL` is `https://api.perms.io`, the default.
 
-Keys belong to one environment, so a production key won't work against the development API. `who_am_i()` tells you
+A key belongs to one project. `who_am_i()` tells you
 which organisation and project a key belongs to and whether it can write. It is the one call that needs no project,
 which makes it useful for checking a key at startup:
 
@@ -3202,21 +3182,12 @@ endpoint is used without the `tls` feature, or it's called outside a Tokio runti
 `permio::Client::from_env("default")` is a shorthand for `Client::builder().project("default").build()`: production
 endpoint, key from `PERMIO_API_KEY`.
 
-#### Production and development
+#### API host
 
-| Constant | URL |
-| --- | --- |
-| `permio::DEFAULT_ENDPOINT` | `https://api.perms.io` (production, the default) |
-| `permio::DEV_ENDPOINT` | `https://dev-api.perms.io` (development) |
+`permio::DEFAULT_ENDPOINT` is `https://api.perms.io`, the default. To use another endpoint, pass it to
+`.endpoint(...)` on the builder.
 
-```rust
-let dev = permio::Client::builder()
-    .endpoint(permio::DEV_ENDPOINT)
-    .project("default")
-    .build()?;
-```
-
-An API key only works in the environment and project it was created in.
+An API key only works in the project it was created in.
 
 #### Sharing the client and switching project
 
@@ -3897,7 +3868,7 @@ import java.time.Duration;
 
 Permio permio = Permio.builder()
     .apiKey(System.getenv("PERMIO_API_KEY")) // the default when not set
-    .baseUrl(Permio.DEV_BASE_URL)            // default: Permio.DEFAULT_BASE_URL
+    .baseUrl(Permio.DEFAULT_BASE_URL)        // the default
     .project("default")                      // default project for every helper
     .timeout(Duration.ofSeconds(5))          // per attempt; default 10 s
     .retries(3)                              // idempotent reads only; default 2
@@ -3927,14 +3898,9 @@ Permio permio = Permio.builder()
 The client has no default project. Every helper except `whoAmI()` needs one, and throws `PermioConfigException`
 when there is none.
 
-#### Production and development
+#### API host
 
-| Constant | Value |
-| --- | --- |
-| `Permio.DEFAULT_BASE_URL` | `https://api.perms.io` (production, the default) |
-| `Permio.DEV_BASE_URL` | `https://dev-api.perms.io` (development) |
-
-An API key belongs to one project in one environment, so a production key won't work against the development API.
+`Permio.DEFAULT_BASE_URL` is `https://api.perms.io`, the default. An API key belongs to one project.
 
 Other constants: `Permio.API_KEY_ENV` (`"PERMIO_API_KEY"`), `Permio.DEFAULT_TIMEOUT` (10 s) and `Permio.VERSION`
 (the SDK version, also sent in the user agent).
@@ -4588,7 +4554,7 @@ The perms.io API has two services:
 
 Both are defined in Permio's protobuf definitions. The same host serves them as REST/JSON, gRPC and gRPC-web.
 
-(See "API hosts" earlier in this file.)
+(See "API host" earlier in this file.)
 
 ### Protocols
 
@@ -4761,7 +4727,7 @@ Source: https://docs.perms.io/api-reference/permissions/
 `permio.permissions.v1.PermissionsService` stores permissions, roles and grants, and answers checks. Every request
 names a `project_name`. Your organisation comes from the API key.
 
-(See "API hosts" earlier in this file.)
+(See "API host" earlier in this file.)
 
 In the tables below, **Key access** is the [API key access level](https://docs.perms.io/concepts/api-keys/#access-levels) needed to
 make the call. **Check** is the default for new keys, and **Full** is the level that also allows writes.
@@ -6233,7 +6199,7 @@ These calls check organisation-level permissions such as `project.create` or `ap
 these through their role in the organisation. An API key's [project grants](https://docs.perms.io/concepts/api-keys/#access-levels)
 don't include them, so most calls on this page return `PERMISSION_DENIED` for an API key.
 
-(See "API hosts" earlier in this file.)
+(See "API host" earlier in this file.)
 
 ### Organisations
 

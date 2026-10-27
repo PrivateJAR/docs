@@ -65,7 +65,7 @@ one and share it.
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
 | `APIKey` | `string` | `$PERMIO_API_KEY` | A `perms_…` key from the dashboard, or a legacy JWT key. When empty, the `PERMIO_API_KEY` environment variable is used. |
-| `Endpoint` | `string` | `permio.DefaultEndpoint` | API host, as `host:port`, a bare host (port 443) or a URL such as `https://dev-api.perms.io`. An `http://` URL dials without TLS. |
+| `Endpoint` | `string` | `permio.DefaultEndpoint` | API host, as `host:port`, a bare host (port 443) or a URL such as `https://api.perms.io`. An `http://` URL dials without TLS. |
 | `Project` | `string` | none | Default project for every helper. Helpers fail with `KindConfig` when it is empty. |
 | `Timeout` | `time.Duration` | `10 * time.Second` | Timeout for each attempt. Zero means the default; a negative value disables it. |
 | `Retry` | `permio.RetryOptions` | 2 retries | Retries for idempotent reads. See [Retries and rate limits](#retries-and-rate-limits). |
@@ -74,17 +74,12 @@ one and share it.
 | `DialOptions` | `[]grpc.DialOption` | none | Appended to the SDK's dial options. |
 | `Conn` | `grpc.ClientConnInterface` | none | Advanced: a connection to use instead of dialling `Endpoint`, for example a bufconn connection in tests. Auth, timeouts, retries and error mapping still apply. You own it: `Close` doesn't close it. |
 
-The host constants are:
-
-| Constant | Value |
-| --- | --- |
-| `permio.DefaultEndpoint` | `api.perms.io:443`, the production API (`https://api.perms.io`). |
-| `permio.DevEndpoint` | `dev-api.perms.io:443`, the development API (`https://dev-api.perms.io`). |
+`permio.DefaultEndpoint` is `api.perms.io:443`, the production API (`https://api.perms.io`).
 
 ```go
 client, err := permio.New(permio.Options{
     APIKey:   os.Getenv("PERMIO_API_KEY"),
-    Endpoint: permio.DevEndpoint,
+    Endpoint: permio.DefaultEndpoint,
     Project:  "default",
     Timeout:  5 * time.Second,
     Retry:    permio.RetryOptions{MaxRetries: 3},
