@@ -4,3 +4,5 @@ docs.iml
 node_modules/
 dist/
 .astro/
+# Generated at deploy from llms-index.md and perms.io/llms-header.md
+public/llms.txt

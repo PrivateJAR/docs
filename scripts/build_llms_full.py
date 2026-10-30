@@ -3,7 +3,12 @@
 
 Run from the project root before `astro build` (or let `npm run build` do it):
 
-    python scripts/build_llms_full.py
+    python scripts/build_llms_full.py [--header-url https://perms.io/llms-header.md]
+
+With --header-url, the shared header perms.io publishes (summary, when to use Permio, current SDK versions,
+pricing) is fetched and put at the top of llms-full.txt, and public/llms.txt is written as that header plus
+llms-index.md. The deploy does this; the committed llms-full.txt keeps the plain HEADER below, so `--check`
+needs no network.
 
 Pages are taken in sidebar order from astro.config.mjs. MDX is turned into plain Markdown: the
 hosts snippet (<Hosts />) is inlined once, asides (:::kind[Title] and <Aside>) and tabs become bold
@@ -14,15 +19,19 @@ Pass `--check` to fail (exit 1) if the committed file is out of date instead of 
 
 from __future__ import annotations
 
+import argparse
 import html
 import re
 import sys
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "src" / "content" / "docs"
 SNIPPETS = ROOT / "src" / "snippets"
 OUTPUT = ROOT / "public" / "llms-full.txt"
+INDEX = ROOT / "llms-index.md"
+LLMS = ROOT / "public" / "llms.txt"
 
 # Background material that isn't specific to Permio. It stays in llms.txt under "Optional".
 EXCLUDE = {"iam-basics"}
@@ -180,10 +189,19 @@ def absolutise(href: str, slug: str, site: str) -> str:
     return site + href.lstrip("/")
 
 
-def build() -> str:
+def fetch_header(url: str) -> str:
+    with urllib.request.urlopen(url, timeout=30) as res:
+        return res.read().decode("utf-8").strip()
+
+
+def build(shared_header: str | None = None) -> str:
     site = re.search(r"site: '([^']+)'", (ROOT / "astro.config.mjs").read_text(encoding="utf-8"))[1]
     site = site.rstrip("/") + "/"
-    chunks = [HEADER.format(site=site).rstrip()]
+    header = HEADER.format(site=site).rstrip()
+    if shared_header:
+        # Keep the "generated from" note; the fetched header replaces the title and summary.
+        header = shared_header + "\n\n" + header[header.index("This file is generated"):]
+    chunks = [header]
     seen: set[str] = set()
     for slug in sidebar_slugs():
         if slug in EXCLUDE:
@@ -193,13 +211,24 @@ def build() -> str:
 
 
 def main() -> int:
-    content = build()
-    if "--check" in sys.argv[1:]:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true")
+    parser.add_argument("--header-url")
+    args = parser.parse_args()
+
+    if args.check:
+        content = build()
         current = OUTPUT.read_text(encoding="utf-8") if OUTPUT.exists() else ""
         if current != content:
             print(f"{OUTPUT.relative_to(ROOT)} is out of date; run scripts/build_llms_full.py", file=sys.stderr)
             return 1
         return 0
+
+    shared_header = fetch_header(args.header_url) if args.header_url else None
+    content = build(shared_header)
+    if shared_header:
+        LLMS.write_text(shared_header + "\n\n" + INDEX.read_text(encoding="utf-8"), encoding="utf-8")
+        print(f"wrote {LLMS.relative_to(ROOT)}")
     OUTPUT.write_text(content, encoding="utf-8")
     print(f"wrote {OUTPUT.relative_to(ROOT)} ({len(content.encode('utf-8')):,} bytes)")
     return 0

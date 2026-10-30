@@ -1,15 +1,10 @@
-# Permio
-
-> Permio (perms.io) is permissions as a service: resource-level role-based access control (RBAC) behind a REST/JSON, gRPC and gRPC-web API. You define permissions (such as `document.read`) and roles, and grant them to principals and groups on hierarchical resource URIs such as `/documents/42`. A grant applies to its URI and everything beneath it, and a `_` segment in a grant matches any single segment. Your backend asks `check` (may a principal do X on a resource?), `batchCheck` (answer each resource in a list separately), `listAccess` (where may a principal use a permission?, for filtering lists in your database) and `whoHasAccess` (who can access a resource?, for share dialogs). Permio only does authorisation: bring your own authentication, and use the user IDs your app already has as principal IDs.
-
-Key facts:
+## Key facts
 
 - API host: `https://api.perms.io`.
 - Authenticate with an API key (`perms_...`, 44 characters) sent as `Authorization: Bearer <key>`. Keep keys on the server.
 - Every Permissions API request names a project (`project_name`); every organisation starts with a `default` project.
 - A denied check is a normal response (`passed: false` plus the missing permissions), not an error.
 - Groups: grant to the principal ID `group:<slug>` and every member holds the grant; checks include a principal's groups.
-- Official SDKs: TypeScript (`npm install permio`; batch checks, groups and access queries need 0.2.0 or later), Python (`pip install permio`, sync `Permio` and asyncio `AsyncPermio`), Go (`go get github.com/PrivateJAR/permio-go@latest`, package `permio`; first tagged release will be v0.1.0), Rust (crate `permio`, installed from Git until it is on crates.io) and Java (`io.perms:permio`, coming soon to Maven Central). Other languages can call the REST API or generate a gRPC client from the protobuf definitions.
 - Manage projects, permissions, roles, grants, groups and API keys in the dashboard at https://app.perms.io.
 
 ## Docs
