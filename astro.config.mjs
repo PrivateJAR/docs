@@ -12,8 +12,8 @@ export default defineConfig({
 				'Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, SDKs (TypeScript, Go, Python, Rust, Java) and API reference.',
 			logo: { src: './src/assets/logo.svg', replacesTitle: true, alt: 'Permio' },
 			favicon: '/favicon.svg',
-			// Fails the build on broken internal links and anchors.
-			plugins: [starlightLinksValidator()],
+			// Fails the build on broken internal links and anchors. llms.txt is only written at deploy.
+			plugins: [starlightLinksValidator({ exclude: ['/llms.txt'] })],
 			customCss: ['./src/styles/theme.css'],
 			head: [
 				{ tag: 'link', attrs: { rel: 'preconnect', href: 'https://fonts.googleapis.com' } },

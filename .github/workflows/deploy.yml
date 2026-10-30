@@ -5,6 +5,10 @@ on:
       - master
       - main
   pull_request:
+  # Sent by the perms.io deploy, so llms.txt picks up the new shared header.
+  repository_dispatch:
+    types: [facts-updated]
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
@@ -26,7 +30,7 @@ jobs:
       # Fails on broken internal links and anchors (starlight-links-validator).
       - run: npx astro build
   deploy:
-    if: github.event_name == 'push'
+    if: github.event_name != 'pull_request'
     runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
       - uses: useblacksmith/checkout@v1
@@ -38,8 +42,10 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      # Regenerates public/llms-full.txt, then builds the site into dist/.
-      - run: npm run build
+      # Regenerates public/llms-full.txt and writes public/llms.txt, both starting with the header perms.io
+      # publishes (current SDK versions, pricing), then builds the site into dist/.
+      - run: python3 scripts/build_llms_full.py --header-url https://perms.io/llms-header.md
+      - run: npx astro build
       # Publish dist/ to the gh-pages branch, which GitHub Pages serves at docs.perms.io (public/CNAME).
       # .nojekyll stops Pages from dropping Astro's _astro/ asset folder.
       - name: Deploy to gh-pages
