@@ -15,7 +15,9 @@
 - [Resources and inheritance](https://docs.perms.io/concepts/resources/): Resource URI rules, how grants apply to everything beneath them, the `_` wildcard segment and how a check is decided.
 - [Groups](https://docs.perms.io/concepts/groups/): Named sets of principals; granting to `group:<slug>`, members, how checks use groups, deleting groups and the permissions needed to manage them.
 - [API keys](https://docs.perms.io/concepts/api-keys/): Key format and checksum, sending keys, check vs full access levels, and invalidating keys.
+- [Plans and limits](https://docs.perms.io/concepts/plans-and-limits/): What counts as an active principal, billing periods, and how the Free plan's hard limit on new principals works.
 - [Filtering lists and building share dialogs](https://docs.perms.io/guides/filtering-and-sharing/): Using `listAccess` scopes to filter rows in PostgreSQL, Prisma or MongoDB, `batchCheck` for loaded rows, and `whoHasAccess` for share dialogs.
+- [MCP server](https://docs.perms.io/guides/mcp/): Connecting Claude Code, Cursor, VS Code or Claude Desktop to `https://mcp.perms.io/mcp` with an API key, the read-only endpoint, and the tools.
 
 ## API reference
 
@@ -30,7 +32,7 @@
 - [Go SDK](https://docs.perms.io/sdk/go/): The `github.com/PrivateJAR/permio-go` module: options, checks, batch checks, access queries, grant and revoke, groups, typed errors, retries and rate limits, and the raw gRPC clients.
 - [Python SDK](https://docs.perms.io/sdk/python/): The `permio` package on PyPI with sync `Permio` and asyncio `AsyncPermio`: configuration, checks, batch checks, access queries, grant and revoke, groups, exceptions, retries and rate limits, and the raw stubs.
 - [Rust SDK](https://docs.perms.io/sdk/rust/): The `permio` crate on crates.io: client builder, checks, batch checks, access queries, grant and revoke, groups, the `Error` enum, retries and rate limits, list streams and the raw tonic clients.
-- [Java SDK](https://docs.perms.io/sdk/java/): `io.perms:permio` (coming soon to Maven Central): builder options, checks, batch checks, access queries, async variants, grant and revoke, groups, exceptions, retries and rate limits, and the raw gRPC stubs.
+- [Java SDK](https://docs.perms.io/sdk/java/): `io.perms:permio` on Maven Central: builder options, checks, batch checks, access queries, async variants, grant and revoke, groups, exceptions, retries and rate limits, and the raw gRPC stubs.
 
 ## Optional
 

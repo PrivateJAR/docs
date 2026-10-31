@@ -12,17 +12,17 @@ principal do X on this resource?". It also gives you one typed error enum, retri
 - Talks native gRPC over HTTP/2 through [tonic](https://docs.rs/tonic), with prost-generated messages.
 - TLS comes from rustls, through the `tls` feature, which is on by default.
 
-:::note[Not on crates.io yet]
-
-The crate is version 0.1.0 and isn't published on crates.io yet. Until it is, depend on the Git repository, as
-shown below. Publishing to crates.io is coming.
-:::
-
 ## Install
+
+```sh
+cargo add permio
+```
+
+Or in `Cargo.toml`, with the other crates the examples use:
 
 ```toml
 [dependencies]
-permio = { git = "https://github.com/PrivateJAR/permio-rust" }
+permio = "0.1"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 futures-util = "0.3" # only for the list streams, see Listing with streams
 ```

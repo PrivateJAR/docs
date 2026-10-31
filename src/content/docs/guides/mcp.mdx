@@ -1,0 +1,135 @@
+---
+title: "MCP server"
+description: "Connect Claude Code, Cursor, VS Code or another MCP client to Permio with an API key."
+---
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+Permio runs a hosted [Model Context Protocol](https://modelcontextprotocol.io) server. It lets AI assistants and
+agents check access and manage permissions, roles, groups and grants in a Permio project.
+
+- **Endpoint:** `https://mcp.perms.io/mcp` (streamable HTTP)
+- **Read-only endpoint:** `https://mcp.perms.io/mcp/read`
+- **Auth:** a Permio [API key](/concepts/api-keys/) as `Authorization: Bearer perms_...`
+- **Project:** the optional `X-Permio-Project` header (default: `default`), or the `project` argument on a tool call
+
+## Choose a key
+
+Create an API key in the [dashboard](https://app.perms.io) (project > **API Keys**). The key decides what the
+assistant can do:
+
+- A **check-only** key can run checks and read permissions, roles, groups, principals and grants.
+- A **full-access** key can also create, change and delete permissions, roles and groups, grant and revoke, and
+  manage group members.
+
+A key only works in the project it was created in. To make sure an assistant can never change anything, give it a
+check-only key, or use the read-only endpoint, which only offers the check and read tools whatever the key.
+
+## Connect
+
+<Tabs>
+<TabItem label="Claude Code">
+
+```sh
+claude mcp add --transport http permio https://mcp.perms.io/mcp \
+  --header "Authorization: Bearer $PERMIO_API_KEY" \
+  --header "X-Permio-Project: my-app"
+```
+
+</TabItem>
+<TabItem label="Cursor">
+
+`.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "permio": {
+      "url": "https://mcp.perms.io/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:PERMIO_API_KEY}",
+        "X-Permio-Project": "my-app"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+<TabItem label="VS Code">
+
+`.vscode/mcp.json`:
+
+```json
+{
+  "inputs": [
+    { "type": "promptString", "id": "permio-key", "description": "Permio API key", "password": true }
+  ],
+  "servers": {
+    "permio": {
+      "type": "http",
+      "url": "https://mcp.perms.io/mcp",
+      "headers": {
+        "Authorization": "Bearer ${input:permio-key}",
+        "X-Permio-Project": "my-app"
+      }
+    }
+  }
+}
+```
+
+</TabItem>
+<TabItem label="Claude Desktop">
+
+Claude Desktop connects through [`mcp-remote`](https://www.npmjs.com/package/mcp-remote). In
+`claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "permio": {
+      "command": "npx",
+      "args": [
+        "-y", "mcp-remote", "https://mcp.perms.io/mcp",
+        "--header", "Authorization: Bearer ${PERMIO_API_KEY}",
+        "--header", "X-Permio-Project: my-app"
+      ],
+      "env": { "PERMIO_API_KEY": "perms_..." }
+    }
+  }
+}
+```
+
+</TabItem>
+</Tabs>
+
+For the read-only endpoint, use `https://mcp.perms.io/mcp/read` in place of `https://mcp.perms.io/mcp`.
+
+:::note[claude.ai and ChatGPT connectors]
+Connectors in claude.ai and ChatGPT need OAuth sign-in, which the Permio MCP server doesn't support yet. Use a
+client that can send an API key header, such as those above.
+:::
+
+## Tools
+
+| Tool | What it does | Key needed |
+| --- | --- | --- |
+| `check`, `batch_check` | Can a principal do something on one or more resources? | Check-only |
+| `list_access` | Where under a URI does a principal hold a permission? | Check-only |
+| `who_has_access` | Who can access a resource, including via groups and ancestors | Check-only |
+| `list_principals`, `list_grants`, `get_grant` | Principals and their grants | Check-only |
+| `list_permissions`, `get_permission`, `list_roles`, `get_role` | Permissions and roles | Check-only |
+| `list_groups`, `get_group`, `list_group_members`, `list_principal_groups` | Groups and memberships | Check-only |
+| `create_permission`, `update_permission`, `delete_permission` | Manage permissions | Full access |
+| `create_role`, `update_role`, `delete_role` | Manage roles | Full access |
+| `create_group`, `update_group`, `delete_group`, `add_group_members`, `remove_group_members` | Manage groups | Full access |
+| `grant`, `revoke` | Grant or revoke permissions and roles on a resource | Full access |
+
+A denied check returns `allowed: false`; that's an answer, not an error. Tool calls count towards your plan's
+[active principals](/concepts/plans-and-limits/) in the same way as the API calls they make.
+
+## Agents in your own app
+
+The MCP server acts with the key you give it. To let an agent in your product act for one of your users with only
+some of their access, give the agent its own principal and scoped grants; see
+[permissions for AI agents](https://perms.io/ai-agents).

@@ -721,6 +721,66 @@ Keys created in the dashboard don't expire, so invalidate any key you no longer 
 
 ---
 
+Source: https://docs.perms.io/concepts/plans-and-limits/
+
+## Plans and limits
+
+Every plan includes a number of **active principals** per billing period. Prices and the full plan comparison are on
+the [pricing page](https://perms.io/#pricing).
+
+| Plan | Active principals included | Above the included amount | Projects | Dashboard team members |
+| --- | --- | --- | --- | --- |
+| Free | 1,000 | Not available: hard limit | 2 | 5 |
+| Starter | 2,500 | 1.5p per active principal | 5 | 10 |
+| Growth | 15,000 | 1p per active principal | 20 | 30 |
+
+### What counts as an active principal
+
+A [principal](https://docs.perms.io/how-it-works/) is whoever you check or grant permissions for: a user, a service or an agent,
+identified by your own ID. A principal is **active** in a billing period if, during that period, it was:
+
+- the subject of a `Check`, `BatchCheck` or `ListAccess` call;
+- granted permissions or roles on a resource; or
+- added to a [group](https://docs.perms.io/concepts/groups/).
+
+Each distinct principal counts **once per billing period**, however many calls it appears in. A principal that
+does nothing in a period isn't counted for that period.
+
+- **Groups count their members.** Checking or granting `group:editors` counts every current member of the group.
+  The group's own `group:` ID isn't counted.
+- **Removing access doesn't lower the count.** Revoking a grant or removing someone from a group doesn't un-count
+  them for the current period.
+- **Not counted:** the explain call behind the dashboard's Access tester, and reading permissions, roles, groups
+  or grants.
+- **Counts are per organisation**, across all of its projects.
+
+### Billing periods
+
+The count starts again at the start of each billing period. On a paid plan the period follows your subscription's
+billing date. On Free it runs monthly from when your organisation was created.
+
+### The Free plan's hard limit
+
+Free has no overage. Once 1,000 principals are active in the current billing period:
+
+- **New principals can't be added.** Granting to, or adding to a group, a principal that has no grants and no
+  group memberships anywhere in your organisation fails with `PERMISSION_DENIED` ("organisation is not permitted
+  to grant permissions").
+- **Existing principals keep working.** Principals that already have grants or group memberships can still be
+  granted to and added to groups.
+- **Checks are never blocked.** `Check`, `BatchCheck` and `ListAccess` keep answering, so the active count can go
+  slightly over 1,000 in a period.
+- **The limit resets** at the start of the next billing period, or as soon as you move to a paid plan.
+
+Starter and Growth have no hard limit: principals above the included amount are billed per active principal.
+
+### Other limits
+
+Each plan also limits the number of projects and dashboard team members (see the table above), how long the audit
+log is kept and the request rate. See the [pricing page](https://perms.io/#pricing) for those figures.
+
+---
+
 Source: https://docs.perms.io/guides/filtering-and-sharing/
 
 ## Filtering lists and building share dialogs
@@ -961,6 +1021,134 @@ Tips for the dialog:
 | Buttons for a page of results ("can edit?") | `batchCheck` with that permission |
 | Share dialog or access review | `whoHasAccess` with `permission` and `expandGroups` |
 | One object, one request | `check` |
+
+---
+
+Source: https://docs.perms.io/guides/mcp/
+
+## MCP server
+
+Permio runs a hosted [Model Context Protocol](https://modelcontextprotocol.io) server. It lets AI assistants and
+agents check access and manage permissions, roles, groups and grants in a Permio project.
+
+- **Endpoint:** `https://mcp.perms.io/mcp` (streamable HTTP)
+- **Read-only endpoint:** `https://mcp.perms.io/mcp/read`
+- **Auth:** a Permio [API key](https://docs.perms.io/concepts/api-keys/) as `Authorization: Bearer perms_...`
+- **Project:** the optional `X-Permio-Project` header (default: `default`), or the `project` argument on a tool call
+
+### Choose a key
+
+Create an API key in the [dashboard](https://app.perms.io) (project > **API Keys**). The key decides what the
+assistant can do:
+
+- A **check-only** key can run checks and read permissions, roles, groups, principals and grants.
+- A **full-access** key can also create, change and delete permissions, roles and groups, grant and revoke, and
+  manage group members.
+
+A key only works in the project it was created in. To make sure an assistant can never change anything, give it a
+check-only key, or use the read-only endpoint, which only offers the check and read tools whatever the key.
+
+### Connect
+
+**Claude Code**
+
+```sh
+claude mcp add --transport http permio https://mcp.perms.io/mcp \
+  --header "Authorization: Bearer $PERMIO_API_KEY" \
+  --header "X-Permio-Project: my-app"
+```
+
+**Cursor**
+
+`.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "permio": {
+      "url": "https://mcp.perms.io/mcp",
+      "headers": {
+        "Authorization": "Bearer ${env:PERMIO_API_KEY}",
+        "X-Permio-Project": "my-app"
+      }
+    }
+  }
+}
+```
+
+**VS Code**
+
+`.vscode/mcp.json`:
+
+```json
+{
+  "inputs": [
+    { "type": "promptString", "id": "permio-key", "description": "Permio API key", "password": true }
+  ],
+  "servers": {
+    "permio": {
+      "type": "http",
+      "url": "https://mcp.perms.io/mcp",
+      "headers": {
+        "Authorization": "Bearer ${input:permio-key}",
+        "X-Permio-Project": "my-app"
+      }
+    }
+  }
+}
+```
+
+**Claude Desktop**
+
+Claude Desktop connects through [`mcp-remote`](https://www.npmjs.com/package/mcp-remote). In
+`claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "permio": {
+      "command": "npx",
+      "args": [
+        "-y", "mcp-remote", "https://mcp.perms.io/mcp",
+        "--header", "Authorization: Bearer ${PERMIO_API_KEY}",
+        "--header", "X-Permio-Project: my-app"
+      ],
+      "env": { "PERMIO_API_KEY": "perms_..." }
+    }
+  }
+}
+```
+
+For the read-only endpoint, use `https://mcp.perms.io/mcp/read` in place of `https://mcp.perms.io/mcp`.
+
+**Note: claude.ai and ChatGPT connectors**
+
+Connectors in claude.ai and ChatGPT need OAuth sign-in, which the Permio MCP server doesn't support yet. Use a
+client that can send an API key header, such as those above.
+
+### Tools
+
+| Tool | What it does | Key needed |
+| --- | --- | --- |
+| `check`, `batch_check` | Can a principal do something on one or more resources? | Check-only |
+| `list_access` | Where under a URI does a principal hold a permission? | Check-only |
+| `who_has_access` | Who can access a resource, including via groups and ancestors | Check-only |
+| `list_principals`, `list_grants`, `get_grant` | Principals and their grants | Check-only |
+| `list_permissions`, `get_permission`, `list_roles`, `get_role` | Permissions and roles | Check-only |
+| `list_groups`, `get_group`, `list_group_members`, `list_principal_groups` | Groups and memberships | Check-only |
+| `create_permission`, `update_permission`, `delete_permission` | Manage permissions | Full access |
+| `create_role`, `update_role`, `delete_role` | Manage roles | Full access |
+| `create_group`, `update_group`, `delete_group`, `add_group_members`, `remove_group_members` | Manage groups | Full access |
+| `grant`, `revoke` | Grant or revoke permissions and roles on a resource | Full access |
+
+A denied check returns `allowed: false`; that's an answer, not an error. Tool calls count towards your plan's
+[active principals](https://docs.perms.io/concepts/plans-and-limits/) in the same way as the API calls they make.
+
+### Agents in your own app
+
+The MCP server acts with the key you give it. To let an agent in your product act for one of your users with only
+some of their access, give the agent its own principal and scoped grants; see
+[permissions for AI agents](https://perms.io/ai-agents).
 
 ---
 
@@ -1690,9 +1878,7 @@ module, as an escape hatch to the full API.
 
 **Note: Versions**
 
-The SDK hasn't had a tagged release yet; the first will be **v0.1.0**. Tags up to v0.0.18 contain only the
-generated stubs, without the `permio` package described here. If `go get …@latest` gives you one of those, install
-the default branch with `go get github.com/PrivateJAR/permio-go@main` until v0.1.0 is out.
+The `permio` package described here is in v0.1.0 and later. Tags up to v0.0.18 contain only the generated stubs.
 
 ### Install
 
@@ -3105,16 +3291,17 @@ principal do X on this resource?". It also gives you one typed error enum, retri
 - Talks native gRPC over HTTP/2 through [tonic](https://docs.rs/tonic), with prost-generated messages.
 - TLS comes from rustls, through the `tls` feature, which is on by default.
 
-**Note: Not on crates.io yet**
-
-The crate is version 0.1.0 and isn't published on crates.io yet. Until it is, depend on the Git repository, as
-shown below. Publishing to crates.io is coming.
-
 ### Install
+
+```sh
+cargo add permio
+```
+
+Or in `Cargo.toml`, with the other crates the examples use:
 
 ```toml
 [dependencies]
-permio = { git = "https://github.com/PrivateJAR/permio-rust" }
+permio = "0.1"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 futures-util = "0.3" # only for the list streams, see Listing with streams
 ```
@@ -3818,10 +4005,8 @@ iterables over list endpoints. The generated gRPC stubs for the whole API are th
 - Depends on `grpc-api`, `grpc-stub`, `grpc-protobuf`, `protobuf-java` and `pgv-java-stub`, plus
   `grpc-netty-shaded` at runtime.
 
-**Note: Coming soon to Maven Central**
-
-The Java SDK isn't on Maven Central yet. The coordinates below are the ones it will be published under, and they
-won't resolve until then. This page describes version **0.1.0**.
+The SDK is on [Maven Central](https://central.sonatype.com/artifact/io.perms/permio). This page describes version
+**0.1.0**.
 
 ### Install
 
@@ -4613,10 +4798,10 @@ Official SDKs:
 | Language | Package | Status |
 | --- | --- | --- |
 | [TypeScript](https://docs.perms.io/sdk/typescript/) | `permio` on npm | Released |
-| [Go](https://docs.perms.io/sdk/go/) | `github.com/PrivateJAR/permio-go` | Untagged; the first release will be v0.1.0 |
-| [Python](https://docs.perms.io/sdk/python/) | `permio` on PyPI | Released (0.1.0) |
-| [Rust](https://docs.perms.io/sdk/rust/) | `permio` crate | Install from Git; crates.io coming soon |
-| [Java](https://docs.perms.io/sdk/java/) | `io.perms:permio` | Coming soon to Maven Central |
+| [Go](https://docs.perms.io/sdk/go/) | `github.com/PrivateJAR/permio-go` | Released |
+| [Python](https://docs.perms.io/sdk/python/) | `permio` on PyPI | Released |
+| [Rust](https://docs.perms.io/sdk/rust/) | `permio` on crates.io | Released |
+| [Java](https://docs.perms.io/sdk/java/) | `io.perms:permio` on Maven Central | Released |
 
 **TypeScript**
 
@@ -4670,13 +4855,13 @@ permio.check("alice", "document.read", "/documents/42")  # True or False
 
 **Rust**
 
-The [Rust SDK](https://docs.perms.io/sdk/rust/) (crate `permio`) is the recommended client. It isn't on crates.io yet, so depend on
-the Git repository. Besides the check helpers, it exposes every RPC on this page through `permio.raw_permissions()`
+The [Rust SDK](https://docs.perms.io/sdk/rust/) (crate `permio`) is the recommended client, on [crates.io](https://crates.io/crates/permio).
+Besides the check helpers, it exposes every RPC on this page through `permio.raw_permissions()`
 and `permio.raw_organisations()`, with authentication, timeouts and retries already applied.
 
 ```toml
 [dependencies]
-permio = { git = "https://github.com/PrivateJAR/permio-rust" }
+permio = "0.1"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 
@@ -4692,7 +4877,7 @@ let allowed = permio.check("alice", "document.read", "/documents/42").await?;
 **Java**
 
 The [Java SDK](https://docs.perms.io/sdk/java/) (`io.perms:permio`, Java 11+) wraps the check, access-query, grant and group RPCs, and
-exposes every RPC on this page as generated gRPC stubs through `permio.raw()`. It is coming soon to Maven Central.
+exposes every RPC on this page as generated gRPC stubs through `permio.raw()`.
 
 ```java
 import io.perms.Permio;
