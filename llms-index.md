@@ -29,7 +29,7 @@
 ## SDKs
 
 - [TypeScript SDK](https://docs.perms.io/sdk/typescript/): The `permio` package on npm: client options, `check`, `checkDetailed`, `assert`, `checkAny`, `batchCheck`, groups, `listAccess`, `whoHasAccess`, `resource()`, typed errors, retries, iterators, raw clients, and Express and Next.js examples.
-- [Go SDK](https://docs.perms.io/sdk/go/): The `github.com/PrivateJAR/permio-go` module: options, checks, batch checks, access queries, grant and revoke, groups, typed errors, retries and rate limits, and the raw gRPC clients.
+- [Go SDK](https://docs.perms.io/sdk/go/): The `github.com/perms-io/permio-go` module: options, checks, batch checks, access queries, grant and revoke, groups, typed errors, retries and rate limits, and the raw gRPC clients.
 - [Python SDK](https://docs.perms.io/sdk/python/): The `permio` package on PyPI with sync `Permio` and asyncio `AsyncPermio`: configuration, checks, batch checks, access queries, grant and revoke, groups, exceptions, retries and rate limits, and the raw stubs.
 - [Rust SDK](https://docs.perms.io/sdk/rust/): The `permio` crate on crates.io: client builder, checks, batch checks, access queries, grant and revoke, groups, the `Error` enum, retries and rate limits, list streams and the raw tonic clients.
 - [Java SDK](https://docs.perms.io/sdk/java/): `io.perms:permio` on Maven Central: builder options, checks, batch checks, access queries, async variants, grant and revoke, groups, exceptions, retries and rate limits, and the raw gRPC stubs.

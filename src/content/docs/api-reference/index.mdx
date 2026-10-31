@@ -74,7 +74,7 @@ Official SDKs:
 | Language | Package | Status |
 | --- | --- | --- |
 | [TypeScript](/sdk/typescript/) | `permio` on npm | Released |
-| [Go](/sdk/go/) | `github.com/PrivateJAR/permio-go` | Released |
+| [Go](/sdk/go/) | `github.com/perms-io/permio-go` | Released |
 | [Python](/sdk/python/) | `permio` on PyPI | Released |
 | [Rust](/sdk/rust/) | `permio` on crates.io | Released |
 | [Java](/sdk/java/) | `io.perms:permio` on Maven Central | Released |
@@ -105,12 +105,12 @@ curl -X POST "$PERMIO_API/permissions-service/v1/permissions/check" \
 <TabItem label="Go">
 
 
-The [Go SDK](/sdk/go/) (`go get github.com/PrivateJAR/permio-go@latest`, Go 1.24+) is the recommended client.
+The [Go SDK](/sdk/go/) (`go get github.com/perms-io/permio-go@latest`, Go 1.24+) is the recommended client.
 Besides the check helpers, it exposes every RPC on this page through `client.Permissions()` and
 `client.Organisations()`, the generated gRPC clients with auth, timeouts, retries and typed errors applied.
 
 ```go
-import permio "github.com/PrivateJAR/permio-go"
+import permio "github.com/perms-io/permio-go"
 
 client, err := permio.New(permio.Options{
     APIKey:  os.Getenv("PERMIO_API_KEY"),
