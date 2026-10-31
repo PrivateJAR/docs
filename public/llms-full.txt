@@ -12,7 +12,7 @@ A page index is at https://docs.perms.io/llms.txt.
 
 Source: https://docs.perms.io/
 
-## Overview
+## Permio: authorization as a service
 
 Permio ([perms.io](https://perms.io)) is permissions as a service. It gives you **resource-level role-based access control (RBAC)**: you
 define permissions and roles, grant them to your users on **resource URIs**, and ask one question from your code:
@@ -248,7 +248,7 @@ to check. See [Errors](https://docs.perms.io/api-reference/#errors).
 
 Source: https://docs.perms.io/how-it-works/
 
-## How it works
+## How Permio authorization works
 
 Permio implements **resource-level role-based access control**. Your application keeps handling sign-in. perms.io
 stores who may do what, on which resources, and answers permission checks.
@@ -1154,7 +1154,7 @@ some of their access, give the agent its own principal and scoped grants; see
 
 Source: https://docs.perms.io/sdk/typescript/
 
-## TypeScript SDK
+## TypeScript authorization SDK
 
 `permio` is the official TypeScript/JavaScript client for the perms.io API. It wraps the API in a few calls for
 asking "may this principal do X on this resource?". It also gives you typed errors, retries for idempotent reads
@@ -1864,7 +1864,7 @@ enforced on the client, so no `grpc-timeout` header is sent.
 
 Source: https://docs.perms.io/sdk/go/
 
-## Go SDK
+## Go authorization SDK
 
 `github.com/PrivateJAR/permio-go` is the official Go client for the perms.io API. Its package, `permio`, wraps the
 API in a few calls for asking "may this principal do X on this resource?". It also gives you typed errors, retries
@@ -2593,7 +2593,7 @@ The SDK uses native gRPC over HTTP/2 with TLS, through `google.golang.org/grpc`.
 
 Source: https://docs.perms.io/sdk/python/
 
-## Python SDK
+## Python authorization SDK
 
 `permio` is the official Python client for the perms.io API. It wraps the API in a few calls for asking "may this
 principal do X on this resource?", granting and revoking, managing groups and answering "where?" and "who?"
@@ -3280,7 +3280,7 @@ deadlines.
 
 Source: https://docs.perms.io/sdk/rust/
 
-## Rust SDK
+## Rust authorization SDK
 
 `permio` is the official Rust client for the perms.io API. It wraps the API in a few calls for asking "may this
 principal do X on this resource?". It also gives you one typed error enum, retries for idempotent reads and
@@ -3994,7 +3994,7 @@ Request and response bodies are buffered, which suits the perms.io API, where ev
 
 Source: https://docs.perms.io/sdk/java/
 
-## Java SDK
+## Java authorization SDK
 
 `io.perms:permio` is the official Java client for the perms.io API. It wraps the API in a few calls for asking "may
 this principal do X on this resource?". It also gives you typed exceptions, retries for idempotent reads and lazy
@@ -4728,7 +4728,7 @@ revoking, and changing group members needs a key with full access. See
 
 Source: https://docs.perms.io/api-reference/
 
-## API overview
+## Authorization API overview
 
 The perms.io API has two services:
 
@@ -4907,7 +4907,7 @@ Permio is a gRPC and REST/JSON API, so you can use it from any language:
 
 Source: https://docs.perms.io/api-reference/permissions/
 
-## Permissions & Roles
+## Permissions & Roles API
 
 `permio.permissions.v1.PermissionsService` stores permissions, roles and grants, and answers checks. Every request
 names a `project_name`. Your organisation comes from the API key.
@@ -6373,7 +6373,7 @@ curl "$PERMIO_API/permissions-service/v1/group-memberships/alice?project_name=de
 
 Source: https://docs.perms.io/api-reference/organizations/
 
-## Organisations & Projects
+## Organisations & Projects API
 
 `permio.organisation.v1.OrganisationService` manages organisations, projects, API keys and team members. The
 [dashboard](https://app.perms.io) is built on it, and it's the easiest way to do all of this.
