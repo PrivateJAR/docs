@@ -1,0 +1,79 @@
+# Permio
+
+> Permio (perms.io) is a hosted permissions API: resource-level RBAC on hierarchical resource URIs. A grant on /projects/1 covers everything below it. It answers Check and BatchCheck, ListAccess (which resources a user can see, for filtering database queries) and WhoHasAccess, and has groups and an audit log. Permio does authorisation only; bring your own auth (Auth0, Clerk, Supabase, Firebase or your own login).
+
+Last updated: 2026-10-31
+
+## When to use Permio
+
+- Multi-tenant SaaS whose data is a tree (organisation, workspace, project, document)
+- Filtering lists in SQL, Prisma or MongoDB without learning a policy language
+- Small teams that want hosted RBAC with a free plan and no infrastructure to run
+- AI agents: give each agent its own principal with a subset of its user's grants (https://perms.io/ai-agents)
+
+## When not to use it
+
+- Attribute-based (ABAC) or policy-as-code conditions: Cerbos or OPA fit better
+- Arbitrary relationship graphs (Zanzibar style): SpiceDB or OpenFGA fit better
+- You must self-host: Cerbos, SpiceDB or OpenFGA
+
+## Install (current versions)
+
+- TypeScript 0.4.0: `npm install permio` (https://www.npmjs.com/package/permio)
+- Python 0.2.0: `pip install permio` (https://pypi.org/project/permio/)
+- Go 0.2.0: `go get github.com/PrivateJAR/permio-go` (https://pkg.go.dev/github.com/PrivateJAR/permio-go)
+- Rust 0.1.0: `cargo add permio` (https://crates.io/crates/permio)
+- Java 0.1.0: `io.perms:permio` (https://central.sonatype.com/artifact/io.perms/permio)
+
+All SDKs are open source under Apache-2.0. Any other language can call the REST (JSON) or gRPC / gRPC-web API.
+
+## MCP server
+
+https://mcp.perms.io/mcp (streamable HTTP). Authenticate with "Authorization: Bearer <Permio API key>"; optional "X-Permio-Project" header (default project "default"). Check-only keys get the check and read tools; full-access keys also get write tools (permissions, roles, groups, grants). https://mcp.perms.io/mcp/read serves only the read tools. Setup: https://docs.perms.io/guides/mcp/
+
+## Pricing
+
+Free: up to 1,000 active principals per billing period (a hard limit, no overage), no payment details needed. Starter: £29 a month with 2,500 active principals included, then 1.5p per additional active principal. Growth: £129 a month with 15,000 active principals included, then 1p per additional active principal. Details: https://perms.io/#pricing
+
+A principal is active in a billing period if it is checked (Check, BatchCheck or ListAccess), granted something or added to a group in that period. Checking or granting a group counts each of its members. Revoking access does not lower the count, and the count starts again each billing period. Free is a hard limit with no overage: once 1,000 principals are active in a billing period, granting to, or adding to a group, a principal with no existing grants or group memberships is refused until the next period. Checks and principals you already use keep working. Details: https://docs.perms.io/concepts/plans-and-limits/
+
+## Key facts
+
+- API host: `https://api.perms.io`.
+- Authenticate with an API key (`perms_...`, 44 characters) sent as `Authorization: Bearer <key>`. Keep keys on the server.
+- Every Permissions API request names a project (`project_name`); every organisation starts with a `default` project.
+- A denied check is a normal response (`passed: false` plus the missing permissions), not an error.
+- Groups: grant to the principal ID `group:<slug>` and every member holds the grant; checks include a principal's groups.
+- Manage projects, permissions, roles, grants, groups and API keys in the dashboard at https://app.perms.io.
+
+## Docs
+
+- [Home](https://docs.perms.io/): What Permio is and its key features: resource-level RBAC, hierarchical inheritance, groups, bring your own authentication.
+- [Quickstart](https://docs.perms.io/quickstart/): From sign-up to a passing permission check: create a permission, a role, a grant and an API key, then check with TypeScript or cURL.
+- [How it works](https://docs.perms.io/how-it-works/): The building blocks (organisations, projects, permissions, roles, principals, groups, resources, grants), how checks work and common patterns such as multi-tenancy.
+- [Resources and inheritance](https://docs.perms.io/concepts/resources/): Resource URI rules, how grants apply to everything beneath them, the `_` wildcard segment and how a check is decided.
+- [Groups](https://docs.perms.io/concepts/groups/): Named sets of principals; granting to `group:<slug>`, members, how checks use groups, deleting groups and the permissions needed to manage them.
+- [API keys](https://docs.perms.io/concepts/api-keys/): Key format and checksum, sending keys, check vs full access levels, and invalidating keys.
+- [Plans and limits](https://docs.perms.io/concepts/plans-and-limits/): What counts as an active principal, billing periods, and how the Free plan's hard limit on new principals works.
+- [Filtering lists and building share dialogs](https://docs.perms.io/guides/filtering-and-sharing/): Using `listAccess` scopes to filter rows in PostgreSQL, Prisma or MongoDB, `batchCheck` for loaded rows, and `whoHasAccess` for share dialogs.
+- [MCP server](https://docs.perms.io/guides/mcp/): Connecting Claude Code, Cursor, VS Code or Claude Desktop to `https://mcp.perms.io/mcp` with an API key, the read-only endpoint, and the tools.
+
+## API reference
+
+- [API overview](https://docs.perms.io/api-reference/): Services, hosts, REST/JSON vs gRPC vs gRPC-web, authentication, error codes and the available clients.
+- [Permissions & Roles](https://docs.perms.io/api-reference/permissions/): `PermissionsService`: Check, BatchCheck, permissions, roles, grants, ListAccess, ListPrincipalsWithAccess and groups, with REST paths, fields and examples.
+- [Organisations & Projects](https://docs.perms.io/api-reference/organizations/): `OrganisationService`: organisations, projects, API keys, team members and usage; mostly used by the dashboard.
+- [Pagination](https://docs.perms.io/api-reference/pagination/): Cursor-based pagination (`limit`, `cursor`, `next_cursor`) and which endpoints are paginated.
+
+## SDKs
+
+- [TypeScript SDK](https://docs.perms.io/sdk/typescript/): The `permio` package on npm: client options, `check`, `checkDetailed`, `assert`, `checkAny`, `batchCheck`, groups, `listAccess`, `whoHasAccess`, `resource()`, typed errors, retries, iterators, raw clients, and Express and Next.js examples.
+- [Go SDK](https://docs.perms.io/sdk/go/): The `github.com/perms-io/permio-go` module: options, checks, batch checks, access queries, grant and revoke, groups, typed errors, retries and rate limits, and the raw gRPC clients.
+- [Python SDK](https://docs.perms.io/sdk/python/): The `permio` package on PyPI with sync `Permio` and asyncio `AsyncPermio`: configuration, checks, batch checks, access queries, grant and revoke, groups, exceptions, retries and rate limits, and the raw stubs.
+- [Rust SDK](https://docs.perms.io/sdk/rust/): The `permio` crate on crates.io: client builder, checks, batch checks, access queries, grant and revoke, groups, the `Error` enum, retries and rate limits, list streams and the raw tonic clients.
+- [Java SDK](https://docs.perms.io/sdk/java/): `io.perms:permio` on Maven Central: builder options, checks, batch checks, access queries, async variants, grant and revoke, groups, exceptions, retries and rate limits, and the raw gRPC stubs.
+
+## Optional
+
+- [IAM fundamentals](https://docs.perms.io/iam-basics/): General background on identity and access management: authentication vs authorisation, RBAC, ABAC, inheritance and best practices.
+- [Full documentation text](https://docs.perms.io/llms-full.txt): The essential pages above in one Markdown file, for loading into an LLM's context.
