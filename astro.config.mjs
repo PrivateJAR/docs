@@ -69,12 +69,16 @@ export default defineConfig({
 						{ label: 'Resources and inheritance', slug: 'concepts/resources' },
 						{ label: 'Groups', slug: 'concepts/groups' },
 						{ label: 'API keys', slug: 'concepts/api-keys' },
+						{ label: 'Plans and limits', slug: 'concepts/plans-and-limits' },
 						{ label: 'IAM fundamentals', slug: 'iam-basics' },
 					],
 				},
 				{
 					label: 'Guides',
-					items: [{ label: 'Filtering lists and share dialogs', slug: 'guides/filtering-and-sharing' }],
+					items: [
+						{ label: 'Filtering lists and share dialogs', slug: 'guides/filtering-and-sharing' },
+						{ label: 'MCP server', slug: 'guides/mcp' },
+					],
 				},
 				{
 					label: 'SDKs',

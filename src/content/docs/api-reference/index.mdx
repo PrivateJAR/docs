@@ -73,10 +73,10 @@ Official SDKs:
 | Language | Package | Status |
 | --- | --- | --- |
 | [TypeScript](/sdk/typescript/) | `permio` on npm | Released |
-| [Go](/sdk/go/) | `github.com/PrivateJAR/permio-go` | Untagged; the first release will be v0.1.0 |
-| [Python](/sdk/python/) | `permio` on PyPI | Released (0.1.0) |
-| [Rust](/sdk/rust/) | `permio` crate | Install from Git; crates.io coming soon |
-| [Java](/sdk/java/) | `io.perms:permio` | Coming soon to Maven Central |
+| [Go](/sdk/go/) | `github.com/PrivateJAR/permio-go` | Released |
+| [Python](/sdk/python/) | `permio` on PyPI | Released |
+| [Rust](/sdk/rust/) | `permio` on crates.io | Released |
+| [Java](/sdk/java/) | `io.perms:permio` on Maven Central | Released |
 
 <Tabs syncKey="lang">
 
@@ -141,13 +141,13 @@ permio.check("alice", "document.read", "/documents/42")  # True or False
 <TabItem label="Rust">
 
 
-The [Rust SDK](/sdk/rust/) (crate `permio`) is the recommended client. It isn't on crates.io yet, so depend on
-the Git repository. Besides the check helpers, it exposes every RPC on this page through `permio.raw_permissions()`
+The [Rust SDK](/sdk/rust/) (crate `permio`) is the recommended client, on [crates.io](https://crates.io/crates/permio).
+Besides the check helpers, it exposes every RPC on this page through `permio.raw_permissions()`
 and `permio.raw_organisations()`, with authentication, timeouts and retries already applied.
 
 ```toml
 [dependencies]
-permio = { git = "https://github.com/PrivateJAR/permio-rust" }
+permio = "0.1"
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 
@@ -165,7 +165,7 @@ let allowed = permio.check("alice", "document.read", "/documents/42").await?;
 
 
 The [Java SDK](/sdk/java/) (`io.perms:permio`, Java 11+) wraps the check, access-query, grant and group RPCs, and
-exposes every RPC on this page as generated gRPC stubs through `permio.raw()`. It is coming soon to Maven Central.
+exposes every RPC on this page as generated gRPC stubs through `permio.raw()`.
 
 ```java
 import io.perms.Permio;

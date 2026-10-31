@@ -1,0 +1,58 @@
+---
+title: "Plans and limits"
+description: "What counts as an active principal, how billing periods work, and how the Free plan's hard limit behaves."
+---
+
+Every plan includes a number of **active principals** per billing period. Prices and the full plan comparison are on
+the [pricing page](https://perms.io/#pricing).
+
+| Plan | Active principals included | Above the included amount | Projects | Dashboard team members |
+| --- | --- | --- | --- | --- |
+| Free | 1,000 | Not available: hard limit | 2 | 5 |
+| Starter | 2,500 | 1.5p per active principal | 5 | 10 |
+| Growth | 15,000 | 1p per active principal | 20 | 30 |
+
+## What counts as an active principal
+
+A [principal](/how-it-works/) is whoever you check or grant permissions for: a user, a service or an agent,
+identified by your own ID. A principal is **active** in a billing period if, during that period, it was:
+
+- the subject of a `Check`, `BatchCheck` or `ListAccess` call;
+- granted permissions or roles on a resource; or
+- added to a [group](/concepts/groups/).
+
+Each distinct principal counts **once per billing period**, however many calls it appears in. A principal that
+does nothing in a period isn't counted for that period.
+
+- **Groups count their members.** Checking or granting `group:editors` counts every current member of the group.
+  The group's own `group:` ID isn't counted.
+- **Removing access doesn't lower the count.** Revoking a grant or removing someone from a group doesn't un-count
+  them for the current period.
+- **Not counted:** the explain call behind the dashboard's Access tester, and reading permissions, roles, groups
+  or grants.
+- **Counts are per organisation**, across all of its projects.
+
+## Billing periods
+
+The count starts again at the start of each billing period. On a paid plan the period follows your subscription's
+billing date. On Free it runs monthly from when your organisation was created.
+
+## The Free plan's hard limit
+
+Free has no overage. Once 1,000 principals are active in the current billing period:
+
+- **New principals can't be added.** Granting to, or adding to a group, a principal that has no grants and no
+  group memberships anywhere in your organisation fails with `PERMISSION_DENIED` ("organisation is not permitted
+  to grant permissions").
+- **Existing principals keep working.** Principals that already have grants or group memberships can still be
+  granted to and added to groups.
+- **Checks are never blocked.** `Check`, `BatchCheck` and `ListAccess` keep answering, so the active count can go
+  slightly over 1,000 in a period.
+- **The limit resets** at the start of the next billing period, or as soon as you move to a paid plan.
+
+Starter and Growth have no hard limit: principals above the included amount are billed per active principal.
+
+## Other limits
+
+Each plan also limits the number of projects and dashboard team members (see the table above), how long the audit
+log is kept and the request rate. See the [pricing page](https://perms.io/#pricing) for those figures.
