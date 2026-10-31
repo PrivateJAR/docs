@@ -3,7 +3,7 @@ title: "Go authorization SDK"
 description: "The permio-go module: permission checks, batch checks, access queries, grant and revoke, groups, typed errors, retries, rate limits and raw gRPC clients."
 ---
 
-`github.com/PrivateJAR/permio-go` is the official Go client for the perms.io API. Its package, `permio`, wraps the
+`github.com/perms-io/permio-go` is the official Go client for the perms.io API. Its package, `permio`, wraps the
 API in a few calls for asking "may this principal do X on this resource?". It also gives you typed errors, retries
 for idempotent reads and `iter.Seq2` iterators over list endpoints. The generated gRPC clients ship in the same
 module, as an escape hatch to the full API.
@@ -15,13 +15,15 @@ module, as an escape hatch to the full API.
 
 :::note[Versions]
 
-The `permio` package described here is in v0.1.0 and later. Tags up to v0.0.18 contain only the generated stubs.
+The module path is `github.com/perms-io/permio-go` from **v0.3.0**. Earlier releases were published as
+`github.com/PrivateJAR/permio-go`; to upgrade, replace that import path in your code and run `go get
+github.com/perms-io/permio-go@latest`. The API is unchanged.
 :::
 
 ## Install
 
 ```bash
-go get github.com/PrivateJAR/permio-go@latest
+go get github.com/perms-io/permio-go@latest
 ```
 
 ## Quick start
@@ -32,7 +34,7 @@ import (
     "log"
     "os"
 
-    permio "github.com/PrivateJAR/permio-go"
+    permio "github.com/perms-io/permio-go"
 )
 
 client, err := permio.New(permio.Options{
@@ -625,7 +627,7 @@ applied:
 
 ```go
 import (
-    permissionsv1 "github.com/PrivateJAR/permio-go/proto/permissions/v1"
+    permissionsv1 "github.com/perms-io/permio-go/proto/permissions/v1"
 )
 
 perm, err := client.Permissions().CreatePermission(ctx, &permissionsv1.CreatePermissionRequest{
@@ -650,8 +652,8 @@ A list RPC without a helper, following the cursor by hand:
 
 ```go
 import (
-    organisationv1 "github.com/PrivateJAR/permio-go/proto/organisation/v1"
-    paginationv1 "github.com/PrivateJAR/permio-go/proto/pagination/v1"
+    organisationv1 "github.com/perms-io/permio-go/proto/organisation/v1"
+    paginationv1 "github.com/perms-io/permio-go/proto/pagination/v1"
     "google.golang.org/protobuf/proto"
 )
 
@@ -680,9 +682,9 @@ for {
 
 | Import path | Package | Contents |
 | --- | --- | --- |
-| `github.com/PrivateJAR/permio-go/proto/permissions/v1` | `permissionsv1` | `PermissionsService` client; permission, role, check, access and group messages |
-| `github.com/PrivateJAR/permio-go/proto/organisation/v1` | `organisationv1` | `OrganisationService` client; organisation, project and API key messages |
-| `github.com/PrivateJAR/permio-go/proto/pagination/v1` | `paginationv1` | Pagination request and response messages |
+| `github.com/perms-io/permio-go/proto/permissions/v1` | `permissionsv1` | `PermissionsService` client; permission, role, check, access and group messages |
+| `github.com/perms-io/permio-go/proto/organisation/v1` | `organisationv1` | `OrganisationService` client; organisation, project and API key messages |
+| `github.com/perms-io/permio-go/proto/pagination/v1` | `paginationv1` | Pagination request and response messages |
 
 :::note[What a key can call]
 
