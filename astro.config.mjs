@@ -7,9 +7,9 @@ export default defineConfig({
 	site: 'https://docs.perms.io',
 	integrations: [
 		starlight({
-			title: 'Permio docs',
+			title: 'Permio authorization docs',
 			description:
-				'Documentation for Permio (perms.io), permissions as a service with resource-level RBAC. Quickstart, concepts, SDKs (TypeScript, Go, Python, Rust, Java) and API reference.',
+				'Documentation for Permio (perms.io), authorization and permissions as a service with resource-level RBAC. Quickstart, concepts, SDKs (TypeScript, Go, Python, Rust, Java) and API reference.',
 			logo: { src: './src/assets/logo.svg', replacesTitle: true, alt: 'Permio' },
 			favicon: '/favicon.svg',
 			// Fails the build on broken internal links and anchors. llms.txt is only written at deploy.
